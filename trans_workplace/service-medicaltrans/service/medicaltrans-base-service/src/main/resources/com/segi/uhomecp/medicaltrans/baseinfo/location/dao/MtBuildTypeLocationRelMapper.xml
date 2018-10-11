@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.baseinfo.location.dao.MtBuildTypeLocationRelMapper" >
+   <!--批量插入位置与物理空间信息 -->
+	<insert id="insertBatchMtBuildLocationRel" parameterType="java.util.List">
+		<foreach collection="list" index="index" item="item" separator=";">
+			insert into EVT_MT_BUILD_LOCATION_REL (LOCATION_REL_ID, LOCATION_ID, ORGAN_ID,HOUSE_ID,UPDATE_DATE,UPDATEUSER_ID )
+			values (#{item.locationRelId,jdbcType=INTEGER},
+			#{item.locationId,jdbcType=INTEGER}, #{item.organId,jdbcType=INTEGER}, #{item.houseId,jdbcType=INTEGER}, #{item.updateDate,jdbcType=TIMESTAMP}, #{item.updateuserId,jdbcType=INTEGER} )
+		</foreach>
+	</insert>
+</mapper>

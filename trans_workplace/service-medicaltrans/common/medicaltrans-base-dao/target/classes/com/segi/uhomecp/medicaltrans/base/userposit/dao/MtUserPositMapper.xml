@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.userposit.dao.MtUserPositMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPosit">
+    <id column="USER_POSIT_ID" jdbcType="INTEGER" property="userPositId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="BUILD_ID" jdbcType="INTEGER" property="buildId" />
+    <result column="FLOOR_ID" jdbcType="INTEGER" property="floorId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="HOUSE_ID" jdbcType="INTEGER" property="houseId" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="UN_TASK_NUM" jdbcType="SMALLINT" property="unTaskNum" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATE_BY" jdbcType="INTEGER" property="updateBy" />
+    <result column="RUN_TASK_NUM" jdbcType="SMALLINT" property="runTaskNum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    USER_POSIT_ID, ORGAN_ID, BUILD_ID, FLOOR_ID, USER_ID, HOUSE_ID, STATUS, UN_TASK_NUM, 
+    UPDATE_DATE, UPDATE_BY, RUN_TASK_NUM
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPositCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_user_posit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_user_posit
+    where USER_POSIT_ID = #{userPositId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_user_posit
+    where USER_POSIT_ID = #{userPositId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPositCriteria">
+    delete from evt_mt_user_posit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPosit">
+    insert into evt_mt_user_posit (USER_POSIT_ID, ORGAN_ID, BUILD_ID, 
+      FLOOR_ID, USER_ID, HOUSE_ID, 
+      STATUS, UN_TASK_NUM, UPDATE_DATE, 
+      UPDATE_BY, RUN_TASK_NUM)
+    values (#{userPositId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, #{buildId,jdbcType=INTEGER}, 
+      #{floorId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{houseId,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR}, #{unTaskNum,jdbcType=SMALLINT}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=INTEGER}, #{runTaskNum,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPosit">
+    insert into evt_mt_user_posit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userPositId != null">
+        USER_POSIT_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="buildId != null">
+        BUILD_ID,
+      </if>
+      <if test="floorId != null">
+        FLOOR_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="houseId != null">
+        HOUSE_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="unTaskNum != null">
+        UN_TASK_NUM,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="runTaskNum != null">
+        RUN_TASK_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userPositId != null">
+        #{userPositId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="buildId != null">
+        #{buildId,jdbcType=INTEGER},
+      </if>
+      <if test="floorId != null">
+        #{floorId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null">
+        #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="unTaskNum != null">
+        #{unTaskNum,jdbcType=SMALLINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="runTaskNum != null">
+        #{runTaskNum,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPositCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_user_posit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_user_posit
+    <set>
+      <if test="record.userPositId != null">
+        USER_POSIT_ID = #{record.userPositId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.buildId != null">
+        BUILD_ID = #{record.buildId,jdbcType=INTEGER},
+      </if>
+      <if test="record.floorId != null">
+        FLOOR_ID = #{record.floorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        USER_ID = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.houseId != null">
+        HOUSE_ID = #{record.houseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.unTaskNum != null">
+        UN_TASK_NUM = #{record.unTaskNum,jdbcType=SMALLINT},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.runTaskNum != null">
+        RUN_TASK_NUM = #{record.runTaskNum,jdbcType=SMALLINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_user_posit
+    set USER_POSIT_ID = #{record.userPositId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      BUILD_ID = #{record.buildId,jdbcType=INTEGER},
+      FLOOR_ID = #{record.floorId,jdbcType=INTEGER},
+      USER_ID = #{record.userId,jdbcType=INTEGER},
+      HOUSE_ID = #{record.houseId,jdbcType=INTEGER},
+      STATUS = #{record.status,jdbcType=CHAR},
+      UN_TASK_NUM = #{record.unTaskNum,jdbcType=SMALLINT},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      RUN_TASK_NUM = #{record.runTaskNum,jdbcType=SMALLINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPosit">
+    update evt_mt_user_posit
+    <set>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="buildId != null">
+        BUILD_ID = #{buildId,jdbcType=INTEGER},
+      </if>
+      <if test="floorId != null">
+        FLOOR_ID = #{floorId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null">
+        HOUSE_ID = #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="unTaskNum != null">
+        UN_TASK_NUM = #{unTaskNum,jdbcType=SMALLINT},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="runTaskNum != null">
+        RUN_TASK_NUM = #{runTaskNum,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where USER_POSIT_ID = #{userPositId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPosit">
+    update evt_mt_user_posit
+    set ORGAN_ID = #{organId,jdbcType=INTEGER},
+      BUILD_ID = #{buildId,jdbcType=INTEGER},
+      FLOOR_ID = #{floorId,jdbcType=INTEGER},
+      USER_ID = #{userId,jdbcType=INTEGER},
+      HOUSE_ID = #{houseId,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=CHAR},
+      UN_TASK_NUM = #{unTaskNum,jdbcType=SMALLINT},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      RUN_TASK_NUM = #{runTaskNum,jdbcType=SMALLINT}
+    where USER_POSIT_ID = #{userPositId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.base.userposit.model.MtUserPositCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_user_posit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

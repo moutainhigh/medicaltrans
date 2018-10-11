@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.reportjob.query.pervolmonth.dao.PerVolMonthStatMapper" >
+ 
+  	<resultMap id="ReturnMap" type="com.segi.uhomecp.medicaltrans.reportjob.query.pervolmonth.dto.PersonalVolumeMonthDto" >
+    	<result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    	<result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    	<result column="TRANS_AMOUNT" jdbcType="INTEGER" property="transAmount" /> 	
+    	<result column="TASK_TYPE" jdbcType="VARCHAR" property="taskType" />
+    	<result column="UNSATISFY_COUNT" jdbcType="INTEGER" property="unSatisAmount" />
+    	<result column="TIME_OUT_AMOUNT" jdbcType="INTEGER" property="timeOutAmount" />
+  	</resultMap>
+  
+  	<sql id="Example_Where_Clause">
+		where 1=1 
+		<if test="dto != null">
+			<if test="dto.organIds != null and dto.organIds !=''">
+        		and ORGAN_ID in (${dto.organIds}) 
+      		</if>
+      		<if test="dto.userIds != null and dto.userIds !=''">
+        		and EXE_USER_ID in (${dto.userIds}) 
+      		</if>
+      		<if test="dto.beginDate != null">
+      			<![CDATA[ 
+      				and EXE_BEGIN_TIME >= #{dto.beginDate,jdbcType=TIMESTAMP} 
+      			]]>	
+      		</if>
+      		<if test="dto.endDate != null">
+      			<![CDATA[ 
+        			and EXE_BEGIN_TIME <= #{dto.endDate,jdbcType=TIMESTAMP} 
+        		]]>
+      			<if test="dto.statType == 1">					
+        			<![CDATA[ 
+        				and EXE_END_TIME <= #{dto.endDate,jdbcType=TIMESTAMP} 
+        			]]>	    			
+      			</if>			
+      		</if>
+      		<if test="dto.taskStatus != null">
+        		and TASK_STATUS = #{dto.taskStatus,jdbcType=CHAR}
+      		</if>
+      		<if test="dto.unSatisEvaluates != null">
+        		and EVALUATE in (${dto.unSatisEvaluates})
+      		</if>
+      		<if test="dto.isTimeOut != null">
+        		and IS_TIME_OUT = #{dto.isTimeOut,jdbcType=CHAR}
+      		</if>
+		</if>
+	</sql>
+	
+	<!-- 根据项目Id或运送员Id统计个人月运送量 -->
+	<select id="getPersonalVolumeMonth" resultMap="ReturnMap" parameterType="map">
+		SELECT 
+			ORGAN_ID AS ORGAN_ID,
+			EXE_USER_ID AS USER_ID,
+			TASK_TYPE AS TASK_TYPE,
+			count(1) AS TRANS_AMOUNT,
+			<![CDATA[ 
+				SUM(CASE WHEN (EVALUATE > 0 and EVALUATE < 3) THEN 1 ELSE 0 END ) UNSATISFY_COUNT,	
+			]]>
+			SUM(CASE WHEN IS_TIME_OUT = 1 THEN 1 ELSE 0 END ) TIME_OUT_AMOUNT
+		FROM EVT_MT_TASK_EXECUTORS_${dto.tableIndex}
+		<include refid="Example_Where_Clause" />
+		GROUP BY ORGAN_ID, EXE_USER_ID, TASK_TYPE 
+	</select>
+	
+	<!-- 根据项目Id或运送员Id统计个人月运送量 -->
+	<select id="countPerVolMonthTransAmount" resultMap="ReturnMap" parameterType="map">
+		SELECT 
+			ORGAN_ID AS ORGAN_ID,
+			EXE_USER_ID AS USER_ID,
+			TASK_TYPE AS TASK_TYPE,
+			count(1) AS TRANS_AMOUNT
+		FROM EVT_MT_TASK_EXECUTORS_${dto.tableIndex}
+		<include refid="Example_Where_Clause" />
+		GROUP BY ORGAN_ID, EXE_USER_ID, TASK_TYPE 
+	</select>
+	
+	<!-- 根据项目Id或运送员Id统计个人月运送量不满意量 -->
+	<select id="countPerVolMonthUnSatisAmount" resultMap="ReturnMap" parameterType="map">
+		SELECT 
+			ORGAN_ID AS ORGAN_ID,
+			EXE_USER_ID AS USER_ID,
+			TASK_TYPE AS TASK_TYPE,
+			count(1) AS UNSATISFY_COUNT
+		FROM EVT_MT_TASK_EXECUTORS_${dto.tableIndex}
+		<include refid="Example_Where_Clause" />
+		GROUP BY ORGAN_ID, EXE_USER_ID, TASK_TYPE 
+	</select>
+	
+	<!-- 根据项目Id或运送员Id统计个人月运送量超时数量 -->
+	<select id="countPerVolMonthIsTimeOutAmount" resultMap="ReturnMap" parameterType="map">
+		SELECT 
+			ORGAN_ID AS ORGAN_ID,
+			EXE_USER_ID AS USER_ID,
+			TASK_TYPE AS TASK_TYPE,
+			count(1) AS TIME_OUT_AMOUNT
+		FROM EVT_MT_TASK_EXECUTORS_${dto.tableIndex}
+		<include refid="Example_Where_Clause" />
+		GROUP BY ORGAN_ID, EXE_USER_ID, TASK_TYPE 
+	</select>
+	
+	<!-- 根据组织机构Id和月份查询运送员数量 -->
+	<select id="getUserAmountByOrganMonth" resultMap="ReturnMap" parameterType="map">
+		SELECT 
+			ORGAN_ID AS ORGAN_ID,
+			EXE_USER_ID AS USER_ID
+		FROM EVT_MT_TASK_EXECUTORS_${dto.tableIndex}
+		where 1=1 
+		<if test="dto != null">
+			<if test="dto.organIds != null and dto.organIds !=''">
+        		and ORGAN_ID in (${dto.organIds}) 
+      		</if>
+      		<if test="dto.beginTime != null">
+      			<![CDATA[ 
+      				and BEGIN_TIME >= #{dto.beginTime,jdbcType=BIGINT} 
+      			]]>	
+      		</if>
+      		<if test="dto.endTime != null">
+        		<![CDATA[ 
+        			and BEGIN_TIME <= #{dto.endTime,jdbcType=BIGINT} 
+        		]]>	
+      		</if>
+      		<if test="dto.taskStatus != null">
+        		and TASK_STATUS = #{dto.taskStatus,jdbcType=CHAR}
+      		</if>
+		</if>
+		GROUP BY ORGAN_ID, EXE_USER_ID
+	</select>
+</mapper>

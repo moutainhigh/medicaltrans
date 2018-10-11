@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.location.dao.MtBuildLocationRelMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRel">
+    <id column="LOCATION_ID" jdbcType="INTEGER" property="locationId" />
+    <result column="LOCATION_REL_ID" jdbcType="INTEGER" property="locationRelId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="HOUSE_ID" jdbcType="INTEGER" property="houseId" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATEUSER_ID" jdbcType="INTEGER" property="updateuserId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    LOCATION_ID, LOCATION_REL_ID, ORGAN_ID, HOUSE_ID, UPDATE_DATE, UPDATEUSER_ID
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRelCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_build_location_rel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_build_location_rel
+    where LOCATION_ID = #{locationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_build_location_rel
+    where LOCATION_ID = #{locationId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRelCriteria">
+    delete from evt_mt_build_location_rel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRel">
+    insert into evt_mt_build_location_rel (LOCATION_ID, LOCATION_REL_ID, ORGAN_ID, 
+      HOUSE_ID, UPDATE_DATE, UPDATEUSER_ID
+      )
+    values (#{locationId,jdbcType=INTEGER}, #{locationRelId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, 
+      #{houseId,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updateuserId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRel">
+    insert into evt_mt_build_location_rel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="locationId != null">
+        LOCATION_ID,
+      </if>
+      <if test="locationRelId != null">
+        LOCATION_REL_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="houseId != null">
+        HOUSE_ID,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="updateuserId != null">
+        UPDATEUSER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="locationId != null">
+        #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="locationRelId != null">
+        #{locationRelId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null">
+        #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuserId != null">
+        #{updateuserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRelCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_build_location_rel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_build_location_rel
+    <set>
+      <if test="record.locationId != null">
+        LOCATION_ID = #{record.locationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.locationRelId != null">
+        LOCATION_REL_ID = #{record.locationRelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.houseId != null">
+        HOUSE_ID = #{record.houseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateuserId != null">
+        UPDATEUSER_ID = #{record.updateuserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_build_location_rel
+    set LOCATION_ID = #{record.locationId,jdbcType=INTEGER},
+      LOCATION_REL_ID = #{record.locationRelId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      HOUSE_ID = #{record.houseId,jdbcType=INTEGER},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      UPDATEUSER_ID = #{record.updateuserId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRel">
+    update evt_mt_build_location_rel
+    <set>
+      <if test="locationRelId != null">
+        LOCATION_REL_ID = #{locationRelId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null">
+        HOUSE_ID = #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuserId != null">
+        UPDATEUSER_ID = #{updateuserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where LOCATION_ID = #{locationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRel">
+    update evt_mt_build_location_rel
+    set LOCATION_REL_ID = #{locationRelId,jdbcType=INTEGER},
+      ORGAN_ID = #{organId,jdbcType=INTEGER},
+      HOUSE_ID = #{houseId,jdbcType=INTEGER},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATEUSER_ID = #{updateuserId,jdbcType=INTEGER}
+    where LOCATION_ID = #{locationId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationRelCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_build_location_rel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

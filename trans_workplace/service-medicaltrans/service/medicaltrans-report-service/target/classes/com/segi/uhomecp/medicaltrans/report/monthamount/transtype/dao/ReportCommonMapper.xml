@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.dao.ReportCommonMapper">
+  <select id="selectTransTypeByOrganIdAndCycleYm" parameterType="com.segi.uhomecp.medicaltrans.report.common.dto.CommonDto" resultType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatistics">
+    select TRANS_TYPE_PARENT_CODE AS transTypeParentCode,SUM(`TRANS_AMOUNT`) AS transAmount from evt_mt_transtype_statistics
+    where ORGAN_ID = #{organId,jdbcType=INTEGER}
+      and CYCLE_YM BETWEEN #{cycleYmBeg,jdbcType=INTEGER}
+      AND #{cycleYmEnd,jdbcType=INTEGER}
+    group by TRANS_TYPE_PARENT_CODE
+  </select>
+  
+  <select id="selectTaskTypeByOrganIdAndCycleYm" parameterType="com.segi.uhomecp.medicaltrans.report.common.dto.CommonDto" resultType="com.segi.uhomecp.medicaltrans.report.organmonth.dto.TaskTypeDto">
+    select SUM(`DISPATCH_AMOUNT`) as dispatchTaskAmount,SUM(`AUTONOMOUS_AMOUNT`) as autonomousTaskAmount,SUM(`FIXED_AMOUNT`) as fixedTaskAmount from EVT_MT_ORGAN_MONTH_STATISTICS
+    where ORGAN_ID = #{organId,jdbcType=INTEGER}
+      and CYCLE_YM BETWEEN #{cycleYmBeg,jdbcType=INTEGER}
+      AND #{cycleYmEnd,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectTaskDateSourceByOrganIdAndCycleYm" parameterType="com.segi.uhomecp.medicaltrans.report.common.dto.CommonDto" resultType="com.segi.uhomecp.medicaltrans.report.organmonth.dto.TaskDateSourceDto">
+    select SUM(`WEB_DATASOURCE`) as webFromHouseAmount,SUM(`WECHAT_DATASOURCE`) as wechatFromHouseAmount,SUM(`PAD_DATASOURCE`) as padFromHouseAmount,SUM(`APP_DATASOURCE`) as appFromHouseAmount from EVT_MT_ORGAN_MONTH_STATISTICS
+    where ORGAN_ID = #{organId,jdbcType=INTEGER}
+      and CYCLE_YM BETWEEN #{cycleYmBeg,jdbcType=INTEGER}
+      AND #{cycleYmEnd,jdbcType=INTEGER}
+  </select>    
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.taskhis.dao.MtTaskHisQueryMapper" >
+  
+  <resultMap id="PageResultMap" type="com.segi.uhomecp.medicaltrans.taskhis.dto.MtHisTaskPageDto">
+    <id column="TASK_ID" jdbcType="INTEGER" property="taskId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="TRANS_TYPE_PARENT_CODE" jdbcType="VARCHAR" property="transTypeParentCode" />
+    <result column="URGENCY" jdbcType="CHAR" property="urgency" />
+    <result column="TASK_TYPE" jdbcType="CHAR" property="taskType" />
+    <result column="SOURCE_HOUSE_ID" jdbcType="INTEGER" property="sourceHouseId" />
+    <result column="FROM_HOUSE_ID" jdbcType="INTEGER" property="fromHouseId" />
+    <result column="TO_HOUSE_ID" jdbcType="INTEGER" property="toHouseId" />
+    <result column="BEGIN_TIME" jdbcType="BIGINT" property="beginTime" />
+    <result column="LIMIT_MINUTE" jdbcType="INTEGER" property="limitMinute" />
+    <result column="RES_TYPE" jdbcType="CHAR" property="resType" />
+    <result column="DATA_SOURCE" jdbcType="CHAR" property="dataSource" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="EXE_BEGIN_TIME" jdbcType="TIMESTAMP" property="exeBeginTime" />
+    <result column="EXE_END_TIME" jdbcType="TIMESTAMP" property="exeEndTime" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CREATE_DATE" jdbcType="BIGINT" property="createDate" />
+    <result column="CREATE_BY" jdbcType="INTEGER" property="createBy" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="IS_TIME_OUT" jdbcType="CHAR" property="isTimeOut" />
+    <result column="EVALUATE" jdbcType="SMALLINT" property="evaluate" />
+    <result column="DISPATCH_USER_ID" jdbcType="INTEGER" property="dispatchUserId" />
+    <result column="END_TIME" jdbcType="BIGINT" property="endTime" />
+  </resultMap>
+  
+  <sql id="Page_Column_List_For_Web">
+    TASK_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, URGENCY, TASK_TYPE, SOURCE_HOUSE_ID, 
+    FROM_HOUSE_ID, TO_HOUSE_ID, BEGIN_TIME, LIMIT_MINUTE, RES_TYPE, DATA_SOURCE, 
+    SEND_TIME, EXE_BEGIN_TIME, EXE_END_TIME, STATUS, CREATE_DATE, CREATE_BY, 
+    GROUP_ORGAN_ID, IS_TIME_OUT, EVALUATE, DISPATCH_USER_ID, END_TIME
+  </sql>
+  
+  <!-- 分页查询where条件 -->
+  <sql id="Page_Where_Clause">
+  	where 1 = 1
+    <if test="dto.organId != null" >
+    	and ORGAN_ID = #{dto.organId,jdbcType=INTEGER} 
+    </if>
+    <if test="dto.queryFlag == 1" >
+    	<![CDATA[ 
+    		and BEGIN_TIME >= #{dto.beginTime,jdbcType=INTEGER}
+    		and BEGIN_TIME <= #{dto.endTime,jdbcType=INTEGER}
+    	]]>
+    </if>
+    <if test="dto.queryFlag == 2" >
+    	and EXE_USER_ID = #{dto.userId,jdbcType=INTEGER}
+    	<![CDATA[ 
+    		and EXE_BEGIN_TIME >= #{dto.exeBeginTime,jdbcType=TIMESTAMP}
+    		and EXE_BEGIN_TIME <= #{dto.exeEndTime,jdbcType=TIMESTAMP}
+    	]]>
+    	<if test="dto.limitExeEndDateFlag == 1"  >
+    		<![CDATA[ 
+    			and EXE_END_TIME <= #{dto.limitExeEndDate,jdbcType=TIMESTAMP}
+    		]]>
+    	</if>
+    </if>
+    <if test="dto.queryFlag == 3" >
+    	<![CDATA[ 
+    		and BEGIN_TIME >= #{dto.beginTime,jdbcType=INTEGER}
+    		and BEGIN_TIME <= #{dto.endTime,jdbcType=INTEGER}
+    		and CREATE_DATE < #{dto.paramDate,jdbcType=INTEGER}
+    		and TASK_TYPE in (${dto.taskTypes})
+    	]]>
+    </if>
+    <if test="dto.queryFlag == 2 and dto.taskStatus != null and dto.taskStatus != ''" >
+    	and TASK_STATUS = #{dto.taskStatus,jdbcType=CHAR}
+    </if>
+    <if test="dto.taskId != null" >
+    	and TASK_ID = #{dto.taskId,jdbcType=INTEGER}
+    </if>
+    <if test="dto.sourceHouseId != null" >
+    	and SOURCE_HOUSE_ID = #{dto.sourceHouseId,jdbcType=INTEGER}
+    </if>
+    <if test="dto.transTypeParentCode != null and dto.transTypeParentCode !=''" >
+    	and TRANS_TYPE_PARENT_CODE = #{dto.transTypeParentCode,jdbcType=VARCHAR}
+    </if>
+    <if test="dto.transTypeId != null" >
+    	and TRANS_TYPE_ID = #{dto.transTypeId,jdbcType=INTEGER}
+    </if>
+    <if test="dto.status != null and dto.status !=''" >
+    	and STATUS = #{dto.status,jdbcType=CHAR}
+    </if>
+    <if test="dto.taskType != null and dto.taskType !=''" >
+    	and TASK_TYPE = #{dto.taskType,jdbcType=CHAR}
+    </if>
+    <if test="dto.urgency != null and dto.urgency !=''" >
+    	and URGENCY = #{dto.urgency,jdbcType=CHAR}
+    </if>
+  </sql>
+  
+  <!-- 分页查询运送记录的任务ID -->
+  <select id="queryHisTaskIdPage" parameterType="com.segi.uhomecp.medicaltrans.taskhis.dto.MtHisTaskPageDto" 
+  	resultType="java.lang.Integer" >
+    select TASK_ID from evt_mt_task 
+    <include refid="Page_Where_Clause" />
+    order by CREATE_DATE desc, TASK_ID desc   
+    Limit #{dto.pageLength,jdbcType=INTEGER}, #{dto.startIndex,jdbcType=INTEGER}  
+  </select>
+  
+  <!-- 查询运送记录分页条数 -->
+  <select id="countHisTaskPage" parameterType="com.segi.uhomecp.medicaltrans.taskhis.dto.MtHisTaskPageDto" 
+    resultType="java.lang.Integer" >
+    select count(1) from evt_mt_task
+    <include refid="Page_Where_Clause" /> 
+  </select>
+  
+  <!-- 根据任务ID查询运送记录 -->
+  <select id="queryHisTaskPageByTaskIds" parameterType="com.segi.uhomecp.medicaltrans.taskhis.dto.MtHisTaskPageDto" resultMap="PageResultMap">
+    select  
+    <include refid="Page_Column_List_For_Web" />
+    from evt_mt_task
+    where GROUP_ORGAN_ID = #{dto.groupOrganId,jdbcType=INTEGER} 
+    and TASK_ID in (${dto.taskIds})
+    order by CREATE_DATE desc, TASK_ID desc
+  </select>
+  
+  <!-- 分页查询运送员运送明细的任务ID -->
+  <select id="queryHisTaskIdPageByUser" parameterType="com.segi.uhomecp.medicaltrans.taskhis.dto.MtHisTaskPageDto" 
+  	resultType="java.lang.Integer" >
+    select TASK_ID from evt_mt_task_executors 
+    <include refid="Page_Where_Clause" />
+    order by TASK_ID desc   
+    Limit #{dto.pageLength,jdbcType=INTEGER}, #{dto.startIndex,jdbcType=INTEGER}  
+  </select>
+  
+  <!-- 查询运送员运送明细数据分页条数 -->
+  <select id="countHisTaskPageByUser" parameterType="com.segi.uhomecp.medicaltrans.taskhis.dto.MtHisTaskPageDto" 
+    resultType="java.lang.Integer" >
+    select count(1) from evt_mt_task_executors 
+    <include refid="Page_Where_Clause" /> 
+  </select>
+  
+  <!--查询运送任务执行人-->
+  <select id="getHisTaskUserInfo" parameterType="com.segi.uhomecp.medicaltrans.taskhis.dto.MtHisTaskPageDto" 
+  		resultMap="com.segi.uhomecp.medicaltrans.trans.mttask.dao.MtTaskExecutorsMapper.BaseResultMap">
+	  SELECT TASK_ID, EXE_USER_ID
+	  FROM evt_mt_task_executors 
+	  WHERE TASK_ID in (${dto.taskIds})
+  </select>
+  
+</mapper>

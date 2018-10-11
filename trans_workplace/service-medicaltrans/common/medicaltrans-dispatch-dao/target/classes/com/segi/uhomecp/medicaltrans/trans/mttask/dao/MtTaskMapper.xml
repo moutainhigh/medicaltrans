@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.trans.mttask.dao.MtTaskMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTask">
+    <id column="TASK_ID" jdbcType="INTEGER" property="taskId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="TRANS_TYPE_PARENT_CODE" jdbcType="VARCHAR" property="transTypeParentCode" />
+    <result column="TRANS_TYPE_ID" jdbcType="INTEGER" property="transTypeId" />
+    <result column="URGENCY" jdbcType="CHAR" property="urgency" />
+    <result column="TASK_TYPE" jdbcType="CHAR" property="taskType" />
+    <result column="SOURCE_HOUSE_ID" jdbcType="INTEGER" property="sourceHouseId" />
+    <result column="FROM_HOUSE_ID" jdbcType="INTEGER" property="fromHouseId" />
+    <result column="TO_HOUSE_ID" jdbcType="INTEGER" property="toHouseId" />
+    <result column="TRANS_TOOLS" jdbcType="VARCHAR" property="transTools" />
+    <result column="TRANS_PERSON_COUNT" jdbcType="SMALLINT" property="transPersonCount" />
+    <result column="BEGIN_TIME" jdbcType="BIGINT" property="beginTime" />
+    <result column="LIMIT_MINUTE" jdbcType="INTEGER" property="limitMinute" />
+    <result column="RES_TYPE" jdbcType="CHAR" property="resType" />
+    <result column="DATA_SOURCE" jdbcType="CHAR" property="dataSource" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="EXE_BEGIN_TIME" jdbcType="TIMESTAMP" property="exeBeginTime" />
+    <result column="EXE_END_TIME" jdbcType="TIMESTAMP" property="exeEndTime" />
+    <result column="EXE_END_USER_ID" jdbcType="INTEGER" property="exeEndUserId" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CREATE_DATE" jdbcType="BIGINT" property="createDate" />
+    <result column="CREATE_BY" jdbcType="INTEGER" property="createBy" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATE_BY" jdbcType="INTEGER" property="updateBy" />
+    <result column="EVALUATE" jdbcType="SMALLINT" property="evaluate" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+    <result column="DISPATCH_USER_ID" jdbcType="INTEGER" property="dispatchUserId" />
+    <result column="TASK_LOOP_ID" jdbcType="INTEGER" property="taskLoopId" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="TASK_HOUR" jdbcType="TINYINT" property="taskHour" />
+    <result column="TIME_CONSUMING" jdbcType="INTEGER" property="timeConsuming" />
+    <result column="IS_TIME_OUT" jdbcType="CHAR" property="isTimeOut" />
+    <result column="RESP_TIME" jdbcType="INTEGER" property="respTime" />
+    <result column="TASK_TIME" jdbcType="INTEGER" property="taskTime" />
+    <result column="END_TIME" jdbcType="BIGINT" property="endTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TASK_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, TRANS_TYPE_ID, URGENCY, TASK_TYPE, SOURCE_HOUSE_ID, 
+    FROM_HOUSE_ID, TO_HOUSE_ID, TRANS_TOOLS, TRANS_PERSON_COUNT, BEGIN_TIME, LIMIT_MINUTE, 
+    RES_TYPE, DATA_SOURCE, SEND_TIME, EXE_BEGIN_TIME, EXE_END_TIME, EXE_END_USER_ID, 
+    STATUS, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, EVALUATE, VERSION, DISPATCH_USER_ID, 
+    TASK_LOOP_ID, GROUP_ORGAN_ID, TASK_HOUR, TIME_CONSUMING, IS_TIME_OUT, RESP_TIME, 
+    TASK_TIME, END_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_task
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_task
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskCriteria">
+    delete from evt_mt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTask">
+    insert into evt_mt_task (TASK_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, 
+      TRANS_TYPE_ID, URGENCY, TASK_TYPE, 
+      SOURCE_HOUSE_ID, FROM_HOUSE_ID, TO_HOUSE_ID, 
+      TRANS_TOOLS, TRANS_PERSON_COUNT, BEGIN_TIME, 
+      LIMIT_MINUTE, RES_TYPE, DATA_SOURCE, 
+      SEND_TIME, EXE_BEGIN_TIME, EXE_END_TIME, 
+      EXE_END_USER_ID, STATUS, CREATE_DATE, 
+      CREATE_BY, UPDATE_DATE, UPDATE_BY, 
+      EVALUATE, VERSION, DISPATCH_USER_ID, 
+      TASK_LOOP_ID, GROUP_ORGAN_ID, TASK_HOUR, 
+      TIME_CONSUMING, IS_TIME_OUT, RESP_TIME, 
+      TASK_TIME, END_TIME)
+    values (#{taskId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, #{transTypeParentCode,jdbcType=VARCHAR}, 
+      #{transTypeId,jdbcType=INTEGER}, #{urgency,jdbcType=CHAR}, #{taskType,jdbcType=CHAR}, 
+      #{sourceHouseId,jdbcType=INTEGER}, #{fromHouseId,jdbcType=INTEGER}, #{toHouseId,jdbcType=INTEGER}, 
+      #{transTools,jdbcType=VARCHAR}, #{transPersonCount,jdbcType=SMALLINT}, #{beginTime,jdbcType=BIGINT}, 
+      #{limitMinute,jdbcType=INTEGER}, #{resType,jdbcType=CHAR}, #{dataSource,jdbcType=CHAR}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{exeBeginTime,jdbcType=TIMESTAMP}, #{exeEndTime,jdbcType=TIMESTAMP}, 
+      #{exeEndUserId,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, #{createDate,jdbcType=BIGINT}, 
+      #{createBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, 
+      #{evaluate,jdbcType=SMALLINT}, #{version,jdbcType=INTEGER}, #{dispatchUserId,jdbcType=INTEGER}, 
+      #{taskLoopId,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{taskHour,jdbcType=TINYINT}, 
+      #{timeConsuming,jdbcType=INTEGER}, #{isTimeOut,jdbcType=CHAR}, #{respTime,jdbcType=INTEGER}, 
+      #{taskTime,jdbcType=INTEGER}, #{endTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTask">
+    insert into evt_mt_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE,
+      </if>
+      <if test="transTypeId != null">
+        TRANS_TYPE_ID,
+      </if>
+      <if test="urgency != null">
+        URGENCY,
+      </if>
+      <if test="taskType != null">
+        TASK_TYPE,
+      </if>
+      <if test="sourceHouseId != null">
+        SOURCE_HOUSE_ID,
+      </if>
+      <if test="fromHouseId != null">
+        FROM_HOUSE_ID,
+      </if>
+      <if test="toHouseId != null">
+        TO_HOUSE_ID,
+      </if>
+      <if test="transTools != null">
+        TRANS_TOOLS,
+      </if>
+      <if test="transPersonCount != null">
+        TRANS_PERSON_COUNT,
+      </if>
+      <if test="beginTime != null">
+        BEGIN_TIME,
+      </if>
+      <if test="limitMinute != null">
+        LIMIT_MINUTE,
+      </if>
+      <if test="resType != null">
+        RES_TYPE,
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE,
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME,
+      </if>
+      <if test="exeBeginTime != null">
+        EXE_BEGIN_TIME,
+      </if>
+      <if test="exeEndTime != null">
+        EXE_END_TIME,
+      </if>
+      <if test="exeEndUserId != null">
+        EXE_END_USER_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="evaluate != null">
+        EVALUATE,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="dispatchUserId != null">
+        DISPATCH_USER_ID,
+      </if>
+      <if test="taskLoopId != null">
+        TASK_LOOP_ID,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="taskHour != null">
+        TASK_HOUR,
+      </if>
+      <if test="timeConsuming != null">
+        TIME_CONSUMING,
+      </if>
+      <if test="isTimeOut != null">
+        IS_TIME_OUT,
+      </if>
+      <if test="respTime != null">
+        RESP_TIME,
+      </if>
+      <if test="taskTime != null">
+        TASK_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeId != null">
+        #{transTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="urgency != null">
+        #{urgency,jdbcType=CHAR},
+      </if>
+      <if test="taskType != null">
+        #{taskType,jdbcType=CHAR},
+      </if>
+      <if test="sourceHouseId != null">
+        #{sourceHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="fromHouseId != null">
+        #{fromHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="toHouseId != null">
+        #{toHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="transTools != null">
+        #{transTools,jdbcType=VARCHAR},
+      </if>
+      <if test="transPersonCount != null">
+        #{transPersonCount,jdbcType=SMALLINT},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="limitMinute != null">
+        #{limitMinute,jdbcType=INTEGER},
+      </if>
+      <if test="resType != null">
+        #{resType,jdbcType=CHAR},
+      </if>
+      <if test="dataSource != null">
+        #{dataSource,jdbcType=CHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exeBeginTime != null">
+        #{exeBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exeEndTime != null">
+        #{exeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exeEndUserId != null">
+        #{exeEndUserId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="evaluate != null">
+        #{evaluate,jdbcType=SMALLINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchUserId != null">
+        #{dispatchUserId,jdbcType=INTEGER},
+      </if>
+      <if test="taskLoopId != null">
+        #{taskLoopId,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="taskHour != null">
+        #{taskHour,jdbcType=TINYINT},
+      </if>
+      <if test="timeConsuming != null">
+        #{timeConsuming,jdbcType=INTEGER},
+      </if>
+      <if test="isTimeOut != null">
+        #{isTimeOut,jdbcType=CHAR},
+      </if>
+      <if test="respTime != null">
+        #{respTime,jdbcType=INTEGER},
+      </if>
+      <if test="taskTime != null">
+        #{taskTime,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_task
+    <set>
+      <if test="record.taskId != null">
+        TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transTypeId != null">
+        TRANS_TYPE_ID = #{record.transTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.urgency != null">
+        URGENCY = #{record.urgency,jdbcType=CHAR},
+      </if>
+      <if test="record.taskType != null">
+        TASK_TYPE = #{record.taskType,jdbcType=CHAR},
+      </if>
+      <if test="record.sourceHouseId != null">
+        SOURCE_HOUSE_ID = #{record.sourceHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromHouseId != null">
+        FROM_HOUSE_ID = #{record.fromHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toHouseId != null">
+        TO_HOUSE_ID = #{record.toHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transTools != null">
+        TRANS_TOOLS = #{record.transTools,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transPersonCount != null">
+        TRANS_PERSON_COUNT = #{record.transPersonCount,jdbcType=SMALLINT},
+      </if>
+      <if test="record.beginTime != null">
+        BEGIN_TIME = #{record.beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.limitMinute != null">
+        LIMIT_MINUTE = #{record.limitMinute,jdbcType=INTEGER},
+      </if>
+      <if test="record.resType != null">
+        RES_TYPE = #{record.resType,jdbcType=CHAR},
+      </if>
+      <if test="record.dataSource != null">
+        DATA_SOURCE = #{record.dataSource,jdbcType=CHAR},
+      </if>
+      <if test="record.sendTime != null">
+        SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.exeBeginTime != null">
+        EXE_BEGIN_TIME = #{record.exeBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.exeEndTime != null">
+        EXE_END_TIME = #{record.exeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.exeEndUserId != null">
+        EXE_END_USER_ID = #{record.exeEndUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.createBy != null">
+        CREATE_BY = #{record.createBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.evaluate != null">
+        EVALUATE = #{record.evaluate,jdbcType=SMALLINT},
+      </if>
+      <if test="record.version != null">
+        VERSION = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.dispatchUserId != null">
+        DISPATCH_USER_ID = #{record.dispatchUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskLoopId != null">
+        TASK_LOOP_ID = #{record.taskLoopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskHour != null">
+        TASK_HOUR = #{record.taskHour,jdbcType=TINYINT},
+      </if>
+      <if test="record.timeConsuming != null">
+        TIME_CONSUMING = #{record.timeConsuming,jdbcType=INTEGER},
+      </if>
+      <if test="record.isTimeOut != null">
+        IS_TIME_OUT = #{record.isTimeOut,jdbcType=CHAR},
+      </if>
+      <if test="record.respTime != null">
+        RESP_TIME = #{record.respTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskTime != null">
+        TASK_TIME = #{record.taskTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_task
+    set TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_TYPE_ID = #{record.transTypeId,jdbcType=INTEGER},
+      URGENCY = #{record.urgency,jdbcType=CHAR},
+      TASK_TYPE = #{record.taskType,jdbcType=CHAR},
+      SOURCE_HOUSE_ID = #{record.sourceHouseId,jdbcType=INTEGER},
+      FROM_HOUSE_ID = #{record.fromHouseId,jdbcType=INTEGER},
+      TO_HOUSE_ID = #{record.toHouseId,jdbcType=INTEGER},
+      TRANS_TOOLS = #{record.transTools,jdbcType=VARCHAR},
+      TRANS_PERSON_COUNT = #{record.transPersonCount,jdbcType=SMALLINT},
+      BEGIN_TIME = #{record.beginTime,jdbcType=BIGINT},
+      LIMIT_MINUTE = #{record.limitMinute,jdbcType=INTEGER},
+      RES_TYPE = #{record.resType,jdbcType=CHAR},
+      DATA_SOURCE = #{record.dataSource,jdbcType=CHAR},
+      SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      EXE_BEGIN_TIME = #{record.exeBeginTime,jdbcType=TIMESTAMP},
+      EXE_END_TIME = #{record.exeEndTime,jdbcType=TIMESTAMP},
+      EXE_END_USER_ID = #{record.exeEndUserId,jdbcType=INTEGER},
+      STATUS = #{record.status,jdbcType=CHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      CREATE_BY = #{record.createBy,jdbcType=INTEGER},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      EVALUATE = #{record.evaluate,jdbcType=SMALLINT},
+      VERSION = #{record.version,jdbcType=INTEGER},
+      DISPATCH_USER_ID = #{record.dispatchUserId,jdbcType=INTEGER},
+      TASK_LOOP_ID = #{record.taskLoopId,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      TASK_HOUR = #{record.taskHour,jdbcType=TINYINT},
+      TIME_CONSUMING = #{record.timeConsuming,jdbcType=INTEGER},
+      IS_TIME_OUT = #{record.isTimeOut,jdbcType=CHAR},
+      RESP_TIME = #{record.respTime,jdbcType=INTEGER},
+      TASK_TIME = #{record.taskTime,jdbcType=INTEGER},
+      END_TIME = #{record.endTime,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTask">
+    update evt_mt_task
+    <set>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeId != null">
+        TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="urgency != null">
+        URGENCY = #{urgency,jdbcType=CHAR},
+      </if>
+      <if test="taskType != null">
+        TASK_TYPE = #{taskType,jdbcType=CHAR},
+      </if>
+      <if test="sourceHouseId != null">
+        SOURCE_HOUSE_ID = #{sourceHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="fromHouseId != null">
+        FROM_HOUSE_ID = #{fromHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="toHouseId != null">
+        TO_HOUSE_ID = #{toHouseId,jdbcType=INTEGER},
+      </if>
+      <if test="transTools != null">
+        TRANS_TOOLS = #{transTools,jdbcType=VARCHAR},
+      </if>
+      <if test="transPersonCount != null">
+        TRANS_PERSON_COUNT = #{transPersonCount,jdbcType=SMALLINT},
+      </if>
+      <if test="beginTime != null">
+        BEGIN_TIME = #{beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="limitMinute != null">
+        LIMIT_MINUTE = #{limitMinute,jdbcType=INTEGER},
+      </if>
+      <if test="resType != null">
+        RES_TYPE = #{resType,jdbcType=CHAR},
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE = #{dataSource,jdbcType=CHAR},
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exeBeginTime != null">
+        EXE_BEGIN_TIME = #{exeBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exeEndTime != null">
+        EXE_END_TIME = #{exeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exeEndUserId != null">
+        EXE_END_USER_ID = #{exeEndUserId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="evaluate != null">
+        EVALUATE = #{evaluate,jdbcType=SMALLINT},
+      </if>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchUserId != null">
+        DISPATCH_USER_ID = #{dispatchUserId,jdbcType=INTEGER},
+      </if>
+      <if test="taskLoopId != null">
+        TASK_LOOP_ID = #{taskLoopId,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="taskHour != null">
+        TASK_HOUR = #{taskHour,jdbcType=TINYINT},
+      </if>
+      <if test="timeConsuming != null">
+        TIME_CONSUMING = #{timeConsuming,jdbcType=INTEGER},
+      </if>
+      <if test="isTimeOut != null">
+        IS_TIME_OUT = #{isTimeOut,jdbcType=CHAR},
+      </if>
+      <if test="respTime != null">
+        RESP_TIME = #{respTime,jdbcType=INTEGER},
+      </if>
+      <if test="taskTime != null">
+        TASK_TIME = #{taskTime,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTask">
+    update evt_mt_task
+    set ORGAN_ID = #{organId,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER},
+      URGENCY = #{urgency,jdbcType=CHAR},
+      TASK_TYPE = #{taskType,jdbcType=CHAR},
+      SOURCE_HOUSE_ID = #{sourceHouseId,jdbcType=INTEGER},
+      FROM_HOUSE_ID = #{fromHouseId,jdbcType=INTEGER},
+      TO_HOUSE_ID = #{toHouseId,jdbcType=INTEGER},
+      TRANS_TOOLS = #{transTools,jdbcType=VARCHAR},
+      TRANS_PERSON_COUNT = #{transPersonCount,jdbcType=SMALLINT},
+      BEGIN_TIME = #{beginTime,jdbcType=BIGINT},
+      LIMIT_MINUTE = #{limitMinute,jdbcType=INTEGER},
+      RES_TYPE = #{resType,jdbcType=CHAR},
+      DATA_SOURCE = #{dataSource,jdbcType=CHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      EXE_BEGIN_TIME = #{exeBeginTime,jdbcType=TIMESTAMP},
+      EXE_END_TIME = #{exeEndTime,jdbcType=TIMESTAMP},
+      EXE_END_USER_ID = #{exeEndUserId,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      CREATE_BY = #{createBy,jdbcType=INTEGER},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      EVALUATE = #{evaluate,jdbcType=SMALLINT},
+      VERSION = #{version,jdbcType=INTEGER},
+      DISPATCH_USER_ID = #{dispatchUserId,jdbcType=INTEGER},
+      TASK_LOOP_ID = #{taskLoopId,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      TASK_HOUR = #{taskHour,jdbcType=TINYINT},
+      TIME_CONSUMING = #{timeConsuming,jdbcType=INTEGER},
+      IS_TIME_OUT = #{isTimeOut,jdbcType=CHAR},
+      RESP_TIME = #{respTime,jdbcType=INTEGER},
+      TASK_TIME = #{taskTime,jdbcType=INTEGER},
+      END_TIME = #{endTime,jdbcType=BIGINT}
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

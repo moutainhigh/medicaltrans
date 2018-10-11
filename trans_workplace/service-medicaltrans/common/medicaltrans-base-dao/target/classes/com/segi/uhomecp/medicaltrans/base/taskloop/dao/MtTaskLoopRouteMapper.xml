@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopRouteMapper" >
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRoute" >
+    <id column="ROUTE_ID" property="routeId" jdbcType="INTEGER" />
+    <result column="TASK_LOOP_ID" property="taskLoopId" jdbcType="INTEGER" />
+    <result column="HOUSE_ID" property="houseId" jdbcType="INTEGER" />
+    <result column="SORT_NO" property="sortNo" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ROUTE_ID, TASK_LOOP_ID, HOUSE_ID, SORT_NO
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRouteCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_task_loop_route
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_task_loop_route
+    where ROUTE_ID = #{routeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evt_mt_task_loop_route
+    where ROUTE_ID = #{routeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRouteCriteria" >
+    delete from evt_mt_task_loop_route
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRoute" >
+    insert into evt_mt_task_loop_route (ROUTE_ID, TASK_LOOP_ID, HOUSE_ID, 
+      SORT_NO)
+    values (#{routeId,jdbcType=INTEGER}, #{taskLoopId,jdbcType=INTEGER}, #{houseId,jdbcType=INTEGER}, 
+      #{sortNo,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRoute" >
+    insert into evt_mt_task_loop_route
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="routeId != null" >
+        ROUTE_ID,
+      </if>
+      <if test="taskLoopId != null" >
+        TASK_LOOP_ID,
+      </if>
+      <if test="houseId != null" >
+        HOUSE_ID,
+      </if>
+      <if test="sortNo != null" >
+        SORT_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="routeId != null" >
+        #{routeId,jdbcType=INTEGER},
+      </if>
+      <if test="taskLoopId != null" >
+        #{taskLoopId,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null" >
+        #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="sortNo != null" >
+        #{sortNo,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRouteCriteria" resultType="java.lang.Integer" >
+    select count(*) from evt_mt_task_loop_route
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update evt_mt_task_loop_route
+    <set >
+      <if test="record.routeId != null" >
+        ROUTE_ID = #{record.routeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskLoopId != null" >
+        TASK_LOOP_ID = #{record.taskLoopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.houseId != null" >
+        HOUSE_ID = #{record.houseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortNo != null" >
+        SORT_NO = #{record.sortNo,jdbcType=SMALLINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update evt_mt_task_loop_route
+    set ROUTE_ID = #{record.routeId,jdbcType=INTEGER},
+      TASK_LOOP_ID = #{record.taskLoopId,jdbcType=INTEGER},
+      HOUSE_ID = #{record.houseId,jdbcType=INTEGER},
+      SORT_NO = #{record.sortNo,jdbcType=SMALLINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRoute" >
+    update evt_mt_task_loop_route
+    <set >
+      <if test="taskLoopId != null" >
+        TASK_LOOP_ID = #{taskLoopId,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null" >
+        HOUSE_ID = #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="sortNo != null" >
+        SORT_NO = #{sortNo,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where ROUTE_ID = #{routeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRoute" >
+    update evt_mt_task_loop_route
+    set TASK_LOOP_ID = #{taskLoopId,jdbcType=INTEGER},
+      HOUSE_ID = #{houseId,jdbcType=INTEGER},
+      SORT_NO = #{sortNo,jdbcType=SMALLINT}
+    where ROUTE_ID = #{routeId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRouteCriteria" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_task_loop_route
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

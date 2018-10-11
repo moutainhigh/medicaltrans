@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.hospuser.dao.MtHospUserMapper" >
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUser" >
+    <id column="MT_USER_ID" property="mtUserId" jdbcType="INTEGER" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="WECHAT_NO" property="wechatNo" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    MT_USER_ID, TEL, LOGIN_PWD, WECHAT_NO, UPDATE_DATE, UPDATE_BY
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUserCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_hosp_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_hosp_user
+    where MT_USER_ID = #{mtUserId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evt_mt_hosp_user
+    where MT_USER_ID = #{mtUserId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUserCriteria" >
+    delete from evt_mt_hosp_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUser" >
+    insert into evt_mt_hosp_user (MT_USER_ID, TEL, LOGIN_PWD, 
+      WECHAT_NO, UPDATE_DATE, UPDATE_BY
+      )
+    values (#{mtUserId,jdbcType=INTEGER}, #{tel,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, 
+      #{wechatNo,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUser" >
+    insert into evt_mt_hosp_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mtUserId != null" >
+        MT_USER_ID,
+      </if>
+      <if test="tel != null" >
+        TEL,
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD,
+      </if>
+      <if test="wechatNo != null" >
+        WECHAT_NO,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mtUserId != null" >
+        #{mtUserId,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNo != null" >
+        #{wechatNo,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUserCriteria" resultType="java.lang.Integer" >
+    select count(*) from evt_mt_hosp_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update evt_mt_hosp_user
+    <set >
+      <if test="record.mtUserId != null" >
+        MT_USER_ID = #{record.mtUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.tel != null" >
+        TEL = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginPwd != null" >
+        LOGIN_PWD = #{record.loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wechatNo != null" >
+        WECHAT_NO = #{record.wechatNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null" >
+        UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update evt_mt_hosp_user
+    set MT_USER_ID = #{record.mtUserId,jdbcType=INTEGER},
+      TEL = #{record.tel,jdbcType=VARCHAR},
+      LOGIN_PWD = #{record.loginPwd,jdbcType=VARCHAR},
+      WECHAT_NO = #{record.wechatNo,jdbcType=VARCHAR},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUser" >
+    update evt_mt_hosp_user
+    <set >
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNo != null" >
+        WECHAT_NO = #{wechatNo,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where MT_USER_ID = #{mtUserId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUser" >
+    update evt_mt_hosp_user
+    set TEL = #{tel,jdbcType=VARCHAR},
+      LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      WECHAT_NO = #{wechatNo,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=INTEGER}
+    where MT_USER_ID = #{mtUserId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.segi.uhomecp.medicaltrans.base.hospuser.model.MtHospUserCriteria" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_hosp_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

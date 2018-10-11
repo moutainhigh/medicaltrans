@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.schedule.dao.TransScheduleInfoMapper" >
+  
+  <!--批量插入路径信息  -->
+  <insert id="saveBatchTransSchedule" parameterType="java.util.List" >
+	 <foreach collection="list" index="index"  item="item"  separator=";" >
+     insert into evt_mt_trans_schedule (
+     <include refid="com.segi.uhomecp.medicaltrans.report.schedule.dao.TransScheduleMapper.Base_Column_List"/>
+    ) values (#{item.organId,jdbcType=INTEGER}, #{item.startDate,jdbcType=INTEGER}, 
+      #{item.paramDate,jdbcType=INTEGER}, #{item.status,jdbcType=CHAR}, #{item.createDate,jdbcType=TIMESTAMP}, 
+      #{item.updateDate,jdbcType=TIMESTAMP})
+     </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1539228072295_0" label="service-medicaltrans" name="service-medicaltrans">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/service-medicaltrans" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-rpc" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-base-rpc" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-dispatch-rpc" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-report-rpc" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-common-rpc" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-common" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-common-utils" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-base-dao" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-dispatch-dao" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-report-dao" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-api" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-web-api" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-app-api" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-his-api" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-report-api" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-service" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-base-service" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-job-service" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-job-report" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-dispatch-service" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-report-service" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/medicaltrans-mongo-service" type="4"/>
+</workingSet>
+</workingSetManager>

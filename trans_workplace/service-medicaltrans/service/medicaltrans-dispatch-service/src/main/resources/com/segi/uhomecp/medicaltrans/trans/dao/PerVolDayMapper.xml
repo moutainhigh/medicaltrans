@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.trans.dao.PerVolDayMapper" >
+  
+  <resultMap id="ResultMap" type="com.segi.uhomecp.medicaltrans.trans.dto.PersonalVolumeDayDto">
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="EXE_USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="TRANS_VOLUME" jdbcType="INTEGER" property="transVolume" />
+  </resultMap>
+  
+  <!-- 分页查询where条件 -->
+  <sql id="Page_Where_Clause">
+  	where ORGAN_ID = #{dto.organId,jdbcType=INTEGER} 
+  	<![CDATA[ 
+    	and EXE_BEGIN_TIME >= #{dto.exeBeginTime,jdbcType=TIMESTAMP}
+    	and EXE_BEGIN_TIME <= #{dto.exeEndTime,jdbcType=TIMESTAMP}
+    ]]>
+    and TASK_STATUS = #{dto.taskStatus,jdbcType=CHAR}
+  </sql>
+  
+  <!-- 分页查询运送员运送量日排名信息 -->
+  <select id="getDayTransVolRank" resultMap="ResultMap" 
+  	parameterType="com.segi.uhomecp.medicaltrans.trans.dto.PersonalVolumeDayDto" >
+    select 
+    	ORGAN_ID, 
+    	EXE_USER_ID, 
+    	count(TASK_EXE_ID) as TRANS_VOLUME
+ 	from evt_mt_task_executors
+    <include refid="Page_Where_Clause" />
+    group by ORGAN_ID, EXE_USER_ID
+    order by TRANS_VOLUME desc   
+  </select>
+  
+</mapper>

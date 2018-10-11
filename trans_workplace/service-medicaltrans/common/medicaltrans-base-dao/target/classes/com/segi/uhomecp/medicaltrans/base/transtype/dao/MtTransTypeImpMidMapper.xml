@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.transtype.dao.MtTransTypeImpMidMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMid">
+    <id column="ITEM_ID" jdbcType="INTEGER" property="itemId" />
+    <result column="BATCH_ID" jdbcType="INTEGER" property="batchId" />
+    <result column="TRANS_TYPE_PARENT_CODE" jdbcType="VARCHAR" property="transTypeParentCode" />
+    <result column="TRANS_TYPE_CODE" jdbcType="VARCHAR" property="transTypeCode" />
+    <result column="TRANS_TYPE_NAME" jdbcType="VARCHAR" property="transTypeName" />
+    <result column="STANDARD_MINITE" jdbcType="INTEGER" property="standardMinite" />
+    <result column="WARN_MINITE" jdbcType="INTEGER" property="warnMinite" />
+    <result column="TIME_OUT" jdbcType="INTEGER" property="timeOut" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPR_GUIDE" jdbcType="VARCHAR" property="oprGuide" />
+    <result column="STATUS_CD" jdbcType="CHAR" property="statusCd" />
+    <result column="EXE_DATE" jdbcType="TIMESTAMP" property="exeDate" />
+    <result column="EXCEL_ROW" jdbcType="INTEGER" property="excelRow" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ITEM_ID, BATCH_ID, TRANS_TYPE_PARENT_CODE, TRANS_TYPE_CODE, TRANS_TYPE_NAME, STANDARD_MINITE, 
+    WARN_MINITE, TIME_OUT, REMARK, OPR_GUIDE, STATUS_CD, EXE_DATE, EXCEL_ROW
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMidCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_type_imp_mid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_type_imp_mid
+    where ITEM_ID = #{itemId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_trans_type_imp_mid
+    where ITEM_ID = #{itemId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMidCriteria">
+    delete from evt_mt_trans_type_imp_mid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMid">
+    insert into evt_mt_trans_type_imp_mid (ITEM_ID, BATCH_ID, TRANS_TYPE_PARENT_CODE, 
+      TRANS_TYPE_CODE, TRANS_TYPE_NAME, STANDARD_MINITE, 
+      WARN_MINITE, TIME_OUT, REMARK, 
+      OPR_GUIDE, STATUS_CD, EXE_DATE, 
+      EXCEL_ROW)
+    values (#{itemId,jdbcType=INTEGER}, #{batchId,jdbcType=INTEGER}, #{transTypeParentCode,jdbcType=VARCHAR}, 
+      #{transTypeCode,jdbcType=VARCHAR}, #{transTypeName,jdbcType=VARCHAR}, #{standardMinite,jdbcType=INTEGER}, 
+      #{warnMinite,jdbcType=INTEGER}, #{timeOut,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{oprGuide,jdbcType=VARCHAR}, #{statusCd,jdbcType=CHAR}, #{exeDate,jdbcType=TIMESTAMP}, 
+      #{excelRow,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMid">
+    insert into evt_mt_trans_type_imp_mid
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="itemId != null">
+        ITEM_ID,
+      </if>
+      <if test="batchId != null">
+        BATCH_ID,
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE,
+      </if>
+      <if test="transTypeCode != null">
+        TRANS_TYPE_CODE,
+      </if>
+      <if test="transTypeName != null">
+        TRANS_TYPE_NAME,
+      </if>
+      <if test="standardMinite != null">
+        STANDARD_MINITE,
+      </if>
+      <if test="warnMinite != null">
+        WARN_MINITE,
+      </if>
+      <if test="timeOut != null">
+        TIME_OUT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="oprGuide != null">
+        OPR_GUIDE,
+      </if>
+      <if test="statusCd != null">
+        STATUS_CD,
+      </if>
+      <if test="exeDate != null">
+        EXE_DATE,
+      </if>
+      <if test="excelRow != null">
+        EXCEL_ROW,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeCode != null">
+        #{transTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeName != null">
+        #{transTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="standardMinite != null">
+        #{standardMinite,jdbcType=INTEGER},
+      </if>
+      <if test="warnMinite != null">
+        #{warnMinite,jdbcType=INTEGER},
+      </if>
+      <if test="timeOut != null">
+        #{timeOut,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="oprGuide != null">
+        #{oprGuide,jdbcType=VARCHAR},
+      </if>
+      <if test="statusCd != null">
+        #{statusCd,jdbcType=CHAR},
+      </if>
+      <if test="exeDate != null">
+        #{exeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excelRow != null">
+        #{excelRow,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMidCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_trans_type_imp_mid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_trans_type_imp_mid
+    <set>
+      <if test="record.itemId != null">
+        ITEM_ID = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.batchId != null">
+        BATCH_ID = #{record.batchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transTypeCode != null">
+        TRANS_TYPE_CODE = #{record.transTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transTypeName != null">
+        TRANS_TYPE_NAME = #{record.transTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standardMinite != null">
+        STANDARD_MINITE = #{record.standardMinite,jdbcType=INTEGER},
+      </if>
+      <if test="record.warnMinite != null">
+        WARN_MINITE = #{record.warnMinite,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeOut != null">
+        TIME_OUT = #{record.timeOut,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oprGuide != null">
+        OPR_GUIDE = #{record.oprGuide,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statusCd != null">
+        STATUS_CD = #{record.statusCd,jdbcType=CHAR},
+      </if>
+      <if test="record.exeDate != null">
+        EXE_DATE = #{record.exeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.excelRow != null">
+        EXCEL_ROW = #{record.excelRow,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_trans_type_imp_mid
+    set ITEM_ID = #{record.itemId,jdbcType=INTEGER},
+      BATCH_ID = #{record.batchId,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_TYPE_CODE = #{record.transTypeCode,jdbcType=VARCHAR},
+      TRANS_TYPE_NAME = #{record.transTypeName,jdbcType=VARCHAR},
+      STANDARD_MINITE = #{record.standardMinite,jdbcType=INTEGER},
+      WARN_MINITE = #{record.warnMinite,jdbcType=INTEGER},
+      TIME_OUT = #{record.timeOut,jdbcType=INTEGER},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      OPR_GUIDE = #{record.oprGuide,jdbcType=VARCHAR},
+      STATUS_CD = #{record.statusCd,jdbcType=CHAR},
+      EXE_DATE = #{record.exeDate,jdbcType=TIMESTAMP},
+      EXCEL_ROW = #{record.excelRow,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMid">
+    update evt_mt_trans_type_imp_mid
+    <set>
+      <if test="batchId != null">
+        BATCH_ID = #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeCode != null">
+        TRANS_TYPE_CODE = #{transTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeName != null">
+        TRANS_TYPE_NAME = #{transTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="standardMinite != null">
+        STANDARD_MINITE = #{standardMinite,jdbcType=INTEGER},
+      </if>
+      <if test="warnMinite != null">
+        WARN_MINITE = #{warnMinite,jdbcType=INTEGER},
+      </if>
+      <if test="timeOut != null">
+        TIME_OUT = #{timeOut,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="oprGuide != null">
+        OPR_GUIDE = #{oprGuide,jdbcType=VARCHAR},
+      </if>
+      <if test="statusCd != null">
+        STATUS_CD = #{statusCd,jdbcType=CHAR},
+      </if>
+      <if test="exeDate != null">
+        EXE_DATE = #{exeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excelRow != null">
+        EXCEL_ROW = #{excelRow,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ITEM_ID = #{itemId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMid">
+    update evt_mt_trans_type_imp_mid
+    set BATCH_ID = #{batchId,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_TYPE_CODE = #{transTypeCode,jdbcType=VARCHAR},
+      TRANS_TYPE_NAME = #{transTypeName,jdbcType=VARCHAR},
+      STANDARD_MINITE = #{standardMinite,jdbcType=INTEGER},
+      WARN_MINITE = #{warnMinite,jdbcType=INTEGER},
+      TIME_OUT = #{timeOut,jdbcType=INTEGER},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      OPR_GUIDE = #{oprGuide,jdbcType=VARCHAR},
+      STATUS_CD = #{statusCd,jdbcType=CHAR},
+      EXE_DATE = #{exeDate,jdbcType=TIMESTAMP},
+      EXCEL_ROW = #{excelRow,jdbcType=INTEGER}
+    where ITEM_ID = #{itemId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeImpMidCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_type_imp_mid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

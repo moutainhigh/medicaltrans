@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.trans.dao.MtTaskCommonMapper" >
+
+  <resultMap id="ResultOfTaskCount" type="java.lang.Integer" >
+      <result column="taskCount" property="taskCount" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <!--批量插入路径信息  -->
+  <insert id="saveBatchMtTaskRoute" parameterType="java.util.List" >
+	 <foreach collection="list" index="index"  item="item"  separator=";" >
+     insert into evt_mt_task_route_${tableIndex} (ROUTE_ID, TASK_ID, HOUSE_ID, 
+      STATUS, SORT_NO, UPDATE_DATE, IS_AUTOGRAPH, GROUP_ORGAN_ID)
+    values (#{item.routeId,jdbcType=INTEGER}, #{item.taskId,jdbcType=INTEGER}, #{item.houseId,jdbcType=INTEGER}, 
+      #{item.status,jdbcType=CHAR}, #{item.sortNo,jdbcType=SMALLINT}, #{item.updateDate,jdbcType=TIMESTAMP},
+      #{item.isAutograph,jdbcType=CHAR}, #{item.groupOrganId,jdbcType=INTEGER})
+     </foreach>
+  </insert>
+  
+  <!--批量插入执行人信息  -->
+  <insert id="saveBatchMtTaskExcutors" parameterType="java.util.List">
+	   <foreach collection="list" index="index"  item="item"  separator=";" >
+         insert into evt_mt_task_executors_${tableIndex} (TASK_EXE_ID, GROUP_ORGAN_ID, TASK_ID, EXE_USER_ID, 
+     		     UPDATE_DATE, IS_EXE_END_USER, ORGAN_ID, TASK_STATUS, TASK_TYPE, BEGIN_TIME, 
+     		     EVALUATE, EXE_BEGIN_TIME, IS_TIME_OUT, SEND_TIME, CREATE_DATE, URGENCY, TRANS_TYPE_PARENT_CODE,
+     		     END_TIME)
+    	 values (#{item.taskExeId,jdbcType=INTEGER}, #{item.groupOrganId,jdbcType=INTEGER}, #{item.taskId,jdbcType=INTEGER}, 
+    	 		 #{item.exeUserId,jdbcType=INTEGER}, #{item.updateDate,jdbcType=TIMESTAMP}, #{item.isExeEndUser,jdbcType=CHAR}, 
+    	 		 #{item.organId,jdbcType=INTEGER}, #{item.taskStatus,jdbcType=CHAR}, #{item.taskType,jdbcType=CHAR}, 
+    	 		 #{item.beginTime,jdbcType=BIGINT}, #{item.evaluate,jdbcType=SMALLINT}, #{item.exeBeginTime,jdbcType=TIMESTAMP},
+    	 		 #{item.isTimeOut,jdbcType=CHAR}, #{item.sendTime,jdbcType=TIMESTAMP}, #{item.createDate,jdbcType=BIGINT}, 
+    	 		 #{item.urgency,jdbcType=CHAR}, #{item.transTypeParentCode,jdbcType=VARCHAR}, #{item.endTime,jdbcType=BIGINT})
+     </foreach>
+  </insert>
+  
+  <!--批量插入执行人信息  -->
+  <insert id="saveBatchMtTaskExcutorsLog" parameterType="java.util.List">
+	   <foreach collection="list" index="index"  item="item"  separator=";" >
+         insert into evt_mt_task_executors_log_${tableIndex} (TASK_EXE_ID, GROUP_ORGAN_ID, TASK_ID, EXE_USER_ID, 
+     		     VERSION, STATUS, UPDATE_DATE, IS_EXE_END_USER, ORGAN_ID, TASK_TYPE)
+    	 values (#{item.taskExeId,jdbcType=INTEGER}, #{item.groupOrganId,jdbcType=INTEGER}, #{item.taskId,jdbcType=INTEGER}, 
+    	 		 #{item.exeUserId,jdbcType=INTEGER}, #{item.version,jdbcType=INTEGER}, #{item.status,jdbcType=CHAR}, 
+    	 		 #{item.updateDate,jdbcType=TIMESTAMP}, #{item.isExeEndUser,jdbcType=CHAR}, #{item.organId,jdbcType=INTEGER},
+    	 		 #{item.taskType,jdbcType=CHAR})
+     </foreach>
+  </insert>
+  
+  <!--批量插入扩展信息信息  -->
+  <insert id="saveBatchMtTaskExt" parameterType="java.util.List">
+	   <foreach collection="list" index="index"  item="item"  separator=";" >
+	    insert into evt_mt_task_ext_${tableIndex} (TASK_EXT_ID, TASK_ID, GROUP_ORGAN_ID)
+	    values (#{item.taskExtId,jdbcType=INTEGER}, #{item.taskId,jdbcType=INTEGER}, #{item.groupOrganId,jdbcType=INTEGER})
+	      </foreach>
+  </insert>
+  
+  <!--批量插入任务单信息  -->
+  <insert id="saveBatchMtTask" parameterType="java.util.List">
+	   <foreach collection="list" index="index"  item="item"  separator=";" >
+	   insert into evt_mt_task_${tableIndex} (TASK_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, 
+      TRANS_TYPE_ID, URGENCY, TASK_TYPE, 
+      SOURCE_HOUSE_ID, FROM_HOUSE_ID, TO_HOUSE_ID, 
+      TRANS_TOOLS, TRANS_PERSON_COUNT, BEGIN_TIME, 
+      LIMIT_MINUTE, RES_TYPE, DATA_SOURCE, SEND_TIME, 
+      EXE_BEGIN_TIME, EXE_END_TIME, EXE_END_USER_ID, 
+      STATUS, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, 
+      EVALUATE, VERSION, DISPATCH_USER_ID,TASK_LOOP_ID, 
+      GROUP_ORGAN_ID, TASK_HOUR, TIME_CONSUMING, 
+      IS_TIME_OUT, RESP_TIME, TASK_TIME, END_TIME)
+    values (#{item.taskId,jdbcType=INTEGER}, #{item.organId,jdbcType=INTEGER}, #{item.transTypeParentCode,jdbcType=VARCHAR}, 
+      #{item.transTypeId,jdbcType=INTEGER}, #{item.urgency,jdbcType=CHAR}, #{item.taskType,jdbcType=CHAR}, 
+      #{item.sourceHouseId,jdbcType=INTEGER}, #{item.fromHouseId,jdbcType=INTEGER}, #{item.toHouseId,jdbcType=INTEGER}, 
+      #{item.transTools,jdbcType=VARCHAR}, #{item.transPersonCount,jdbcType=SMALLINT}, #{item.beginTime,jdbcType=INTEGER}, 
+      #{item.limitMinute,jdbcType=INTEGER}, #{item.resType,jdbcType=CHAR}, #{item.dataSource,jdbcType=CHAR}, 
+      #{item.sendTime,jdbcType=TIMESTAMP}, #{item.exeBeginTime,jdbcType=TIMESTAMP}, #{item.exeEndTime,jdbcType=TIMESTAMP},
+      #{item.exeEndUserId,jdbcType=INTEGER}, #{item.status,jdbcType=CHAR}, #{item.createDate,jdbcType=BIGINT}, 
+      #{item.createBy,jdbcType=INTEGER}, #{item.updateDate,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=INTEGER}, 
+      #{item.evaluate,jdbcType=SMALLINT}, #{item.version,jdbcType=INTEGER}, #{item.dispatchUserId,jdbcType=INTEGER}, 
+      #{item.taskLoopId,jdbcType=INTEGER}, #{item.groupOrganId,jdbcType=INTEGER}, #{item.taskHour,jdbcType=TINYINT},
+      #{item.timeConsuming,jdbcType=INTEGER}, #{item.isTimeOut,jdbcType=CHAR}, #{item.respTime,jdbcType=INTEGER},
+      #{item.taskTime,jdbcType=INTEGER}, #{item.endTime,jdbcType=BIGINT})
+	  </foreach>
+  </insert>
+  
+  <!--批量保存服务处信息  -->
+  <insert id="saveBatchMtTaskGroup" parameterType="java.util.List" >
+  		<foreach collection="list" index="index"  item="item"  separator=";" >
+    		insert into evt_mt_task_group_rel_${tableIndex} (TASK_GROUP_ID, TASK_ID, GROUP_ID, 
+      		UPDATE_DATE, UPDATE_BY, GROUP_ORGAN_ID)
+    		values (#{item.taskGroupId,jdbcType=INTEGER}, #{item.taskId,jdbcType=INTEGER}, 
+    		#{item.groupId,jdbcType=INTEGER}, #{item.updateDate,jdbcType=TIMESTAMP},
+    		#{item.updateBy,jdbcType=INTEGER}, #{item.groupOrganId,jdbcType=INTEGER})
+    	</foreach>
+  </insert>
+  
+	<!--查询当前登录用户所有任务的未完成数 -->
+  	<select resultMap="ResultOfTaskCount" id="queryAllTaskCount" >
+		SELECT COUNT(1) AS taskCount
+		FROM evt_mt_task_executors_${tableIndex}
+		WHERE TASK_TYPE = '1'
+		AND ORGAN_ID = #{organId,jdbcType=INTEGER}
+		AND EXE_USER_ID = #{userId,jdbcType=INTEGER}
+		AND TASK_STATUS IN ('3','4')
+		UNION ALL
+		SELECT COUNT(1)
+		FROM evt_mt_task_executors_${tableIndex}
+		WHERE TASK_TYPE = '3'
+		AND ORGAN_ID = #{organId,jdbcType=INTEGER}
+		AND EXE_USER_ID = #{userId,jdbcType=INTEGER}
+		AND TASK_STATUS IN ('3', '4')
+		UNION ALL
+		SELECT COUNT(1)
+		FROM evt_mt_task_executors_${tableIndex}
+		WHERE TASK_TYPE = '2'
+		AND ORGAN_ID = #{organId,jdbcType=INTEGER}
+		AND EXE_USER_ID = #{userId,jdbcType=INTEGER} 
+		AND TASK_STATUS = '3'
+  	</select>
+</mapper>

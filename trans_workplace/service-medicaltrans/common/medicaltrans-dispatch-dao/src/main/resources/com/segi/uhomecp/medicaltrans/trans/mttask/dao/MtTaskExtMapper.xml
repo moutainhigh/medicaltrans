@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.trans.mttask.dao.MtTaskExtMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExt">
+    <id column="TASK_EXT_ID" jdbcType="INTEGER" property="taskExtId" />
+    <result column="TASK_ID" jdbcType="INTEGER" property="taskId" />
+    <result column="PATIENT_NAME" jdbcType="VARCHAR" property="patientName" />
+    <result column="PATIENT_GENDER" jdbcType="CHAR" property="patientGender" />
+    <result column="BED_NO" jdbcType="VARCHAR" property="bedNo" />
+    <result column="MEDICAL_REC_NO" jdbcType="VARCHAR" property="medicalRecNo" />
+    <result column="TASK_CONTENT" jdbcType="VARCHAR" property="taskContent" />
+    <result column="SEND_CONTENT" jdbcType="VARCHAR" property="sendContent" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="EVALUATE_CONTENT" jdbcType="VARCHAR" property="evaluateContent" />
+    <result column="RECEIVER" jdbcType="INTEGER" property="receiver" />
+    <result column="RECEIVE_TIME" jdbcType="TIMESTAMP" property="receiveTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TASK_EXT_ID, TASK_ID, PATIENT_NAME, PATIENT_GENDER, BED_NO, MEDICAL_REC_NO, TASK_CONTENT, 
+    SEND_CONTENT, GROUP_ORGAN_ID, EVALUATE_CONTENT, RECEIVER, RECEIVE_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExtCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_task_ext
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_task_ext
+    where TASK_EXT_ID = #{taskExtId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_task_ext
+    where TASK_EXT_ID = #{taskExtId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExtCriteria">
+    delete from evt_mt_task_ext
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExt">
+    insert into evt_mt_task_ext (TASK_EXT_ID, TASK_ID, PATIENT_NAME, 
+      PATIENT_GENDER, BED_NO, MEDICAL_REC_NO, 
+      TASK_CONTENT, SEND_CONTENT, GROUP_ORGAN_ID, 
+      EVALUATE_CONTENT, RECEIVER, RECEIVE_TIME
+      )
+    values (#{taskExtId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{patientName,jdbcType=VARCHAR}, 
+      #{patientGender,jdbcType=CHAR}, #{bedNo,jdbcType=VARCHAR}, #{medicalRecNo,jdbcType=VARCHAR}, 
+      #{taskContent,jdbcType=VARCHAR}, #{sendContent,jdbcType=VARCHAR}, #{groupOrganId,jdbcType=INTEGER}, 
+      #{evaluateContent,jdbcType=VARCHAR}, #{receiver,jdbcType=INTEGER}, #{receiveTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExt">
+    insert into evt_mt_task_ext
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskExtId != null">
+        TASK_EXT_ID,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="patientName != null">
+        PATIENT_NAME,
+      </if>
+      <if test="patientGender != null">
+        PATIENT_GENDER,
+      </if>
+      <if test="bedNo != null">
+        BED_NO,
+      </if>
+      <if test="medicalRecNo != null">
+        MEDICAL_REC_NO,
+      </if>
+      <if test="taskContent != null">
+        TASK_CONTENT,
+      </if>
+      <if test="sendContent != null">
+        SEND_CONTENT,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="evaluateContent != null">
+        EVALUATE_CONTENT,
+      </if>
+      <if test="receiver != null">
+        RECEIVER,
+      </if>
+      <if test="receiveTime != null">
+        RECEIVE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskExtId != null">
+        #{taskExtId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="patientName != null">
+        #{patientName,jdbcType=VARCHAR},
+      </if>
+      <if test="patientGender != null">
+        #{patientGender,jdbcType=CHAR},
+      </if>
+      <if test="bedNo != null">
+        #{bedNo,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalRecNo != null">
+        #{medicalRecNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskContent != null">
+        #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sendContent != null">
+        #{sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateContent != null">
+        #{evaluateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null">
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExtCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_task_ext
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_task_ext
+    <set>
+      <if test="record.taskExtId != null">
+        TASK_EXT_ID = #{record.taskExtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskId != null">
+        TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.patientName != null">
+        PATIENT_NAME = #{record.patientName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patientGender != null">
+        PATIENT_GENDER = #{record.patientGender,jdbcType=CHAR},
+      </if>
+      <if test="record.bedNo != null">
+        BED_NO = #{record.bedNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.medicalRecNo != null">
+        MEDICAL_REC_NO = #{record.medicalRecNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskContent != null">
+        TASK_CONTENT = #{record.taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendContent != null">
+        SEND_CONTENT = #{record.sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.evaluateContent != null">
+        EVALUATE_CONTENT = #{record.evaluateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiver != null">
+        RECEIVER = #{record.receiver,jdbcType=INTEGER},
+      </if>
+      <if test="record.receiveTime != null">
+        RECEIVE_TIME = #{record.receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_task_ext
+    set TASK_EXT_ID = #{record.taskExtId,jdbcType=INTEGER},
+      TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      PATIENT_NAME = #{record.patientName,jdbcType=VARCHAR},
+      PATIENT_GENDER = #{record.patientGender,jdbcType=CHAR},
+      BED_NO = #{record.bedNo,jdbcType=VARCHAR},
+      MEDICAL_REC_NO = #{record.medicalRecNo,jdbcType=VARCHAR},
+      TASK_CONTENT = #{record.taskContent,jdbcType=VARCHAR},
+      SEND_CONTENT = #{record.sendContent,jdbcType=VARCHAR},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      EVALUATE_CONTENT = #{record.evaluateContent,jdbcType=VARCHAR},
+      RECEIVER = #{record.receiver,jdbcType=INTEGER},
+      RECEIVE_TIME = #{record.receiveTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExt">
+    update evt_mt_task_ext
+    <set>
+      <if test="taskId != null">
+        TASK_ID = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="patientName != null">
+        PATIENT_NAME = #{patientName,jdbcType=VARCHAR},
+      </if>
+      <if test="patientGender != null">
+        PATIENT_GENDER = #{patientGender,jdbcType=CHAR},
+      </if>
+      <if test="bedNo != null">
+        BED_NO = #{bedNo,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalRecNo != null">
+        MEDICAL_REC_NO = #{medicalRecNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskContent != null">
+        TASK_CONTENT = #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sendContent != null">
+        SEND_CONTENT = #{sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateContent != null">
+        EVALUATE_CONTENT = #{evaluateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        RECEIVER = #{receiver,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null">
+        RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where TASK_EXT_ID = #{taskExtId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExt">
+    update evt_mt_task_ext
+    set TASK_ID = #{taskId,jdbcType=INTEGER},
+      PATIENT_NAME = #{patientName,jdbcType=VARCHAR},
+      PATIENT_GENDER = #{patientGender,jdbcType=CHAR},
+      BED_NO = #{bedNo,jdbcType=VARCHAR},
+      MEDICAL_REC_NO = #{medicalRecNo,jdbcType=VARCHAR},
+      TASK_CONTENT = #{taskContent,jdbcType=VARCHAR},
+      SEND_CONTENT = #{sendContent,jdbcType=VARCHAR},
+      GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      EVALUATE_CONTENT = #{evaluateContent,jdbcType=VARCHAR},
+      RECEIVER = #{receiver,jdbcType=INTEGER},
+      RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP}
+    where TASK_EXT_ID = #{taskExtId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.trans.mttask.model.MtTaskExtCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_task_ext
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

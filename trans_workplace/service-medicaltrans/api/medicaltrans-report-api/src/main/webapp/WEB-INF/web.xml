@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaeehttp://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    id="WebApp_ID" version="2.5">
+
+	<display-name>uhome_modules_admin_service</display-name>
+
+	<!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			<!-- classpath*:/spring/spring-context.xml, 
+            classpath*:/spring/spring-service-order.xml -->
+            classpath*:/spring/applicationContext-load.xml
+		</param-value>
+	</context-param>
+
+	<!--Spring ApplicationContext 载入 -->
+	<listener>
+		<listener-class>com.segi.uhomecp.utils.ServletContextUtils</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.segi.uhomecp.utils.SpringContextWebUtils</listener-class>
+	</listener>
+	<!-- <listener>
+		<listener-class>com.alibaba.druid.support.http.MonitorClientContextListener</listener-class>
+	</listener> -->
+
+	<!-- 负责清理JavaBeans Introspector的使用而引起的缓冲泄露 ，主要应用于 quarz 等框架 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+	<!-- Spring MVC Servlet --> 
+	<servlet>
+		<servlet-name>springServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+                classpath*:/spring/spring-mvc.xml
+            </param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- Filter 定义 -->
+	<!-- Character Encoding filter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+	<!-- ************************************************************************************* -->
+	<!-- UHOME应用过滤器 -->
+
+	<filter>
+		<filter-name>authRequestHeaderFilter</filter-name>
+		<filter-class>com.segi.uhomecp.sso.client.filter.AuthRequestHeaderFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>authRequestHeaderFilter</filter-name>
+		<url-pattern>/rest-api/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- <filter>
+		<filter-name>uhomeFilter</filter-name>
+		<filter-class>com.segi.uhomecp.filter.AuthFilter</filter-class>
+		<filter-class>com.segi.uhomecp.sso.client.filter.AuthRequstChainFilter</filter-class>
+		<init-param>
+			<param-name>excludeFilters</param-name> 
+			<param-name>excludes</param-name>
+			<param-value>
+				/rest-api/document.do
+				 /common/version.json,
+				 /infoAdmin/infoHtml.do
+            </param-value>
+		</init-param>
+	</filter> 
+	<filter-mapping>
+		<filter-name>uhomeFilter</filter-name>
+		<url-pattern>/rest-api/*</url-pattern>
+	</filter-mapping> -->
+	
+	<!-- Filter 定义 -->
+	<filter>
+		<filter-name>restApiLimitIpFilter</filter-name>
+		<filter-class>com.segi.uhomecp.web.filter.RestApiLimitIpFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>restApiLimitIpFilter</filter-name>
+		<url-pattern>/inner-rest-api/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<!-- ************************************************************************************* -->
+
+	<!-- SiteMesh Web-Page Layout filter -->
+	<!-- <filter> <filter-name>sitemeshFilter</filter-name> <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>sitemeshFilter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping> -->
+
+	<!-- support/http -->
+	<!-- <filter> <filter-name>WebStatFilter</filter-name> <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>WebStatFilter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping> -->
+	<!-- 配置组件JSP页面加载的servlet -->
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>webapp.root.web.gateway</param-value>
+	</context-param>
+	<welcome-file-list>
+		<welcome-file>/index</welcome-file>
+	</welcome-file-list>
+</web-app>

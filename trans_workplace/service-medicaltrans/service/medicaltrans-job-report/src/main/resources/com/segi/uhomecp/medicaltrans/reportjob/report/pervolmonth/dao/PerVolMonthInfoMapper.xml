@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.reportjob.report.pervolmonth.dao.PerVolMonthInfoMapper" >	
+ 	<!-- 批量保存个人运送量月报表统计数据-->
+	<insert id="savePerVolMonthIbatch" parameterType="com.segi.uhomecp.medicaltrans.report.monthrank.personal.model.PersonalVolumeMonth">
+    	<foreach collection="list" separator=";" item="item" index="index"> 
+    	insert into evt_mt_personal_volume_month (ID, GROUP_ORGAN_ID, ORGAN_ID, 
+      		USER_ID, SERGROUP_ID, CYCLE_YM, 
+      		TRANS_AMOUNT, DISPATCH_AMOUNT, DISPATCH_SATISFACTION_AMOUNT, 
+      		DISPATCH_TIMELY_AMOUNT, AUTONOMOUS_AMOUNT, 
+      		AUTONOMOUS_SATISFACTION_AMOUNT, AUTONOMOUS_TIMELY_AMOUNT, 
+      		FIXED_AMOUNT, FIXED_SATISFACTION_AMOUNT, FIXED_TIMELY_AMOUNT, 
+      		CREATE_DATE, UPDATE_DATE)
+    	values (#{item.id,jdbcType=INTEGER}, #{item.groupOrganId,jdbcType=INTEGER}, #{item.organId,jdbcType=INTEGER}, 
+      		#{item.userId,jdbcType=INTEGER}, #{item.sergroupId,jdbcType=INTEGER}, #{item.cycleYm,jdbcType=INTEGER}, 
+      		#{item.transAmount,jdbcType=INTEGER}, #{item.dispatchAmount,jdbcType=INTEGER}, #{item.dispatchSatisfactionAmount,jdbcType=INTEGER}, 
+      		#{item.dispatchTimelyAmount,jdbcType=INTEGER}, #{item.autonomousAmount,jdbcType=INTEGER}, 
+      		#{item.autonomousSatisfactionAmount,jdbcType=INTEGER}, #{item.autonomousTimelyAmount,jdbcType=INTEGER}, 
+      		#{item.fixedAmount,jdbcType=INTEGER}, #{item.fixedSatisfactionAmount,jdbcType=INTEGER}, #{item.fixedTimelyAmount,jdbcType=INTEGER}, 
+      		#{item.createDate,jdbcType=BIGINT}, #{item.updateDate,jdbcType=BIGINT})
+  		</foreach>
+  	</insert>  	
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.monthrank.personal.dao.PersonalVolumeMonthInfoMapper" >
+  
+  <!-- 分页查询个人运送量月报表数据的主键ID -->
+  <select id="selectIdByExamplePage" resultType="java.lang.Integer" parameterType="map">
+	select ID from evt_mt_personal_volume_month
+	where 1=1
+   	<if test="dto.organId != null" >
+    	and ORGAN_ID = #{dto.organId,jdbcType=INTEGER}
+    </if>
+    <if test="dto.userIds != null and dto.userIds != ''" >
+    	and USER_ID in (${dto.userIds})
+    </if>
+    <if test="dto.sergroupIds != null and dto.sergroupIds != ''" >
+    	and SERGROUP_ID in (${dto.sergroupIds})
+    </if>
+    <if test="dto.cycleYm != null" >
+    	and CYCLE_YM = #{dto.cycleYm,jdbcType=INTEGER}
+    </if>
+    order by TRANS_AMOUNT desc, USER_ID asc
+    <if test="dto != null" >
+    	Limit #{dto.offset,jdbcType=INTEGER},#{dto.limit,jdbcType=INTEGER}
+    </if> 
+  </select>
+</mapper>

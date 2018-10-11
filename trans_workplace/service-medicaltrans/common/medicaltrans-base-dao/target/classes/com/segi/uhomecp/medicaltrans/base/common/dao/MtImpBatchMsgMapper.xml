@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.common.dao.MtImpBatchMsgMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsg">
+    <id column="BATCH_ID" jdbcType="INTEGER" property="batchId" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="IMP_TYPE" jdbcType="CHAR" property="impType" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="STATUS_CD" jdbcType="CHAR" property="statusCd" />
+    <result column="EXE_DATE" jdbcType="TIMESTAMP" property="exeDate" />
+    <result column="IMPORT_COUNT" jdbcType="INTEGER" property="importCount" />
+    <result column="IMP_REMARK" jdbcType="VARCHAR" property="impRemark" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATE_BY" jdbcType="INTEGER" property="updateBy" />
+    <result column="CREATE_BY" jdbcType="INTEGER" property="createBy" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="ATTR1" jdbcType="VARCHAR" property="attr1" />
+    <result column="ATTR2" jdbcType="VARCHAR" property="attr2" />
+    <result column="ATTR3" jdbcType="VARCHAR" property="attr3" />
+    <result column="ATTR4" jdbcType="VARCHAR" property="attr4" />
+    <result column="ATTR5" jdbcType="VARCHAR" property="attr5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    BATCH_ID, GROUP_ORGAN_ID, ORGAN_ID, IMP_TYPE, FILE_NAME, STATUS_CD, EXE_DATE, IMPORT_COUNT, 
+    IMP_REMARK, UPDATE_DATE, UPDATE_BY, CREATE_BY, CREATE_DATE, ATTR1, ATTR2, ATTR3, 
+    ATTR4, ATTR5
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsgCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_imp_batch_msg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_imp_batch_msg
+    where BATCH_ID = #{batchId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_imp_batch_msg
+    where BATCH_ID = #{batchId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsgCriteria">
+    delete from evt_mt_imp_batch_msg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsg">
+    insert into evt_mt_imp_batch_msg (BATCH_ID, GROUP_ORGAN_ID, ORGAN_ID, 
+      IMP_TYPE, FILE_NAME, STATUS_CD, 
+      EXE_DATE, IMPORT_COUNT, IMP_REMARK, 
+      UPDATE_DATE, UPDATE_BY, CREATE_BY, 
+      CREATE_DATE, ATTR1, ATTR2, 
+      ATTR3, ATTR4, ATTR5
+      )
+    values (#{batchId,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, 
+      #{impType,jdbcType=CHAR}, #{fileName,jdbcType=VARCHAR}, #{statusCd,jdbcType=CHAR}, 
+      #{exeDate,jdbcType=TIMESTAMP}, #{importCount,jdbcType=INTEGER}, #{impRemark,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{attr1,jdbcType=VARCHAR}, #{attr2,jdbcType=VARCHAR}, 
+      #{attr3,jdbcType=VARCHAR}, #{attr4,jdbcType=VARCHAR}, #{attr5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsg">
+    insert into evt_mt_imp_batch_msg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="batchId != null">
+        BATCH_ID,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="impType != null">
+        IMP_TYPE,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="statusCd != null">
+        STATUS_CD,
+      </if>
+      <if test="exeDate != null">
+        EXE_DATE,
+      </if>
+      <if test="importCount != null">
+        IMPORT_COUNT,
+      </if>
+      <if test="impRemark != null">
+        IMP_REMARK,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="attr1 != null">
+        ATTR1,
+      </if>
+      <if test="attr2 != null">
+        ATTR2,
+      </if>
+      <if test="attr3 != null">
+        ATTR3,
+      </if>
+      <if test="attr4 != null">
+        ATTR4,
+      </if>
+      <if test="attr5 != null">
+        ATTR5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="batchId != null">
+        #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="impType != null">
+        #{impType,jdbcType=CHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="statusCd != null">
+        #{statusCd,jdbcType=CHAR},
+      </if>
+      <if test="exeDate != null">
+        #{exeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importCount != null">
+        #{importCount,jdbcType=INTEGER},
+      </if>
+      <if test="impRemark != null">
+        #{impRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attr1 != null">
+        #{attr1,jdbcType=VARCHAR},
+      </if>
+      <if test="attr2 != null">
+        #{attr2,jdbcType=VARCHAR},
+      </if>
+      <if test="attr3 != null">
+        #{attr3,jdbcType=VARCHAR},
+      </if>
+      <if test="attr4 != null">
+        #{attr4,jdbcType=VARCHAR},
+      </if>
+      <if test="attr5 != null">
+        #{attr5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsgCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_imp_batch_msg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_imp_batch_msg
+    <set>
+      <if test="record.batchId != null">
+        BATCH_ID = #{record.batchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.impType != null">
+        IMP_TYPE = #{record.impType,jdbcType=CHAR},
+      </if>
+      <if test="record.fileName != null">
+        FILE_NAME = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statusCd != null">
+        STATUS_CD = #{record.statusCd,jdbcType=CHAR},
+      </if>
+      <if test="record.exeDate != null">
+        EXE_DATE = #{record.exeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.importCount != null">
+        IMPORT_COUNT = #{record.importCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.impRemark != null">
+        IMP_REMARK = #{record.impRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.createBy != null">
+        CREATE_BY = #{record.createBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.attr1 != null">
+        ATTR1 = #{record.attr1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attr2 != null">
+        ATTR2 = #{record.attr2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attr3 != null">
+        ATTR3 = #{record.attr3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attr4 != null">
+        ATTR4 = #{record.attr4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attr5 != null">
+        ATTR5 = #{record.attr5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_imp_batch_msg
+    set BATCH_ID = #{record.batchId,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      IMP_TYPE = #{record.impType,jdbcType=CHAR},
+      FILE_NAME = #{record.fileName,jdbcType=VARCHAR},
+      STATUS_CD = #{record.statusCd,jdbcType=CHAR},
+      EXE_DATE = #{record.exeDate,jdbcType=TIMESTAMP},
+      IMPORT_COUNT = #{record.importCount,jdbcType=INTEGER},
+      IMP_REMARK = #{record.impRemark,jdbcType=VARCHAR},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      CREATE_BY = #{record.createBy,jdbcType=INTEGER},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      ATTR1 = #{record.attr1,jdbcType=VARCHAR},
+      ATTR2 = #{record.attr2,jdbcType=VARCHAR},
+      ATTR3 = #{record.attr3,jdbcType=VARCHAR},
+      ATTR4 = #{record.attr4,jdbcType=VARCHAR},
+      ATTR5 = #{record.attr5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsg">
+    update evt_mt_imp_batch_msg
+    <set>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="impType != null">
+        IMP_TYPE = #{impType,jdbcType=CHAR},
+      </if>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="statusCd != null">
+        STATUS_CD = #{statusCd,jdbcType=CHAR},
+      </if>
+      <if test="exeDate != null">
+        EXE_DATE = #{exeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importCount != null">
+        IMPORT_COUNT = #{importCount,jdbcType=INTEGER},
+      </if>
+      <if test="impRemark != null">
+        IMP_REMARK = #{impRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attr1 != null">
+        ATTR1 = #{attr1,jdbcType=VARCHAR},
+      </if>
+      <if test="attr2 != null">
+        ATTR2 = #{attr2,jdbcType=VARCHAR},
+      </if>
+      <if test="attr3 != null">
+        ATTR3 = #{attr3,jdbcType=VARCHAR},
+      </if>
+      <if test="attr4 != null">
+        ATTR4 = #{attr4,jdbcType=VARCHAR},
+      </if>
+      <if test="attr5 != null">
+        ATTR5 = #{attr5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BATCH_ID = #{batchId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsg">
+    update evt_mt_imp_batch_msg
+    set GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{organId,jdbcType=INTEGER},
+      IMP_TYPE = #{impType,jdbcType=CHAR},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      STATUS_CD = #{statusCd,jdbcType=CHAR},
+      EXE_DATE = #{exeDate,jdbcType=TIMESTAMP},
+      IMPORT_COUNT = #{importCount,jdbcType=INTEGER},
+      IMP_REMARK = #{impRemark,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      CREATE_BY = #{createBy,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      ATTR1 = #{attr1,jdbcType=VARCHAR},
+      ATTR2 = #{attr2,jdbcType=VARCHAR},
+      ATTR3 = #{attr3,jdbcType=VARCHAR},
+      ATTR4 = #{attr4,jdbcType=VARCHAR},
+      ATTR5 = #{attr5,jdbcType=VARCHAR}
+    where BATCH_ID = #{batchId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.base.common.model.MtImpBatchMsgCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_imp_batch_msg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

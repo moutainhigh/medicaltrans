@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.dao.TranstypeStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatistics">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="CYCLE_YM" jdbcType="INTEGER" property="cycleYm" />
+    <result column="TRANS_TYPE_PARENT_CODE" jdbcType="VARCHAR" property="transTypeParentCode" />
+    <result column="TRANS_AMOUNT" jdbcType="BIGINT" property="transAmount" />
+    <result column="TRANS_MINITE" jdbcType="BIGINT" property="transMinite" />
+    <result column="CREATE_DATE" jdbcType="BIGINT" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="BIGINT" property="updateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, GROUP_ORGAN_ID, ORGAN_ID, CYCLE_YM, TRANS_TYPE_PARENT_CODE, TRANS_AMOUNT, TRANS_MINITE, 
+    CREATE_DATE, UPDATE_DATE
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatisticsCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_transtype_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_transtype_statistics
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_transtype_statistics
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatisticsCriteria">
+    delete from evt_mt_transtype_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatistics">
+    insert into evt_mt_transtype_statistics (ID, GROUP_ORGAN_ID, ORGAN_ID, 
+      CYCLE_YM, TRANS_TYPE_PARENT_CODE, TRANS_AMOUNT, 
+      TRANS_MINITE, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{id,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, 
+      #{cycleYm,jdbcType=INTEGER}, #{transTypeParentCode,jdbcType=VARCHAR}, #{transAmount,jdbcType=BIGINT}, 
+      #{transMinite,jdbcType=BIGINT}, #{createDate,jdbcType=BIGINT}, #{updateDate,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatistics">
+    insert into evt_mt_transtype_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="cycleYm != null">
+        CYCLE_YM,
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE,
+      </if>
+      <if test="transAmount != null">
+        TRANS_AMOUNT,
+      </if>
+      <if test="transMinite != null">
+        TRANS_MINITE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="cycleYm != null">
+        #{cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transAmount != null">
+        #{transAmount,jdbcType=BIGINT},
+      </if>
+      <if test="transMinite != null">
+        #{transMinite,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatisticsCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_transtype_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_transtype_statistics
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cycleYm != null">
+        CYCLE_YM = #{record.cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="record.transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transAmount != null">
+        TRANS_AMOUNT = #{record.transAmount,jdbcType=BIGINT},
+      </if>
+      <if test="record.transMinite != null">
+        TRANS_MINITE = #{record.transMinite,jdbcType=BIGINT},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_transtype_statistics
+    set ID = #{record.id,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      CYCLE_YM = #{record.cycleYm,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_AMOUNT = #{record.transAmount,jdbcType=BIGINT},
+      TRANS_MINITE = #{record.transMinite,jdbcType=BIGINT},
+      CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      UPDATE_DATE = #{record.updateDate,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatistics">
+    update evt_mt_transtype_statistics
+    <set>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="cycleYm != null">
+        CYCLE_YM = #{cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transAmount != null">
+        TRANS_AMOUNT = #{transAmount,jdbcType=BIGINT},
+      </if>
+      <if test="transMinite != null">
+        TRANS_MINITE = #{transMinite,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatistics">
+    update evt_mt_transtype_statistics
+    set GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{organId,jdbcType=INTEGER},
+      CYCLE_YM = #{cycleYm,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_AMOUNT = #{transAmount,jdbcType=BIGINT},
+      TRANS_MINITE = #{transMinite,jdbcType=BIGINT},
+      CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      UPDATE_DATE = #{updateDate,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatisticsCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_transtype_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

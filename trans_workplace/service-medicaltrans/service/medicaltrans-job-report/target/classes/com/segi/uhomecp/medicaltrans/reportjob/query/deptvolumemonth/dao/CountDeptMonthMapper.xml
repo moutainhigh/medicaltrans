@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.reportjob.query.deptvolumemonth.dao.CountDeptMonthMapper" >
+   <resultMap id="BaseDeptMap" type="com.segi.uhomecp.medicaltrans.report.monthrank.dept.model.DeptVolumeMonth">
+    <result column="HOUSE_ID" jdbcType="INTEGER" property="houseId" />
+    <result column="TRANS_AMOUNT" jdbcType="INTEGER" property="transAmount" />
+    <result column="DISPATCH_AMOUNT" jdbcType="INTEGER" property="dispatchAmount" />
+    <result column="AUTONOMOUS_AMOUNT" jdbcType="INTEGER" property="autonomousAmount" />
+    <result column="SPECIAL_AMOUNT" jdbcType="INTEGER" property="specialAmount" />
+    <result column="URGENT_AMOUNT" jdbcType="INTEGER" property="urgentAmount" />
+    <result column="COMMON_AMOUNT" jdbcType="INTEGER" property="commonAmount" />
+  </resultMap>
+  
+  <resultMap id="BaseDeptDtoMap" type="com.segi.uhomecp.medicaltrans.reportjob.query.deptvolumemonth.dto.DeptVolumeMonthDto">
+    <result column="HOUSE_ID" jdbcType="INTEGER" property="houseId" />
+    <result column="TASK_TYPE" jdbcType="CHAR" property="taskType" />
+    <result column="URGENCY" jdbcType="CHAR" property="urgency" />
+    <result column="NUM" jdbcType="INTEGER" property="num" />
+  </resultMap>
+   
+	<!--统计科室运送量   -->
+	<select id="getDeptVolumeMonth" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.deptvolumemonth.dto.DeptSqlDto" resultMap="BaseDeptMap">
+		SELECT 
+  			SOURCE_HOUSE_ID AS HOUSE_ID,
+ 			SUM(CASE WHEN TASK_TYPE = 1 THEN 1 ELSE 0  END) AS 'DISPATCH_AMOUNT' ,
+  			SUM(CASE WHEN TASK_TYPE = 2 THEN 1 ELSE 0  END) AS 'AUTONOMOUS_AMOUNT',
+  			<!-- SUM(CASE WHEN TASK_TYPE IN(1,2) THEN 1 ELSE 0  END) AS 'TRANS_AMOUNT' , -->
+  			SUM(CASE WHEN URGENCY = 3 AND TASK_TYPE = 1 THEN 1 ELSE 0  END) AS 'SPECIAL_AMOUNT' ,
+  			SUM(CASE WHEN URGENCY = 2 AND TASK_TYPE = 1 THEN 1 ELSE 0  END) AS 'URGENT_AMOUNT' ,
+  			SUM(CASE WHEN URGENCY = 1 AND TASK_TYPE = 1 THEN 1 ELSE 0  END) AS 'COMMON_AMOUNT' 
+		FROM evt_mt_task_${dto.tableIndex} WHERE 1=1
+ 			<!-- STATUS IN (1, 2, 3, 4, 5, 7)  -->
+			AND ORGAN_ID IN
+		<foreach collection="dto.organIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach> 
+			AND TASK_TYPE IN 
+		<foreach collection="dto.taskTypeList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>  
+			AND SOURCE_HOUSE_ID IN
+		<foreach collection="dto.houseIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach> 	
+			AND BEGIN_TIME <![CDATA[ >= ]]> #{dto.startTime,jdbcType=BIGINT}
+			AND BEGIN_TIME <![CDATA[ <= ]]> #{dto.endTime,jdbcType=BIGINT}
+			AND CREATE_DATE <![CDATA[ < ]]> #{dto.countEndTime,jdbcType=BIGINT}
+		GROUP BY SOURCE_HOUSE_ID
+	</select>
+	
+	<!--统计科室运送量  任务类型数量  -->
+	<select id="getDeptMonthTaskType" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.deptvolumemonth.dto.DeptSqlDto" resultMap="BaseDeptDtoMap">
+		SELECT 
+			SOURCE_HOUSE_ID AS HOUSE_ID,
+			TASK_TYPE,
+			COUNT(1) AS NUM
+		FROM evt_mt_task_${dto.tableIndex} WHERE 1=1
+ 			<!-- STATUS IN (1, 2, 3, 4, 5, 7)  -->
+			AND ORGAN_ID IN
+		<foreach collection="dto.organIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach> 
+			AND TASK_TYPE IN 
+		<foreach collection="dto.taskTypeList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>  
+			AND SOURCE_HOUSE_ID IN
+		<foreach collection="dto.houseIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach> 	
+			AND BEGIN_TIME <![CDATA[ >= ]]> #{dto.startTime,jdbcType=BIGINT}
+			AND BEGIN_TIME <![CDATA[ <= ]]> #{dto.endTime,jdbcType=BIGINT}
+			AND CREATE_DATE <![CDATA[ < ]]> #{dto.countEndTime,jdbcType=BIGINT}
+		GROUP BY SOURCE_HOUSE_ID, TASK_TYPE
+	</select>
+	
+		<!--统计科室运送量  紧急程度  -->
+	<select id="getDeptMonthUrgency" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.deptvolumemonth.dto.DeptSqlDto" resultMap="BaseDeptDtoMap">
+		SELECT 
+			SOURCE_HOUSE_ID AS HOUSE_ID,
+			URGENCY,
+			COUNT(1) AS NUM
+		FROM evt_mt_task_${dto.tableIndex} WHERE 1=1
+ 			<!-- STATUS IN (1, 2, 3, 4, 5, 7)  -->
+			AND ORGAN_ID IN
+		<foreach collection="dto.organIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach> 
+			AND TASK_TYPE IN 
+		<foreach collection="dto.taskTypeList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>  
+			AND SOURCE_HOUSE_ID IN
+		<foreach collection="dto.houseIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach> 	
+			AND BEGIN_TIME <![CDATA[ >= ]]> #{dto.startTime,jdbcType=BIGINT}
+			AND BEGIN_TIME <![CDATA[ <= ]]> #{dto.endTime,jdbcType=BIGINT}
+			AND CREATE_DATE <![CDATA[ < ]]> #{dto.countEndTime,jdbcType=BIGINT}
+		GROUP BY SOURCE_HOUSE_ID, URGENCY
+	</select>
+</mapper>

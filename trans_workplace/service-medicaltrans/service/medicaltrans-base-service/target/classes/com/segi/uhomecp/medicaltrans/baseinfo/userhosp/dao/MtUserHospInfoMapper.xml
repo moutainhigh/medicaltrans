@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.baseinfo.userhosp.dao.MtUserHospInfoMapper">
+  <!-- web 用户科室信息保存 -->
+  <insert id="saveUserHospInfo" parameterType="java.util.List" >
+    insert into evt_mt_user_hosp_rel (USER_HOSP_REL_ID, USER_ID, ORGAN_ID, 
+      HOUSE_ID, UPDATE_DATE, UPDATE_BY
+      )values
+     <foreach collection ="list" item="data" index="index" separator =",">
+          (#{data.userHospRelId}, #{data.userId}, #{data.organId}, #{data.houseId},
+        	 #{data.updateDate}, #{data.updateBy})
+      </foreach>
+  </insert>
+  
+</mapper>

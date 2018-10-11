@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.deptvolumemonth.dao.DeptMonthMapper" >
+				   
+	<update id="updateDeptMonth" parameterType="com.segi.uhomecp.medicaltrans.report.monthrank.dept.model.DeptVolumeMonth">
+		update evt_mt_dept_volume_month set 
+		<if test="dept.transAmount != null">
+       		TRANS_AMOUNT = (TRANS_AMOUNT + #{dept.transAmount,jdbcType=INTEGER}),
+     	</if>
+		<if test="dept.dispatchAmount != null">
+       		DISPATCH_AMOUNT = (DISPATCH_AMOUNT + #{dept.dispatchAmount,jdbcType=INTEGER}),
+     	</if>
+     	<if test="dept.autonomousAmount != null">
+       		AUTONOMOUS_AMOUNT = (AUTONOMOUS_AMOUNT + #{dept.autonomousAmount,jdbcType=INTEGER}),
+     	</if>
+     	<if test="dept.specialAmount != null">
+       		SPECIAL_AMOUNT = (SPECIAL_AMOUNT + #{dept.specialAmount,jdbcType=INTEGER}),
+     	</if>
+		<if test="dept.urgentAmount != null">
+       		URGENT_AMOUNT = (URGENT_AMOUNT + #{dept.urgentAmount,jdbcType=INTEGER}),
+     	</if>
+		<if test="dept.commonAmount != null">
+       		COMMON_AMOUNT = (COMMON_AMOUNT + #{dept.commonAmount,jdbcType=INTEGER}),
+     	</if>
+		<if test="dept.updateDate != null">
+       		UPDATE_DATE = (#{dept.updateDate,jdbcType=BIGINT})
+     	</if>	
+		where HOUSE_ID = #{dept.houseId,jdbcType=INTEGER}
+			AND	CYCLE_YM = #{dept.cycleYm,jdbcType=INTEGER}
+	</update>	
+</mapper>

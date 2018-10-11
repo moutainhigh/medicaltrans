@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.monthamount.organ.dao.OrganMonthStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatistics">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="CYCLE_YM" jdbcType="INTEGER" property="cycleYm" />
+    <result column="TRANS_AMOUNT" jdbcType="INTEGER" property="transAmount" />
+    <result column="TRANS_USER_AMOUNT" jdbcType="INTEGER" property="transUserAmount" />
+    <result column="DISPATCH_AMOUNT" jdbcType="INTEGER" property="dispatchAmount" />
+    <result column="AUTONOMOUS_AMOUNT" jdbcType="INTEGER" property="autonomousAmount" />
+    <result column="FIXED_AMOUNT" jdbcType="INTEGER" property="fixedAmount" />
+    <result column="TRANS_INSTANT_TIME" jdbcType="BIGINT" property="transInstantTime" />
+    <result column="TRANS_TIME" jdbcType="BIGINT" property="transTime" />
+    <result column="TIMELY_AMOUNT" jdbcType="INTEGER" property="timelyAmount" />
+    <result column="SATISFACTION_AMOUNT" jdbcType="INTEGER" property="satisfactionAmount" />
+    <result column="CREATE_DATE" jdbcType="BIGINT" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="BIGINT" property="updateDate" />
+    <result column="WEB_DATASOURCE" jdbcType="INTEGER" property="webDatasource" />
+    <result column="WECHAT_DATASOURCE" jdbcType="INTEGER" property="wechatDatasource" />
+    <result column="PAD_DATASOURCE" jdbcType="INTEGER" property="padDatasource" />
+    <result column="APP_DATASOURCE" jdbcType="INTEGER" property="appDatasource" />
+    <result column="isTaskDay" jdbcType="CHAR" property="istaskday" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, GROUP_ORGAN_ID, ORGAN_ID, CYCLE_YM, TRANS_AMOUNT, TRANS_USER_AMOUNT, DISPATCH_AMOUNT, 
+    AUTONOMOUS_AMOUNT, FIXED_AMOUNT, TRANS_INSTANT_TIME, TRANS_TIME, TIMELY_AMOUNT, SATISFACTION_AMOUNT, 
+    CREATE_DATE, UPDATE_DATE, WEB_DATASOURCE, WECHAT_DATASOURCE, PAD_DATASOURCE, APP_DATASOURCE, 
+    isTaskDay
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatisticsCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_month_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_month_statistics
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_organ_month_statistics
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatisticsCriteria">
+    delete from evt_mt_organ_month_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatistics">
+    insert into evt_mt_organ_month_statistics (ID, GROUP_ORGAN_ID, ORGAN_ID, 
+      CYCLE_YM, TRANS_AMOUNT, TRANS_USER_AMOUNT, 
+      DISPATCH_AMOUNT, AUTONOMOUS_AMOUNT, FIXED_AMOUNT, 
+      TRANS_INSTANT_TIME, TRANS_TIME, TIMELY_AMOUNT, 
+      SATISFACTION_AMOUNT, CREATE_DATE, UPDATE_DATE, 
+      WEB_DATASOURCE, WECHAT_DATASOURCE, PAD_DATASOURCE, 
+      APP_DATASOURCE, isTaskDay)
+    values (#{id,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, 
+      #{cycleYm,jdbcType=INTEGER}, #{transAmount,jdbcType=INTEGER}, #{transUserAmount,jdbcType=INTEGER}, 
+      #{dispatchAmount,jdbcType=INTEGER}, #{autonomousAmount,jdbcType=INTEGER}, #{fixedAmount,jdbcType=INTEGER}, 
+      #{transInstantTime,jdbcType=BIGINT}, #{transTime,jdbcType=BIGINT}, #{timelyAmount,jdbcType=INTEGER}, 
+      #{satisfactionAmount,jdbcType=INTEGER}, #{createDate,jdbcType=BIGINT}, #{updateDate,jdbcType=BIGINT}, 
+      #{webDatasource,jdbcType=INTEGER}, #{wechatDatasource,jdbcType=INTEGER}, #{padDatasource,jdbcType=INTEGER}, 
+      #{appDatasource,jdbcType=INTEGER}, #{istaskday,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatistics">
+    insert into evt_mt_organ_month_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="cycleYm != null">
+        CYCLE_YM,
+      </if>
+      <if test="transAmount != null">
+        TRANS_AMOUNT,
+      </if>
+      <if test="transUserAmount != null">
+        TRANS_USER_AMOUNT,
+      </if>
+      <if test="dispatchAmount != null">
+        DISPATCH_AMOUNT,
+      </if>
+      <if test="autonomousAmount != null">
+        AUTONOMOUS_AMOUNT,
+      </if>
+      <if test="fixedAmount != null">
+        FIXED_AMOUNT,
+      </if>
+      <if test="transInstantTime != null">
+        TRANS_INSTANT_TIME,
+      </if>
+      <if test="transTime != null">
+        TRANS_TIME,
+      </if>
+      <if test="timelyAmount != null">
+        TIMELY_AMOUNT,
+      </if>
+      <if test="satisfactionAmount != null">
+        SATISFACTION_AMOUNT,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="webDatasource != null">
+        WEB_DATASOURCE,
+      </if>
+      <if test="wechatDatasource != null">
+        WECHAT_DATASOURCE,
+      </if>
+      <if test="padDatasource != null">
+        PAD_DATASOURCE,
+      </if>
+      <if test="appDatasource != null">
+        APP_DATASOURCE,
+      </if>
+      <if test="istaskday != null">
+        isTaskDay,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="cycleYm != null">
+        #{cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="transAmount != null">
+        #{transAmount,jdbcType=INTEGER},
+      </if>
+      <if test="transUserAmount != null">
+        #{transUserAmount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchAmount != null">
+        #{dispatchAmount,jdbcType=INTEGER},
+      </if>
+      <if test="autonomousAmount != null">
+        #{autonomousAmount,jdbcType=INTEGER},
+      </if>
+      <if test="fixedAmount != null">
+        #{fixedAmount,jdbcType=INTEGER},
+      </if>
+      <if test="transInstantTime != null">
+        #{transInstantTime,jdbcType=BIGINT},
+      </if>
+      <if test="transTime != null">
+        #{transTime,jdbcType=BIGINT},
+      </if>
+      <if test="timelyAmount != null">
+        #{timelyAmount,jdbcType=INTEGER},
+      </if>
+      <if test="satisfactionAmount != null">
+        #{satisfactionAmount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="webDatasource != null">
+        #{webDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="wechatDatasource != null">
+        #{wechatDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="padDatasource != null">
+        #{padDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="appDatasource != null">
+        #{appDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="istaskday != null">
+        #{istaskday,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatisticsCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_organ_month_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_organ_month_statistics
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cycleYm != null">
+        CYCLE_YM = #{record.cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="record.transAmount != null">
+        TRANS_AMOUNT = #{record.transAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.transUserAmount != null">
+        TRANS_USER_AMOUNT = #{record.transUserAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.dispatchAmount != null">
+        DISPATCH_AMOUNT = #{record.dispatchAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.autonomousAmount != null">
+        AUTONOMOUS_AMOUNT = #{record.autonomousAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.fixedAmount != null">
+        FIXED_AMOUNT = #{record.fixedAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.transInstantTime != null">
+        TRANS_INSTANT_TIME = #{record.transInstantTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.transTime != null">
+        TRANS_TIME = #{record.transTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.timelyAmount != null">
+        TIMELY_AMOUNT = #{record.timelyAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.satisfactionAmount != null">
+        SATISFACTION_AMOUNT = #{record.satisfactionAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.webDatasource != null">
+        WEB_DATASOURCE = #{record.webDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="record.wechatDatasource != null">
+        WECHAT_DATASOURCE = #{record.wechatDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="record.padDatasource != null">
+        PAD_DATASOURCE = #{record.padDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="record.appDatasource != null">
+        APP_DATASOURCE = #{record.appDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="record.istaskday != null">
+        isTaskDay = #{record.istaskday,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_organ_month_statistics
+    set ID = #{record.id,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      CYCLE_YM = #{record.cycleYm,jdbcType=INTEGER},
+      TRANS_AMOUNT = #{record.transAmount,jdbcType=INTEGER},
+      TRANS_USER_AMOUNT = #{record.transUserAmount,jdbcType=INTEGER},
+      DISPATCH_AMOUNT = #{record.dispatchAmount,jdbcType=INTEGER},
+      AUTONOMOUS_AMOUNT = #{record.autonomousAmount,jdbcType=INTEGER},
+      FIXED_AMOUNT = #{record.fixedAmount,jdbcType=INTEGER},
+      TRANS_INSTANT_TIME = #{record.transInstantTime,jdbcType=BIGINT},
+      TRANS_TIME = #{record.transTime,jdbcType=BIGINT},
+      TIMELY_AMOUNT = #{record.timelyAmount,jdbcType=INTEGER},
+      SATISFACTION_AMOUNT = #{record.satisfactionAmount,jdbcType=INTEGER},
+      CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      UPDATE_DATE = #{record.updateDate,jdbcType=BIGINT},
+      WEB_DATASOURCE = #{record.webDatasource,jdbcType=INTEGER},
+      WECHAT_DATASOURCE = #{record.wechatDatasource,jdbcType=INTEGER},
+      PAD_DATASOURCE = #{record.padDatasource,jdbcType=INTEGER},
+      APP_DATASOURCE = #{record.appDatasource,jdbcType=INTEGER},
+      isTaskDay = #{record.istaskday,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatistics">
+    update evt_mt_organ_month_statistics
+    <set>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="cycleYm != null">
+        CYCLE_YM = #{cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="transAmount != null">
+        TRANS_AMOUNT = #{transAmount,jdbcType=INTEGER},
+      </if>
+      <if test="transUserAmount != null">
+        TRANS_USER_AMOUNT = #{transUserAmount,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchAmount != null">
+        DISPATCH_AMOUNT = #{dispatchAmount,jdbcType=INTEGER},
+      </if>
+      <if test="autonomousAmount != null">
+        AUTONOMOUS_AMOUNT = #{autonomousAmount,jdbcType=INTEGER},
+      </if>
+      <if test="fixedAmount != null">
+        FIXED_AMOUNT = #{fixedAmount,jdbcType=INTEGER},
+      </if>
+      <if test="transInstantTime != null">
+        TRANS_INSTANT_TIME = #{transInstantTime,jdbcType=BIGINT},
+      </if>
+      <if test="transTime != null">
+        TRANS_TIME = #{transTime,jdbcType=BIGINT},
+      </if>
+      <if test="timelyAmount != null">
+        TIMELY_AMOUNT = #{timelyAmount,jdbcType=INTEGER},
+      </if>
+      <if test="satisfactionAmount != null">
+        SATISFACTION_AMOUNT = #{satisfactionAmount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=BIGINT},
+      </if>
+      <if test="webDatasource != null">
+        WEB_DATASOURCE = #{webDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="wechatDatasource != null">
+        WECHAT_DATASOURCE = #{wechatDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="padDatasource != null">
+        PAD_DATASOURCE = #{padDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="appDatasource != null">
+        APP_DATASOURCE = #{appDatasource,jdbcType=INTEGER},
+      </if>
+      <if test="istaskday != null">
+        isTaskDay = #{istaskday,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatistics">
+    update evt_mt_organ_month_statistics
+    set GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{organId,jdbcType=INTEGER},
+      CYCLE_YM = #{cycleYm,jdbcType=INTEGER},
+      TRANS_AMOUNT = #{transAmount,jdbcType=INTEGER},
+      TRANS_USER_AMOUNT = #{transUserAmount,jdbcType=INTEGER},
+      DISPATCH_AMOUNT = #{dispatchAmount,jdbcType=INTEGER},
+      AUTONOMOUS_AMOUNT = #{autonomousAmount,jdbcType=INTEGER},
+      FIXED_AMOUNT = #{fixedAmount,jdbcType=INTEGER},
+      TRANS_INSTANT_TIME = #{transInstantTime,jdbcType=BIGINT},
+      TRANS_TIME = #{transTime,jdbcType=BIGINT},
+      TIMELY_AMOUNT = #{timelyAmount,jdbcType=INTEGER},
+      SATISFACTION_AMOUNT = #{satisfactionAmount,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      UPDATE_DATE = #{updateDate,jdbcType=BIGINT},
+      WEB_DATASOURCE = #{webDatasource,jdbcType=INTEGER},
+      WECHAT_DATASOURCE = #{wechatDatasource,jdbcType=INTEGER},
+      PAD_DATASOURCE = #{padDatasource,jdbcType=INTEGER},
+      APP_DATASOURCE = #{appDatasource,jdbcType=INTEGER},
+      isTaskDay = #{istaskday,jdbcType=CHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganMonthStatisticsCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_month_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

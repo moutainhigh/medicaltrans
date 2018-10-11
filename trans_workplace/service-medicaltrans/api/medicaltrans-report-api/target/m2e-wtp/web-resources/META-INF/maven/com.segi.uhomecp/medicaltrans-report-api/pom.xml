@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.segi.uhomecp</groupId>
+		<artifactId>medicaltrans-api</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>medicaltrans-report-api</artifactId>
+	<packaging>war</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<!-- common 通用功能模块 -->
+		<dependency>
+			<groupId>com.segi.uhomecp.portal</groupId>
+			<artifactId>segi-config</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		  
+		<dependency>
+			<groupId>com.segi.uhomecp.portal</groupId> 
+			<artifactId>segi-gateway</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.segi.uhomecp</groupId>
+			<artifactId>segi-wh-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<!-- 项目依赖 begin -->
+		<dependency>
+			<groupId>com.segi.uhomecp</groupId>
+			<artifactId>medicaltrans-report-rpc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.segi.uhomecp</groupId>
+			<artifactId>medicaltrans-common-rpc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.segi.uhomecp</groupId>
+			<artifactId>medicaltrans-dispatch-rpc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.segi.uhomecp</groupId>
+			<artifactId>medicaltrans-common-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- 项目依赖 end -->
+
+	</dependencies>
+   <build>
+		<finalName>medicaltrans-report-api</finalName>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>plugin.xml</include>
+					<include>plugin.properties</include>
+					<include>icons/**</include>
+				</includes>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<excludes>
+					<exclude>**/.svn/</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+		        <artifactId>maven-war-plugin</artifactId>
+		        <configuration>
+		          <version>3.0</version>
+		        </configuration>
+		     </plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.9</version>
+				<configuration>
+					<contextPath>/web-api</contextPath>
+					<scanTargets>
+						<scanTarget>src/main/webapp/WEB-INF</scanTarget>
+					</scanTargets>
+					<connectors>
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>7778</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.transtype.dao.MtTransTypeMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType">
+    <id column="TRANS_TYPE_ID" jdbcType="INTEGER" property="transTypeId" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="TRANS_TYPE_PARENT_CODE" jdbcType="VARCHAR" property="transTypeParentCode" />
+    <result column="TRANS_TYPE_CODE" jdbcType="VARCHAR" property="transTypeCode" />
+    <result column="TRANS_TYPE_NAME" jdbcType="VARCHAR" property="transTypeName" />
+    <result column="STANDARD_MINITE" jdbcType="INTEGER" property="standardMinite" />
+    <result column="WARN_MINITE" jdbcType="INTEGER" property="warnMinite" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATE_BY" jdbcType="INTEGER" property="createBy" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATE_BY" jdbcType="INTEGER" property="updateBy" />
+    <result column="TIME_OUT" jdbcType="INTEGER" property="timeOut" />
+    <result column="OPR_GUIDE" jdbcType="VARCHAR" property="oprGuide" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TRANS_TYPE_ID, GROUP_ORGAN_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, TRANS_TYPE_CODE, 
+    TRANS_TYPE_NAME, STANDARD_MINITE, WARN_MINITE, STATUS, CREATE_DATE, CREATE_BY, 
+    UPDATE_DATE, UPDATE_BY, TIME_OUT
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_type
+    where TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_trans_type
+    where TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeCriteria">
+    delete from evt_mt_trans_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType">
+    insert into evt_mt_trans_type (TRANS_TYPE_ID, GROUP_ORGAN_ID, ORGAN_ID, 
+      TRANS_TYPE_PARENT_CODE, TRANS_TYPE_CODE, TRANS_TYPE_NAME, 
+      STANDARD_MINITE, WARN_MINITE, STATUS, 
+      REMARK, CREATE_DATE, CREATE_BY, 
+      UPDATE_DATE, UPDATE_BY, TIME_OUT, 
+      OPR_GUIDE)
+    values (#{transTypeId,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, 
+      #{transTypeParentCode,jdbcType=VARCHAR}, #{transTypeCode,jdbcType=VARCHAR}, #{transTypeName,jdbcType=VARCHAR}, 
+      #{standardMinite,jdbcType=INTEGER}, #{warnMinite,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{timeOut,jdbcType=INTEGER}, 
+      #{oprGuide,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType">
+    insert into evt_mt_trans_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transTypeId != null">
+        TRANS_TYPE_ID,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE,
+      </if>
+      <if test="transTypeCode != null">
+        TRANS_TYPE_CODE,
+      </if>
+      <if test="transTypeName != null">
+        TRANS_TYPE_NAME,
+      </if>
+      <if test="standardMinite != null">
+        STANDARD_MINITE,
+      </if>
+      <if test="warnMinite != null">
+        WARN_MINITE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="timeOut != null">
+        TIME_OUT,
+      </if>
+      <if test="oprGuide != null">
+        OPR_GUIDE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transTypeId != null">
+        #{transTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeCode != null">
+        #{transTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeName != null">
+        #{transTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="standardMinite != null">
+        #{standardMinite,jdbcType=INTEGER},
+      </if>
+      <if test="warnMinite != null">
+        #{warnMinite,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="timeOut != null">
+        #{timeOut,jdbcType=INTEGER},
+      </if>
+      <if test="oprGuide != null">
+        #{oprGuide,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_trans_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_trans_type
+    <set>
+      <if test="record.transTypeId != null">
+        TRANS_TYPE_ID = #{record.transTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transTypeCode != null">
+        TRANS_TYPE_CODE = #{record.transTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transTypeName != null">
+        TRANS_TYPE_NAME = #{record.transTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standardMinite != null">
+        STANDARD_MINITE = #{record.standardMinite,jdbcType=INTEGER},
+      </if>
+      <if test="record.warnMinite != null">
+        WARN_MINITE = #{record.warnMinite,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        CREATE_BY = #{record.createBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeOut != null">
+        TIME_OUT = #{record.timeOut,jdbcType=INTEGER},
+      </if>
+      <if test="record.oprGuide != null">
+        OPR_GUIDE = #{record.oprGuide,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_trans_type
+    set TRANS_TYPE_ID = #{record.transTypeId,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_TYPE_CODE = #{record.transTypeCode,jdbcType=VARCHAR},
+      TRANS_TYPE_NAME = #{record.transTypeName,jdbcType=VARCHAR},
+      STANDARD_MINITE = #{record.standardMinite,jdbcType=INTEGER},
+      WARN_MINITE = #{record.warnMinite,jdbcType=INTEGER},
+      STATUS = #{record.status,jdbcType=CHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{record.createBy,jdbcType=INTEGER},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      TIME_OUT = #{record.timeOut,jdbcType=INTEGER},
+      OPR_GUIDE = #{record.oprGuide,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType">
+    update evt_mt_trans_type
+    <set>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeCode != null">
+        TRANS_TYPE_CODE = #{transTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeName != null">
+        TRANS_TYPE_NAME = #{transTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="standardMinite != null">
+        STANDARD_MINITE = #{standardMinite,jdbcType=INTEGER},
+      </if>
+      <if test="warnMinite != null">
+        WARN_MINITE = #{warnMinite,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="timeOut != null">
+        TIME_OUT = #{timeOut,jdbcType=INTEGER},
+      </if>
+      <if test="oprGuide != null">
+        OPR_GUIDE = #{oprGuide,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType">
+    update evt_mt_trans_type
+    set GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{organId,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_TYPE_CODE = #{transTypeCode,jdbcType=VARCHAR},
+      TRANS_TYPE_NAME = #{transTypeName,jdbcType=VARCHAR},
+      STANDARD_MINITE = #{standardMinite,jdbcType=INTEGER},
+      WARN_MINITE = #{warnMinite,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=INTEGER},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      TIME_OUT = #{timeOut,jdbcType=INTEGER},
+      OPR_GUIDE = #{oprGuide,jdbcType=VARCHAR}
+    where TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransTypeCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

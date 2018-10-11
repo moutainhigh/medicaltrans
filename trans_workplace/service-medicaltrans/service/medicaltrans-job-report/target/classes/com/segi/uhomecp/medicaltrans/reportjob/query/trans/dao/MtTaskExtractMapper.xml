@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.reportjob.query.trans.dao.MtTaskExtractMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.reportjob.query.trans.model.MtTaskExtract">
+    <id column="TASK_ID" jdbcType="INTEGER" property="taskId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="TRANS_TYPE_PARENT_CODE" jdbcType="VARCHAR" property="transTypeParentCode" />
+    <result column="TRANS_TYPE_ID" jdbcType="INTEGER" property="transTypeId" />
+    <result column="URGENCY" jdbcType="CHAR" property="urgency" />
+    <result column="TASK_TYPE" jdbcType="CHAR" property="taskType" />
+    <result column="SOURCE_HOUSE_ID" jdbcType="INTEGER" property="sourceHouseId" />
+    <result column="FROM_HOUSE_ID" jdbcType="INTEGER" property="fromHouseId" />
+    <result column="TO_HOUSE_ID" jdbcType="INTEGER" property="toHouseId" />
+    <result column="TRANS_TOOLS" jdbcType="VARCHAR" property="transTools" />
+    <result column="TRANS_PERSON_COUNT" jdbcType="SMALLINT" property="transPersonCount" />
+    <result column="BEGIN_TIME" jdbcType="BIGINT" property="beginTime" />
+    <result column="LIMIT_MINUTE" jdbcType="INTEGER" property="limitMinute" />
+    <result column="RES_TYPE" jdbcType="CHAR" property="resType" />
+    <result column="DATA_SOURCE" jdbcType="CHAR" property="dataSource" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="EXE_BEGIN_TIME" jdbcType="TIMESTAMP" property="exeBeginTime" />
+    <result column="EXE_END_TIME" jdbcType="TIMESTAMP" property="exeEndTime" />
+    <result column="EXE_END_USER_ID" jdbcType="INTEGER" property="exeEndUserId" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CREATE_DATE" jdbcType="BIGINT" property="createDate" />
+    <result column="CREATE_BY" jdbcType="INTEGER" property="createBy" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATE_BY" jdbcType="INTEGER" property="updateBy" />
+    <result column="EVALUATE" jdbcType="SMALLINT" property="evaluate" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+    <result column="DISPATCH_USER_ID" jdbcType="INTEGER" property="dispatchUserId" />
+    <result column="TASK_LOOP_ID" jdbcType="INTEGER" property="taskLoopId" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="TASK_HOUR" jdbcType="TINYINT" property="taskHour" />
+    <result column="TIME_CONSUMING" jdbcType="INTEGER" property="timeConsuming" />
+    <result column="IS_TIME_OUT" jdbcType="CHAR" property="isTimeOut" />
+    <result column="RESP_TIME" jdbcType="INTEGER" property="respTime" />
+    <result column="TASK_TIME" jdbcType="INTEGER" property="taskTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+     TASK_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, TRANS_TYPE_ID, URGENCY, TASK_TYPE, SOURCE_HOUSE_ID, 
+    FROM_HOUSE_ID, TO_HOUSE_ID, TRANS_TOOLS, TRANS_PERSON_COUNT, BEGIN_TIME, LIMIT_MINUTE, 
+    RES_TYPE, DATA_SOURCE, SEND_TIME, EXE_BEGIN_TIME, EXE_END_TIME, EXE_END_USER_ID, 
+    STATUS, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, EVALUATE, VERSION, DISPATCH_USER_ID, 
+    TASK_LOOP_ID, GROUP_ORGAN_ID, TASK_HOUR, TIME_CONSUMING, IS_TIME_OUT, RESP_TIME,TASK_TIME
+  </sql>
+  <select id="getTaskList" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.MtTaskExtractParamsDto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from evt_mt_task
+    <where>
+    	<if test="params.organId != null">
+    		and ORGAN_ID = #{params.organId,jdbcType=INTEGER}
+  		</if>
+    	<if test="params.beginTime != null and params.endTime">
+    		<![CDATA[and UPDATE_DATE >= #{params.beginTime,jdbcType=TIMESTAMP}
+    		and UPDATE_DATE < #{params.endTime,jdbcType=TIMESTAMP}
+    		]]>
+    	</if>
+    	<if test="params.statusList != null">
+  			and STATUS in
+	  		<foreach collection="params.statusList" open="(" close=")" item="item" separator=",">
+	  			#{item}
+	  		</foreach>
+  		</if>
+    </where>
+  </select> 
+  
+  
+  <select id="getTaskListByCreate" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.MtTaskExtractParamsDto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from evt_mt_task
+    <where>
+    	<if test="params.organId != null">
+    		and ORGAN_ID = #{params.organId,jdbcType=INTEGER}
+  		</if>
+    	<if test="params.beginTimeLog != null and params.beginTimeLog">
+    		<![CDATA[and CREATE_DATE >= #{params.beginTimeLog,jdbcType=BIGINT}
+    		and CREATE_DATE < #{params.endTimeLog,jdbcType=BIGINT}
+    		]]>
+    	</if>
+    	<if test="params.statusList != null">
+  			and STATUS in
+	  		<foreach collection="params.statusList" open="(" close=")" item="item" separator=",">
+	  			#{item}
+	  		</foreach>
+  		</if>
+    </where>
+  </select> 
+  
+  <!-- <resultMap id="CountResultMap" type="com.segi.uhomecp.medicaltrans.reportjob.query.trans.model.MtTaskCount">
+  		<result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+  		<result column="TASK_TYPE" jdbcType="INTEGER" property="taskType" />
+  		<result column="TASK_COUNT" jdbcType="INTEGER" property="taskCount" />
+  </resultMap>
+  
+  <select id="taskCountStatistics" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.MtTaskCountParamsDto" resultMap="CountResultMap">
+  SELECT 
+  	organ_id,
+  	task_type,
+  	COUNT(*) task_count
+  FROM
+  	evt_mt_task
+  	<where>
+  		ORGAN_ID in
+  		<foreach collection="organList" open="(" close=")" item="item" separator=",">
+  			#{item}
+  		</foreach>
+  		<if test="beginTime != null and endTime != null">
+  			and BEGIN_TIME BETWEEN #{beginTime} and #{endTime}
+  		</if>
+  		<if test="status != null">
+  			and STATUS in
+	  		<foreach collection="statusList" open="(" close=")" item="item" separator=",">
+	  			#{item}
+	  		</foreach>
+  		</if>
+  	</where>
+	GROUP BY organ_id, TASK_TYPE
+  </select> -->
+  
+  <select id="getTranstypeList" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.TranstypeParamsDto" 
+  resultType="com.segi.uhomecp.medicaltrans.report.monthamount.transtype.model.TranstypeStatistics">
+	SELECT
+		  GROUP_ORGAN_ID AS groupOrganId,
+		  ORGAN_ID AS organId,
+		  TRANS_TYPE_PARENT_CODE AS transTypeParentCode,
+		  COUNT(TASK_ID) AS transAmount,
+		  SUM(TIME_CONSUMING) AS transMinite
+      FROM EVT_MT_TASK
+	 WHERE GROUP_ORGAN_ID = #{transtypeParamsDto.groupOrganId,jdbcType=INTEGER}
+	   AND ORGAN_ID IN (${transtypeParamsDto.organIdListStr})
+	   AND BEGIN_TIME BETWEEN #{transtypeParamsDto.startTime,jdbcType=BIGINT}
+	   AND #{transtypeParamsDto.endTime,jdbcType=BIGINT}
+	   AND STATUS = #{transtypeParamsDto.status,jdbcType=CHAR}
+	   AND UPDATE_DATE &lt; #{transtypeParamsDto.excDate,jdbcType=TIMESTAMP}
+	GROUP BY GROUP_ORGAN_ID,ORGAN_ID,TRANS_TYPE_PARENT_CODE 
+  </select>
+   
+  <select id="getTranswayList" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.TranstypeParamsDto" 
+  resultType="com.segi.uhomecp.medicaltrans.report.monthamount.transway.model.TranswayStatistics">
+	SELECT
+		  GROUP_ORGAN_ID AS groupOrganId,
+		  ORGAN_ID AS organId,
+		  TRANS_TOOLS AS trnasWayCode,
+		  COUNT(TASK_ID) AS transAmount,
+		  SUM(TIME_CONSUMING) AS transMinite
+      FROM EVT_MT_TASK
+	 WHERE GROUP_ORGAN_ID = #{transtypeParamsDto.groupOrganId,jdbcType=INTEGER}
+	   AND ORGAN_ID IN (${transtypeParamsDto.organIdListStr})
+	   AND BEGIN_TIME BETWEEN #{transtypeParamsDto.startTime,jdbcType=BIGINT}
+	   AND #{transtypeParamsDto.endTime,jdbcType=BIGINT}
+	   AND STATUS = #{transtypeParamsDto.status,jdbcType=CHAR}
+	   AND UPDATE_DATE &lt; #{transtypeParamsDto.excDate,jdbcType=TIMESTAMP}
+	GROUP BY GROUP_ORGAN_ID,ORGAN_ID,TRANS_TYPE_PARENT_CODE
+  </select> 
+  
+  <select id="getSourceList" parameterType="com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.TranstypeParamsDto" 
+  resultType="com.segi.uhomecp.medicaltrans.report.monthamount.source.model.SourceStatistics">
+	SELECT
+		  GROUP_ORGAN_ID AS groupOrganId,
+		  ORGAN_ID AS organId,
+		  FROM_HOUSE_ID AS fromHouseId,
+		  COUNT(TASK_ID) AS transAmount
+      FROM EVT_MT_TASK
+	 WHERE GROUP_ORGAN_ID = #{transtypeParamsDto.groupOrganId,jdbcType=INTEGER}
+	   AND ORGAN_ID IN (${transtypeParamsDto.organIdListStr})
+	   AND BEGIN_TIME BETWEEN #{transtypeParamsDto.startTime,jdbcType=BIGINT}
+	   AND #{transtypeParamsDto.endTime,jdbcType=BIGINT}
+	   AND STATUS = #{transtypeParamsDto.status,jdbcType=CHAR}
+	   AND UPDATE_DATE &lt; #{transtypeParamsDto.excDate,jdbcType=TIMESTAMP}
+	GROUP BY GROUP_ORGAN_ID,ORGAN_ID,TRANS_TYPE_PARENT_CODE
+  </select>
+</mapper>

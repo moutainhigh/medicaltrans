@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.reportjob.report.transway.dao.ReportTranswayMapper">
+  <select id="selectByOrganIdAndCycleYm" resultMap="com.segi.uhomecp.medicaltrans.report.monthamount.transway.dao.TranswayStatisticsMapper.BaseResultMap">
+    select ID,TRANS_TYPE_PARENT_CODE,TRANS_AMOUNT,TRANS_MINITE from evt_mt_transway_statistics
+    where ORGAN_ID = #{organId,jdbcType=INTEGER}
+      and CYCLE_YM = #{cycleYm,jdbcType=INTEGER}
+  </select>
+ 
+  <select id="selectByOrganIdListAndCycleYm" resultMap="com.segi.uhomecp.medicaltrans.report.monthamount.transway.dao.TranswayStatisticsMapper.BaseResultMap">
+    select ID,TRANS_TYPE_PARENT_CODE,TRANS_AMOUNT,TRANS_MINITE from evt_mt_transway_statistics
+    where ORGAN_ID in (${list})
+      and CYCLE_YM = #{cycleYm,jdbcType=INTEGER}
+  </select>
+ 
+   <select id="selectByOrganIdAndCycleYmList" resultMap="com.segi.uhomecp.medicaltrans.report.monthamount.transway.dao.TranswayStatisticsMapper.BaseResultMap">
+    select ID,TRANS_TYPE_PARENT_CODE,TRANS_AMOUNT,TRANS_MINITE from evt_mt_transway_statistics
+    where ORGAN_ID = #{organId,jdbcType=INTEGER}
+      and CYCLE_YM in (${list})
+  </select>
+   
+   <update id="updateByTransway" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transway.model.TranswayStatistics">
+    update evt_mt_transway_statistics
+    set TRANS_AMOUNT = TRANS_AMOUNT + #{transAmount,jdbcType=BIGINT},
+      TRANS_MINITE = TRANS_MINITE + #{transMinite,jdbcType=BIGINT},
+      UPDATE_DATE = #{updateDate,jdbcType=BIGINT}
+    where ORGAN_ID = #{organId,jdbcType=INTEGER}
+      and CYCLE_YM = #{cycleYm,jdbcType=INTEGER}
+      and TRNAS_WAY_CODE = #{trnasWayCode,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="saveByTransway" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.transway.model.TranswayStatistics">  
+     insert into evt_mt_transway_statistics (
+     ID,GROUP_ORGAN_ID,ORGAN_ID,CYCLE_YM,TRNAS_WAY_CODE,TRANS_AMOUNT,TRANS_MINITE,CREATE_DATE,UPDATE_DATE
+     )
+    values (#{id,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, #{cycleYm,jdbcType=INTEGER}, 
+      #{trnasWayCode,jdbcType=VARCHAR}, #{transAmount,jdbcType=BIGINT}, #{transMinite,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=BIGINT}, #{item.updateDate,jdbcType=BIGINT})
+  </insert>
+  
+    <!-- 批量修改运送类型 -->
+  <update id="updateBatchTransway" parameterType="java.util.List">  
+    <foreach collection="list" separator=";" item="item" index="index">  
+        update evt_mt_transway_statistics set  
+	        TRANS_AMOUNT = #{item.transAmount,jdbcType=BIGINT},
+		    TRANS_MINITE = #{item.transMinite,jdbcType=BIGINT},
+		    UPDATE_DATE = #{item.updateDate,jdbcType=BIGINT}
+		where ID = #{item.id,jdbcType=INTEGER}
+    </foreach>  
+  </update>
+  
+  <!-- 批量新增运送类型-->
+  <insert id="saveBatchTransway" parameterType="java.util.List">  
+    <foreach collection="list" separator=";" item="item" index="index">  
+     insert into evt_mt_transway_statistics (
+     ID,GROUP_ORGAN_ID,ORGAN_ID,CYCLE_YM,TRNAS_WAY_CODE,TRANS_AMOUNT,TRANS_MINITE,CREATE_DATE,UPDATE_DATE
+     )
+    values (#{id,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, #{cycleYm,jdbcType=INTEGER}, 
+      #{trnasWayCode,jdbcType=VARCHAR}, #{transAmount,jdbcType=BIGINT}, #{transMinite,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=BIGINT}, #{item.updateDate,jdbcType=BIGINT})
+    </foreach>  
+  </insert>
+  
+  <delete id="deleteByOrganIdAndCycleYm">
+    delete from evt_mt_transway_statistics
+    where ORGAN_ID = #{organId,jdbcType=INTEGER}
+      and CYCLE_YM = #{cycleYm,jdbcType=INTEGER}
+  </delete>
+  
+    <delete id="deleteByOrganListAndCycleYm">
+    delete from evt_mt_transway_statistics
+    where ORGAN_ID in (${organIdList})
+      and CYCLE_YM = #{cycleYm,jdbcType=INTEGER}
+  </delete>
+</mapper>

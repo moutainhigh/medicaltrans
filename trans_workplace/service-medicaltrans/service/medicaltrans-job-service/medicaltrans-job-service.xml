@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- This file was written by IceGrid Admin -->
+<icegrid>
+   <application name="MedicaltransBaseService-app">
+      <service-template id="MedicaltransBaseService-svc-Template">
+         <parameter name="index" default="1"/>
+         <parameter name="service-name"/>
+         <parameter name="icebox-service"/>
+         <service name="${service-name}" entry="${icebox-service}">
+            <properties>
+            </properties>
+            <adapter name="${service-name}" endpoints="tcp" id="${service-name}Adapter${index}" register-process="true" replica-group="${service-name}-Rep" server-lifetime="false"/>
+         </service>
+      </service-template>
+      <server-template id="MedicaltransBaseService-ser-Template">
+         <parameter name="index" default="0"/>
+         <parameter name="version" default=""/>
+         <icebox id="MedicaltransBaseServiceBox${version}-${index}" activation="always" exe="java" pwd="/public/uhome/medicaltrans/medicaltrans-base-service/">
+            <option>-Dapp.version=${version}</option>
+            <option>-Dice.envPath=file:/public/uhome/medicaltrans/config/iceclient.properties</option>
+            <option>-Dlog4j.configuration=file:config/log4j.xml</option>
+            <option>-DUHOME_CONFIG_PATH=file:/public/uhome/medicaltrans/config/uhome-config.properties</option>
+            <option>-Xms1024M</option>
+            <option>-Xmx1024M</option>
+            <option>-XX:MaxPermSize=256m</option>
+            <option>-XX:PermSize=128M</option>
+            <option>-XX:+HeapDumpOnOutOfMemoryError</option>
+            <option>-XX:HeapDumpPath=logs/heapdump${index}.dat</option>
+            <option>-XX:+PrintGCDetails</option>
+            <option>-XX:+PrintGCTimeStamps</option>
+            <option>-Xloggc:logs/heap_trace${index}.txt</option>
+            <option>-Dapp.index=${index}</option>
+            <option>-Dfile.encoding=UTF-8</option>
+            <option>-Djava.library.path=../lib64</option>
+            <option>IceExt.Slf4jIceBoxServer</option>
+            <env>CLASSPATH=.:../lib/*:lib/*</env>
+            <properties>
+               <properties refid="MultiThreaded"/>
+               <property name="IceGrid.Registry.DynamicRegistration" value="1"/>
+               <property name="Ice.Trace.Network" value="1"/>
+            </properties>
+            <service-instance template="MedicaltransBaseService-svc-Template" index="${index}" service-name="MedicaltransBaseService${version}" icebox-service="com.segi.uhomecp.init.MedicaltransBaseIceBoxService"/>
+			
+         </icebox>
+      </server-template>
+      <replica-group id="MedicaltransBaseService-Rep">
+         <load-balancing type="round-robin" n-replicas="0"/>
+		 <object identity="segi.medicaltrans.base.hospuser.HospUserServiceIce"             type="::segi::medicaltrans::base::hospuser::HospUserServiceIce" />
+         <object identity="segi.medicaltrans.base.posit.MtPositManagerServiceIce"          type="::segi::medicaltrans::base::posit::MtPositManagerServiceIce" />
+         <object identity="segi.medicaltrans.base.transtype.TransTypeServiceIce"           type="::segi::medicaltrans::base::transtype::TransTypeServiceIce" />
+         <object identity="segi.medicaltrans.base.userposit.UserPositServiceIce"           type="::segi::medicaltrans::base::userposit::UserPositServiceIce" />
+         <object identity="segi.medicaltrans.common.transType.MtCommonTransTypeServiceIce" type="::segi::medicaltrans::common::transType::MtCommonTransTypeServiceIce" />
+      </replica-group>
+      <properties id="MultiThreaded">
+         <property name="Ice.PrintStackTraces" value="1"/>
+         <property name="IceSSL.Trace.Security" value="2"/>
+         <property name="Ice.ThreadPool.Client.SizeWarn" value="16"/>
+         <property name="Ice.ThreadPool.Client.SizeMax" value="16"/>
+         <property name="Ice.ThreadPool.Server.Size" value="32"/>
+         <property name="Ice.ThreadPool.Server.SizeWarn" value="32"/>
+         <property name="Ice.ThreadPool.Server.SizeMax" value="1000"/>
+         <property name="IceBox.InheritProperties" value="1"/>
+         <property name="Ice.Override.ConnectTimeout" value="5000"/>
+         <property name="Ice.Override.Timeout" value="10000"/>
+         <property name="IceBox.Trace.ServiceObserver" value="1"/>
+         <property name="Ice.Default.LocatorCacheTimeout" value="300"/>
+         <property name="IceGrid.Registry.Client.Locator.LocatorCacheTimeout" value="60"/>
+         <property name="Ice.BackgroundLocatorCacheUpdates" value="1"/>
+         <property name="Ice.ACM.Client" value="60"/>
+         <property name="Ice.ACM.Server" value="60"/>
+      </properties>
+      <node name="node1">
+         <server-instance template="MedicaltransBaseService-ser-Template" index="1" version=""/>
+      </node>
+   </application>
+</icegrid>

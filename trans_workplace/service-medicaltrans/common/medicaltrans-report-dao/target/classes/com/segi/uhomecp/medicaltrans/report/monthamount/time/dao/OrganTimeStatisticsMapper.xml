@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.monthamount.time.dao.OrganTimeStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatistics">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="CYCLE_YM" jdbcType="INTEGER" property="cycleYm" />
+    <result column="TIME_AMOUNT_0" jdbcType="INTEGER" property="timeAmount0" />
+    <result column="TIME_AMOUNT_1" jdbcType="INTEGER" property="timeAmount1" />
+    <result column="TIME_AMOUNT_2" jdbcType="INTEGER" property="timeAmount2" />
+    <result column="TIME_AMOUNT_3" jdbcType="INTEGER" property="timeAmount3" />
+    <result column="TIME_AMOUNT_4" jdbcType="INTEGER" property="timeAmount4" />
+    <result column="TIME_AMOUNT_5" jdbcType="INTEGER" property="timeAmount5" />
+    <result column="TIME_AMOUNT_6" jdbcType="INTEGER" property="timeAmount6" />
+    <result column="TIME_AMOUNT_7" jdbcType="INTEGER" property="timeAmount7" />
+    <result column="TIME_AMOUNT_8" jdbcType="INTEGER" property="timeAmount8" />
+    <result column="TIME_AMOUNT_9" jdbcType="INTEGER" property="timeAmount9" />
+    <result column="TIME_AMOUNT_10" jdbcType="INTEGER" property="timeAmount10" />
+    <result column="TIME_AMOUNT_11" jdbcType="INTEGER" property="timeAmount11" />
+    <result column="TIME_AMOUNT_12" jdbcType="INTEGER" property="timeAmount12" />
+    <result column="TIME_AMOUNT_13" jdbcType="INTEGER" property="timeAmount13" />
+    <result column="TIME_AMOUNT_14" jdbcType="INTEGER" property="timeAmount14" />
+    <result column="TIME_AMOUNT_15" jdbcType="INTEGER" property="timeAmount15" />
+    <result column="TIME_AMOUNT_16" jdbcType="INTEGER" property="timeAmount16" />
+    <result column="TIME_AMOUNT_17" jdbcType="INTEGER" property="timeAmount17" />
+    <result column="TIME_AMOUNT_18" jdbcType="INTEGER" property="timeAmount18" />
+    <result column="TIME_AMOUNT_19" jdbcType="INTEGER" property="timeAmount19" />
+    <result column="TIME_AMOUNT_20" jdbcType="INTEGER" property="timeAmount20" />
+    <result column="TIME_AMOUNT_21" jdbcType="INTEGER" property="timeAmount21" />
+    <result column="TIME_AMOUNT_22" jdbcType="INTEGER" property="timeAmount22" />
+    <result column="TIME_AMOUNT_23" jdbcType="INTEGER" property="timeAmount23" />
+    <result column="CREATE_DATE" jdbcType="BIGINT" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="BIGINT" property="updateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, GROUP_ORGAN_ID, ORGAN_ID, CYCLE_YM, TIME_AMOUNT_0, TIME_AMOUNT_1, TIME_AMOUNT_2, 
+    TIME_AMOUNT_3, TIME_AMOUNT_4, TIME_AMOUNT_5, TIME_AMOUNT_6, TIME_AMOUNT_7, TIME_AMOUNT_8, 
+    TIME_AMOUNT_9, TIME_AMOUNT_10, TIME_AMOUNT_11, TIME_AMOUNT_12, TIME_AMOUNT_13, TIME_AMOUNT_14, 
+    TIME_AMOUNT_15, TIME_AMOUNT_16, TIME_AMOUNT_17, TIME_AMOUNT_18, TIME_AMOUNT_19, TIME_AMOUNT_20, 
+    TIME_AMOUNT_21, TIME_AMOUNT_22, TIME_AMOUNT_23, CREATE_DATE, UPDATE_DATE
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatisticsCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_time_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_time_statistics
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_organ_time_statistics
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatisticsCriteria">
+    delete from evt_mt_organ_time_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatistics">
+    insert into evt_mt_organ_time_statistics (ID, GROUP_ORGAN_ID, ORGAN_ID, 
+      CYCLE_YM, TIME_AMOUNT_0, TIME_AMOUNT_1, 
+      TIME_AMOUNT_2, TIME_AMOUNT_3, TIME_AMOUNT_4, 
+      TIME_AMOUNT_5, TIME_AMOUNT_6, TIME_AMOUNT_7, 
+      TIME_AMOUNT_8, TIME_AMOUNT_9, TIME_AMOUNT_10, 
+      TIME_AMOUNT_11, TIME_AMOUNT_12, TIME_AMOUNT_13, 
+      TIME_AMOUNT_14, TIME_AMOUNT_15, TIME_AMOUNT_16, 
+      TIME_AMOUNT_17, TIME_AMOUNT_18, TIME_AMOUNT_19, 
+      TIME_AMOUNT_20, TIME_AMOUNT_21, TIME_AMOUNT_22, 
+      TIME_AMOUNT_23, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{id,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, 
+      #{cycleYm,jdbcType=INTEGER}, #{timeAmount0,jdbcType=INTEGER}, #{timeAmount1,jdbcType=INTEGER}, 
+      #{timeAmount2,jdbcType=INTEGER}, #{timeAmount3,jdbcType=INTEGER}, #{timeAmount4,jdbcType=INTEGER}, 
+      #{timeAmount5,jdbcType=INTEGER}, #{timeAmount6,jdbcType=INTEGER}, #{timeAmount7,jdbcType=INTEGER}, 
+      #{timeAmount8,jdbcType=INTEGER}, #{timeAmount9,jdbcType=INTEGER}, #{timeAmount10,jdbcType=INTEGER}, 
+      #{timeAmount11,jdbcType=INTEGER}, #{timeAmount12,jdbcType=INTEGER}, #{timeAmount13,jdbcType=INTEGER}, 
+      #{timeAmount14,jdbcType=INTEGER}, #{timeAmount15,jdbcType=INTEGER}, #{timeAmount16,jdbcType=INTEGER}, 
+      #{timeAmount17,jdbcType=INTEGER}, #{timeAmount18,jdbcType=INTEGER}, #{timeAmount19,jdbcType=INTEGER}, 
+      #{timeAmount20,jdbcType=INTEGER}, #{timeAmount21,jdbcType=INTEGER}, #{timeAmount22,jdbcType=INTEGER}, 
+      #{timeAmount23,jdbcType=INTEGER}, #{createDate,jdbcType=BIGINT}, #{updateDate,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatistics">
+    insert into evt_mt_organ_time_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="cycleYm != null">
+        CYCLE_YM,
+      </if>
+      <if test="timeAmount0 != null">
+        TIME_AMOUNT_0,
+      </if>
+      <if test="timeAmount1 != null">
+        TIME_AMOUNT_1,
+      </if>
+      <if test="timeAmount2 != null">
+        TIME_AMOUNT_2,
+      </if>
+      <if test="timeAmount3 != null">
+        TIME_AMOUNT_3,
+      </if>
+      <if test="timeAmount4 != null">
+        TIME_AMOUNT_4,
+      </if>
+      <if test="timeAmount5 != null">
+        TIME_AMOUNT_5,
+      </if>
+      <if test="timeAmount6 != null">
+        TIME_AMOUNT_6,
+      </if>
+      <if test="timeAmount7 != null">
+        TIME_AMOUNT_7,
+      </if>
+      <if test="timeAmount8 != null">
+        TIME_AMOUNT_8,
+      </if>
+      <if test="timeAmount9 != null">
+        TIME_AMOUNT_9,
+      </if>
+      <if test="timeAmount10 != null">
+        TIME_AMOUNT_10,
+      </if>
+      <if test="timeAmount11 != null">
+        TIME_AMOUNT_11,
+      </if>
+      <if test="timeAmount12 != null">
+        TIME_AMOUNT_12,
+      </if>
+      <if test="timeAmount13 != null">
+        TIME_AMOUNT_13,
+      </if>
+      <if test="timeAmount14 != null">
+        TIME_AMOUNT_14,
+      </if>
+      <if test="timeAmount15 != null">
+        TIME_AMOUNT_15,
+      </if>
+      <if test="timeAmount16 != null">
+        TIME_AMOUNT_16,
+      </if>
+      <if test="timeAmount17 != null">
+        TIME_AMOUNT_17,
+      </if>
+      <if test="timeAmount18 != null">
+        TIME_AMOUNT_18,
+      </if>
+      <if test="timeAmount19 != null">
+        TIME_AMOUNT_19,
+      </if>
+      <if test="timeAmount20 != null">
+        TIME_AMOUNT_20,
+      </if>
+      <if test="timeAmount21 != null">
+        TIME_AMOUNT_21,
+      </if>
+      <if test="timeAmount22 != null">
+        TIME_AMOUNT_22,
+      </if>
+      <if test="timeAmount23 != null">
+        TIME_AMOUNT_23,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="cycleYm != null">
+        #{cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount0 != null">
+        #{timeAmount0,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount1 != null">
+        #{timeAmount1,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount2 != null">
+        #{timeAmount2,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount3 != null">
+        #{timeAmount3,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount4 != null">
+        #{timeAmount4,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount5 != null">
+        #{timeAmount5,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount6 != null">
+        #{timeAmount6,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount7 != null">
+        #{timeAmount7,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount8 != null">
+        #{timeAmount8,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount9 != null">
+        #{timeAmount9,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount10 != null">
+        #{timeAmount10,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount11 != null">
+        #{timeAmount11,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount12 != null">
+        #{timeAmount12,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount13 != null">
+        #{timeAmount13,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount14 != null">
+        #{timeAmount14,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount15 != null">
+        #{timeAmount15,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount16 != null">
+        #{timeAmount16,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount17 != null">
+        #{timeAmount17,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount18 != null">
+        #{timeAmount18,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount19 != null">
+        #{timeAmount19,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount20 != null">
+        #{timeAmount20,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount21 != null">
+        #{timeAmount21,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount22 != null">
+        #{timeAmount22,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount23 != null">
+        #{timeAmount23,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatisticsCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_organ_time_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_organ_time_statistics
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cycleYm != null">
+        CYCLE_YM = #{record.cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount0 != null">
+        TIME_AMOUNT_0 = #{record.timeAmount0,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount1 != null">
+        TIME_AMOUNT_1 = #{record.timeAmount1,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount2 != null">
+        TIME_AMOUNT_2 = #{record.timeAmount2,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount3 != null">
+        TIME_AMOUNT_3 = #{record.timeAmount3,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount4 != null">
+        TIME_AMOUNT_4 = #{record.timeAmount4,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount5 != null">
+        TIME_AMOUNT_5 = #{record.timeAmount5,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount6 != null">
+        TIME_AMOUNT_6 = #{record.timeAmount6,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount7 != null">
+        TIME_AMOUNT_7 = #{record.timeAmount7,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount8 != null">
+        TIME_AMOUNT_8 = #{record.timeAmount8,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount9 != null">
+        TIME_AMOUNT_9 = #{record.timeAmount9,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount10 != null">
+        TIME_AMOUNT_10 = #{record.timeAmount10,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount11 != null">
+        TIME_AMOUNT_11 = #{record.timeAmount11,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount12 != null">
+        TIME_AMOUNT_12 = #{record.timeAmount12,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount13 != null">
+        TIME_AMOUNT_13 = #{record.timeAmount13,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount14 != null">
+        TIME_AMOUNT_14 = #{record.timeAmount14,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount15 != null">
+        TIME_AMOUNT_15 = #{record.timeAmount15,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount16 != null">
+        TIME_AMOUNT_16 = #{record.timeAmount16,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount17 != null">
+        TIME_AMOUNT_17 = #{record.timeAmount17,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount18 != null">
+        TIME_AMOUNT_18 = #{record.timeAmount18,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount19 != null">
+        TIME_AMOUNT_19 = #{record.timeAmount19,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount20 != null">
+        TIME_AMOUNT_20 = #{record.timeAmount20,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount21 != null">
+        TIME_AMOUNT_21 = #{record.timeAmount21,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount22 != null">
+        TIME_AMOUNT_22 = #{record.timeAmount22,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeAmount23 != null">
+        TIME_AMOUNT_23 = #{record.timeAmount23,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_organ_time_statistics
+    set ID = #{record.id,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      CYCLE_YM = #{record.cycleYm,jdbcType=INTEGER},
+      TIME_AMOUNT_0 = #{record.timeAmount0,jdbcType=INTEGER},
+      TIME_AMOUNT_1 = #{record.timeAmount1,jdbcType=INTEGER},
+      TIME_AMOUNT_2 = #{record.timeAmount2,jdbcType=INTEGER},
+      TIME_AMOUNT_3 = #{record.timeAmount3,jdbcType=INTEGER},
+      TIME_AMOUNT_4 = #{record.timeAmount4,jdbcType=INTEGER},
+      TIME_AMOUNT_5 = #{record.timeAmount5,jdbcType=INTEGER},
+      TIME_AMOUNT_6 = #{record.timeAmount6,jdbcType=INTEGER},
+      TIME_AMOUNT_7 = #{record.timeAmount7,jdbcType=INTEGER},
+      TIME_AMOUNT_8 = #{record.timeAmount8,jdbcType=INTEGER},
+      TIME_AMOUNT_9 = #{record.timeAmount9,jdbcType=INTEGER},
+      TIME_AMOUNT_10 = #{record.timeAmount10,jdbcType=INTEGER},
+      TIME_AMOUNT_11 = #{record.timeAmount11,jdbcType=INTEGER},
+      TIME_AMOUNT_12 = #{record.timeAmount12,jdbcType=INTEGER},
+      TIME_AMOUNT_13 = #{record.timeAmount13,jdbcType=INTEGER},
+      TIME_AMOUNT_14 = #{record.timeAmount14,jdbcType=INTEGER},
+      TIME_AMOUNT_15 = #{record.timeAmount15,jdbcType=INTEGER},
+      TIME_AMOUNT_16 = #{record.timeAmount16,jdbcType=INTEGER},
+      TIME_AMOUNT_17 = #{record.timeAmount17,jdbcType=INTEGER},
+      TIME_AMOUNT_18 = #{record.timeAmount18,jdbcType=INTEGER},
+      TIME_AMOUNT_19 = #{record.timeAmount19,jdbcType=INTEGER},
+      TIME_AMOUNT_20 = #{record.timeAmount20,jdbcType=INTEGER},
+      TIME_AMOUNT_21 = #{record.timeAmount21,jdbcType=INTEGER},
+      TIME_AMOUNT_22 = #{record.timeAmount22,jdbcType=INTEGER},
+      TIME_AMOUNT_23 = #{record.timeAmount23,jdbcType=INTEGER},
+      CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      UPDATE_DATE = #{record.updateDate,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatistics">
+    update evt_mt_organ_time_statistics
+    <set>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="cycleYm != null">
+        CYCLE_YM = #{cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount0 != null">
+        TIME_AMOUNT_0 = #{timeAmount0,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount1 != null">
+        TIME_AMOUNT_1 = #{timeAmount1,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount2 != null">
+        TIME_AMOUNT_2 = #{timeAmount2,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount3 != null">
+        TIME_AMOUNT_3 = #{timeAmount3,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount4 != null">
+        TIME_AMOUNT_4 = #{timeAmount4,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount5 != null">
+        TIME_AMOUNT_5 = #{timeAmount5,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount6 != null">
+        TIME_AMOUNT_6 = #{timeAmount6,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount7 != null">
+        TIME_AMOUNT_7 = #{timeAmount7,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount8 != null">
+        TIME_AMOUNT_8 = #{timeAmount8,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount9 != null">
+        TIME_AMOUNT_9 = #{timeAmount9,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount10 != null">
+        TIME_AMOUNT_10 = #{timeAmount10,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount11 != null">
+        TIME_AMOUNT_11 = #{timeAmount11,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount12 != null">
+        TIME_AMOUNT_12 = #{timeAmount12,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount13 != null">
+        TIME_AMOUNT_13 = #{timeAmount13,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount14 != null">
+        TIME_AMOUNT_14 = #{timeAmount14,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount15 != null">
+        TIME_AMOUNT_15 = #{timeAmount15,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount16 != null">
+        TIME_AMOUNT_16 = #{timeAmount16,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount17 != null">
+        TIME_AMOUNT_17 = #{timeAmount17,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount18 != null">
+        TIME_AMOUNT_18 = #{timeAmount18,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount19 != null">
+        TIME_AMOUNT_19 = #{timeAmount19,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount20 != null">
+        TIME_AMOUNT_20 = #{timeAmount20,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount21 != null">
+        TIME_AMOUNT_21 = #{timeAmount21,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount22 != null">
+        TIME_AMOUNT_22 = #{timeAmount22,jdbcType=INTEGER},
+      </if>
+      <if test="timeAmount23 != null">
+        TIME_AMOUNT_23 = #{timeAmount23,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatistics">
+    update evt_mt_organ_time_statistics
+    set GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{organId,jdbcType=INTEGER},
+      CYCLE_YM = #{cycleYm,jdbcType=INTEGER},
+      TIME_AMOUNT_0 = #{timeAmount0,jdbcType=INTEGER},
+      TIME_AMOUNT_1 = #{timeAmount1,jdbcType=INTEGER},
+      TIME_AMOUNT_2 = #{timeAmount2,jdbcType=INTEGER},
+      TIME_AMOUNT_3 = #{timeAmount3,jdbcType=INTEGER},
+      TIME_AMOUNT_4 = #{timeAmount4,jdbcType=INTEGER},
+      TIME_AMOUNT_5 = #{timeAmount5,jdbcType=INTEGER},
+      TIME_AMOUNT_6 = #{timeAmount6,jdbcType=INTEGER},
+      TIME_AMOUNT_7 = #{timeAmount7,jdbcType=INTEGER},
+      TIME_AMOUNT_8 = #{timeAmount8,jdbcType=INTEGER},
+      TIME_AMOUNT_9 = #{timeAmount9,jdbcType=INTEGER},
+      TIME_AMOUNT_10 = #{timeAmount10,jdbcType=INTEGER},
+      TIME_AMOUNT_11 = #{timeAmount11,jdbcType=INTEGER},
+      TIME_AMOUNT_12 = #{timeAmount12,jdbcType=INTEGER},
+      TIME_AMOUNT_13 = #{timeAmount13,jdbcType=INTEGER},
+      TIME_AMOUNT_14 = #{timeAmount14,jdbcType=INTEGER},
+      TIME_AMOUNT_15 = #{timeAmount15,jdbcType=INTEGER},
+      TIME_AMOUNT_16 = #{timeAmount16,jdbcType=INTEGER},
+      TIME_AMOUNT_17 = #{timeAmount17,jdbcType=INTEGER},
+      TIME_AMOUNT_18 = #{timeAmount18,jdbcType=INTEGER},
+      TIME_AMOUNT_19 = #{timeAmount19,jdbcType=INTEGER},
+      TIME_AMOUNT_20 = #{timeAmount20,jdbcType=INTEGER},
+      TIME_AMOUNT_21 = #{timeAmount21,jdbcType=INTEGER},
+      TIME_AMOUNT_22 = #{timeAmount22,jdbcType=INTEGER},
+      TIME_AMOUNT_23 = #{timeAmount23,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      UPDATE_DATE = #{updateDate,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.time.model.OrganTimeStatisticsCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_time_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

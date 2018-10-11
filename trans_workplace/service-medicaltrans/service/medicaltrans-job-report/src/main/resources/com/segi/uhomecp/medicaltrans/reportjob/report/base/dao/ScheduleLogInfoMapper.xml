@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.reportjob.report.base.dao.ScheduleLogInfoMapper" >  
+  <!--批量插入路径信息  -->
+  <insert id="insertBatchLog" parameterType="java.util.List" >   
+     insert into evt_mt_trans_schedule_log (ORGAN_ID, START_DATE, 
+      END_DATE, RUNNING_STATUS, TASK_COUNT, 
+      EXE_TIME, ERROR_MESSAGE, CREATE_DATE, 
+      EXC_TIME, LAST_EXC_DATE, EXC_END_DATE )
+       <foreach collection="list" index="index"  item="item"  separator="," >
+    values (#{item.organId,jdbcType=INTEGER},#{item.startDate,jdbcType=TIMESTAMP}, 
+      #{item.endDate,jdbcType=TIMESTAMP}, #{item.runningStatus,jdbcType=CHAR}, #{item.taskCount,jdbcType=INTEGER}, 
+      #{item.exeTime,jdbcType=INTEGER}, #{item.errorMessage,jdbcType=VARCHAR}, #{item.createDate,jdbcType=TIMESTAMP}, 
+      #{item.excTime,jdbcType=TIMESTAMP}, #{item.lastExcDate,jdbcType=TIMESTAMP}, #{item.excEndDate,jdbcType=TIMESTAMP}
+      )
+        </foreach>
+     
+     
+     
+     
+  </insert>
+
+</mapper>

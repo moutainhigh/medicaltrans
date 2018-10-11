@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoop">
+    <id column="TASK_LOOP_ID" jdbcType="INTEGER" property="taskLoopId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="TRANS_TYPE_PARENT_CODE" jdbcType="VARCHAR" property="transTypeParentCode" />
+    <result column="TRANS_TYPE_ID" jdbcType="INTEGER" property="transTypeId" />
+    <result column="TASK_NAME" jdbcType="VARCHAR" property="taskName" />
+    <result column="TRANS_TOOLS" jdbcType="VARCHAR" property="transTools" />
+    <result column="LOOP_TYPE" jdbcType="CHAR" property="loopType" />
+    <result column="TASK_BEGIN_TIME" jdbcType="INTEGER" property="taskBeginTime" />
+    <result column="TASK_END_TIME" jdbcType="INTEGER" property="taskEndTime" />
+    <result column="LOOP_DAYS" jdbcType="VARCHAR" property="loopDays" />
+    <result column="LOOP_WEEKS" jdbcType="VARCHAR" property="loopWeeks" />
+    <result column="LOOP_MONTHS" jdbcType="VARCHAR" property="loopMonths" />
+    <result column="PRE_GENERATE_MINUTE" jdbcType="INTEGER" property="preGenerateMinute" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATE_BY" jdbcType="INTEGER" property="createBy" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATE_BY" jdbcType="INTEGER" property="updateBy" />
+    <result column="TASK_CRON" jdbcType="VARCHAR" property="taskCron" />
+    <result column="LOSE_REMARK" jdbcType="VARCHAR" property="loseRemark" />
+    <result column="LIMIT_MINUTE" jdbcType="INTEGER" property="limitMinute" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TASK_LOOP_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, TRANS_TYPE_ID, TASK_NAME, TRANS_TOOLS, 
+    LOOP_TYPE, TASK_BEGIN_TIME, TASK_END_TIME, LOOP_DAYS, LOOP_WEEKS, LOOP_MONTHS, PRE_GENERATE_MINUTE, 
+    STATUS, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, TASK_CRON, LOSE_REMARK, LIMIT_MINUTE, 
+    GROUP_ORGAN_ID
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_task_loop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_task_loop
+    where TASK_LOOP_ID = #{taskLoopId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_task_loop
+    where TASK_LOOP_ID = #{taskLoopId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopCriteria">
+    delete from evt_mt_task_loop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoop">
+    insert into evt_mt_task_loop (TASK_LOOP_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, 
+      TRANS_TYPE_ID, TASK_NAME, TRANS_TOOLS, 
+      LOOP_TYPE, TASK_BEGIN_TIME, TASK_END_TIME, 
+      LOOP_DAYS, LOOP_WEEKS, LOOP_MONTHS, 
+      PRE_GENERATE_MINUTE, STATUS, CREATE_DATE, 
+      CREATE_BY, UPDATE_DATE, UPDATE_BY, 
+      TASK_CRON, LOSE_REMARK, LIMIT_MINUTE, 
+      GROUP_ORGAN_ID)
+    values (#{taskLoopId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, #{transTypeParentCode,jdbcType=VARCHAR}, 
+      #{transTypeId,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{transTools,jdbcType=VARCHAR}, 
+      #{loopType,jdbcType=CHAR}, #{taskBeginTime,jdbcType=INTEGER}, #{taskEndTime,jdbcType=INTEGER}, 
+      #{loopDays,jdbcType=VARCHAR}, #{loopWeeks,jdbcType=VARCHAR}, #{loopMonths,jdbcType=VARCHAR}, 
+      #{preGenerateMinute,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, 
+      #{taskCron,jdbcType=VARCHAR}, #{loseRemark,jdbcType=VARCHAR}, #{limitMinute,jdbcType=INTEGER}, 
+      #{groupOrganId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoop">
+    insert into evt_mt_task_loop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskLoopId != null">
+        TASK_LOOP_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE,
+      </if>
+      <if test="transTypeId != null">
+        TRANS_TYPE_ID,
+      </if>
+      <if test="taskName != null">
+        TASK_NAME,
+      </if>
+      <if test="transTools != null">
+        TRANS_TOOLS,
+      </if>
+      <if test="loopType != null">
+        LOOP_TYPE,
+      </if>
+      <if test="taskBeginTime != null">
+        TASK_BEGIN_TIME,
+      </if>
+      <if test="taskEndTime != null">
+        TASK_END_TIME,
+      </if>
+      <if test="loopDays != null">
+        LOOP_DAYS,
+      </if>
+      <if test="loopWeeks != null">
+        LOOP_WEEKS,
+      </if>
+      <if test="loopMonths != null">
+        LOOP_MONTHS,
+      </if>
+      <if test="preGenerateMinute != null">
+        PRE_GENERATE_MINUTE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="taskCron != null">
+        TASK_CRON,
+      </if>
+      <if test="loseRemark != null">
+        LOSE_REMARK,
+      </if>
+      <if test="limitMinute != null">
+        LIMIT_MINUTE,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskLoopId != null">
+        #{taskLoopId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeId != null">
+        #{transTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="transTools != null">
+        #{transTools,jdbcType=VARCHAR},
+      </if>
+      <if test="loopType != null">
+        #{loopType,jdbcType=CHAR},
+      </if>
+      <if test="taskBeginTime != null">
+        #{taskBeginTime,jdbcType=INTEGER},
+      </if>
+      <if test="taskEndTime != null">
+        #{taskEndTime,jdbcType=INTEGER},
+      </if>
+      <if test="loopDays != null">
+        #{loopDays,jdbcType=VARCHAR},
+      </if>
+      <if test="loopWeeks != null">
+        #{loopWeeks,jdbcType=VARCHAR},
+      </if>
+      <if test="loopMonths != null">
+        #{loopMonths,jdbcType=VARCHAR},
+      </if>
+      <if test="preGenerateMinute != null">
+        #{preGenerateMinute,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="taskCron != null">
+        #{taskCron,jdbcType=VARCHAR},
+      </if>
+      <if test="loseRemark != null">
+        #{loseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="limitMinute != null">
+        #{limitMinute,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_task_loop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_task_loop
+    <set>
+      <if test="record.taskLoopId != null">
+        TASK_LOOP_ID = #{record.taskLoopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transTypeId != null">
+        TRANS_TYPE_ID = #{record.transTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskName != null">
+        TASK_NAME = #{record.taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transTools != null">
+        TRANS_TOOLS = #{record.transTools,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loopType != null">
+        LOOP_TYPE = #{record.loopType,jdbcType=CHAR},
+      </if>
+      <if test="record.taskBeginTime != null">
+        TASK_BEGIN_TIME = #{record.taskBeginTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskEndTime != null">
+        TASK_END_TIME = #{record.taskEndTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.loopDays != null">
+        LOOP_DAYS = #{record.loopDays,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loopWeeks != null">
+        LOOP_WEEKS = #{record.loopWeeks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loopMonths != null">
+        LOOP_MONTHS = #{record.loopMonths,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preGenerateMinute != null">
+        PRE_GENERATE_MINUTE = #{record.preGenerateMinute,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        CREATE_BY = #{record.createBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskCron != null">
+        TASK_CRON = #{record.taskCron,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loseRemark != null">
+        LOSE_REMARK = #{record.loseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.limitMinute != null">
+        LIMIT_MINUTE = #{record.limitMinute,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_task_loop
+    set TASK_LOOP_ID = #{record.taskLoopId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{record.transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_TYPE_ID = #{record.transTypeId,jdbcType=INTEGER},
+      TASK_NAME = #{record.taskName,jdbcType=VARCHAR},
+      TRANS_TOOLS = #{record.transTools,jdbcType=VARCHAR},
+      LOOP_TYPE = #{record.loopType,jdbcType=CHAR},
+      TASK_BEGIN_TIME = #{record.taskBeginTime,jdbcType=INTEGER},
+      TASK_END_TIME = #{record.taskEndTime,jdbcType=INTEGER},
+      LOOP_DAYS = #{record.loopDays,jdbcType=VARCHAR},
+      LOOP_WEEKS = #{record.loopWeeks,jdbcType=VARCHAR},
+      LOOP_MONTHS = #{record.loopMonths,jdbcType=VARCHAR},
+      PRE_GENERATE_MINUTE = #{record.preGenerateMinute,jdbcType=INTEGER},
+      STATUS = #{record.status,jdbcType=CHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{record.createBy,jdbcType=INTEGER},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=INTEGER},
+      TASK_CRON = #{record.taskCron,jdbcType=VARCHAR},
+      LOSE_REMARK = #{record.loseRemark,jdbcType=VARCHAR},
+      LIMIT_MINUTE = #{record.limitMinute,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoop">
+    update evt_mt_task_loop
+    <set>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="transTypeParentCode != null">
+        TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transTypeId != null">
+        TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null">
+        TASK_NAME = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="transTools != null">
+        TRANS_TOOLS = #{transTools,jdbcType=VARCHAR},
+      </if>
+      <if test="loopType != null">
+        LOOP_TYPE = #{loopType,jdbcType=CHAR},
+      </if>
+      <if test="taskBeginTime != null">
+        TASK_BEGIN_TIME = #{taskBeginTime,jdbcType=INTEGER},
+      </if>
+      <if test="taskEndTime != null">
+        TASK_END_TIME = #{taskEndTime,jdbcType=INTEGER},
+      </if>
+      <if test="loopDays != null">
+        LOOP_DAYS = #{loopDays,jdbcType=VARCHAR},
+      </if>
+      <if test="loopWeeks != null">
+        LOOP_WEEKS = #{loopWeeks,jdbcType=VARCHAR},
+      </if>
+      <if test="loopMonths != null">
+        LOOP_MONTHS = #{loopMonths,jdbcType=VARCHAR},
+      </if>
+      <if test="preGenerateMinute != null">
+        PRE_GENERATE_MINUTE = #{preGenerateMinute,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="taskCron != null">
+        TASK_CRON = #{taskCron,jdbcType=VARCHAR},
+      </if>
+      <if test="loseRemark != null">
+        LOSE_REMARK = #{loseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="limitMinute != null">
+        LIMIT_MINUTE = #{limitMinute,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where TASK_LOOP_ID = #{taskLoopId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoop">
+    update evt_mt_task_loop
+    set ORGAN_ID = #{organId,jdbcType=INTEGER},
+      TRANS_TYPE_PARENT_CODE = #{transTypeParentCode,jdbcType=VARCHAR},
+      TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER},
+      TASK_NAME = #{taskName,jdbcType=VARCHAR},
+      TRANS_TOOLS = #{transTools,jdbcType=VARCHAR},
+      LOOP_TYPE = #{loopType,jdbcType=CHAR},
+      TASK_BEGIN_TIME = #{taskBeginTime,jdbcType=INTEGER},
+      TASK_END_TIME = #{taskEndTime,jdbcType=INTEGER},
+      LOOP_DAYS = #{loopDays,jdbcType=VARCHAR},
+      LOOP_WEEKS = #{loopWeeks,jdbcType=VARCHAR},
+      LOOP_MONTHS = #{loopMonths,jdbcType=VARCHAR},
+      PRE_GENERATE_MINUTE = #{preGenerateMinute,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=INTEGER},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      TASK_CRON = #{taskCron,jdbcType=VARCHAR},
+      LOSE_REMARK = #{loseRemark,jdbcType=VARCHAR},
+      LIMIT_MINUTE = #{limitMinute,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER}
+    where TASK_LOOP_ID = #{taskLoopId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_task_loop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

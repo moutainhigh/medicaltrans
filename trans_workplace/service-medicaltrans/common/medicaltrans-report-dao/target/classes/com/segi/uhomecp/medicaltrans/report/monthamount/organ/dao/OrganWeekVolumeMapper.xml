@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.monthamount.organ.dao.OrganWeekVolumeMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolume">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="CYCLE_YM" jdbcType="INTEGER" property="cycleYm" />
+    <result column="WEEK_DAY" jdbcType="INTEGER" property="weekDay" />
+    <result column="WEEK_MONTHDAY" jdbcType="INTEGER" property="weekMonthday" />
+    <result column="WEEK_TUESDAY" jdbcType="INTEGER" property="weekTuesday" />
+    <result column="WEEK_WEDNESDAY" jdbcType="INTEGER" property="weekWednesday" />
+    <result column="WEEK_THURSDAY" jdbcType="INTEGER" property="weekThursday" />
+    <result column="WEEK_FRIDAY" jdbcType="INTEGER" property="weekFriday" />
+    <result column="WEEK_SATURDAY" jdbcType="INTEGER" property="weekSaturday" />
+    <result column="WEEK_SUNDAY" jdbcType="INTEGER" property="weekSunday" />
+    <result column="CREATE_DATE" jdbcType="BIGINT" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="BIGINT" property="updateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, GROUP_ORGAN_ID, ORGAN_ID, CYCLE_YM, WEEK_DAY, WEEK_MONTHDAY, WEEK_TUESDAY, WEEK_WEDNESDAY, 
+    WEEK_THURSDAY, WEEK_FRIDAY, WEEK_SATURDAY, WEEK_SUNDAY, CREATE_DATE, UPDATE_DATE
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolumeCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_week_volume
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_week_volume
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_organ_week_volume
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolumeCriteria">
+    delete from evt_mt_organ_week_volume
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolume">
+    insert into evt_mt_organ_week_volume (ID, GROUP_ORGAN_ID, ORGAN_ID, 
+      CYCLE_YM, WEEK_DAY, WEEK_MONTHDAY, 
+      WEEK_TUESDAY, WEEK_WEDNESDAY, WEEK_THURSDAY, 
+      WEEK_FRIDAY, WEEK_SATURDAY, WEEK_SUNDAY, 
+      CREATE_DATE, UPDATE_DATE)
+    values (#{id,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, 
+      #{cycleYm,jdbcType=INTEGER}, #{weekDay,jdbcType=INTEGER}, #{weekMonthday,jdbcType=INTEGER}, 
+      #{weekTuesday,jdbcType=INTEGER}, #{weekWednesday,jdbcType=INTEGER}, #{weekThursday,jdbcType=INTEGER}, 
+      #{weekFriday,jdbcType=INTEGER}, #{weekSaturday,jdbcType=INTEGER}, #{weekSunday,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=BIGINT}, #{updateDate,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolume">
+    insert into evt_mt_organ_week_volume
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="cycleYm != null">
+        CYCLE_YM,
+      </if>
+      <if test="weekDay != null">
+        WEEK_DAY,
+      </if>
+      <if test="weekMonthday != null">
+        WEEK_MONTHDAY,
+      </if>
+      <if test="weekTuesday != null">
+        WEEK_TUESDAY,
+      </if>
+      <if test="weekWednesday != null">
+        WEEK_WEDNESDAY,
+      </if>
+      <if test="weekThursday != null">
+        WEEK_THURSDAY,
+      </if>
+      <if test="weekFriday != null">
+        WEEK_FRIDAY,
+      </if>
+      <if test="weekSaturday != null">
+        WEEK_SATURDAY,
+      </if>
+      <if test="weekSunday != null">
+        WEEK_SUNDAY,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="cycleYm != null">
+        #{cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="weekDay != null">
+        #{weekDay,jdbcType=INTEGER},
+      </if>
+      <if test="weekMonthday != null">
+        #{weekMonthday,jdbcType=INTEGER},
+      </if>
+      <if test="weekTuesday != null">
+        #{weekTuesday,jdbcType=INTEGER},
+      </if>
+      <if test="weekWednesday != null">
+        #{weekWednesday,jdbcType=INTEGER},
+      </if>
+      <if test="weekThursday != null">
+        #{weekThursday,jdbcType=INTEGER},
+      </if>
+      <if test="weekFriday != null">
+        #{weekFriday,jdbcType=INTEGER},
+      </if>
+      <if test="weekSaturday != null">
+        #{weekSaturday,jdbcType=INTEGER},
+      </if>
+      <if test="weekSunday != null">
+        #{weekSunday,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolumeCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_organ_week_volume
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_organ_week_volume
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cycleYm != null">
+        CYCLE_YM = #{record.cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekDay != null">
+        WEEK_DAY = #{record.weekDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekMonthday != null">
+        WEEK_MONTHDAY = #{record.weekMonthday,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekTuesday != null">
+        WEEK_TUESDAY = #{record.weekTuesday,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekWednesday != null">
+        WEEK_WEDNESDAY = #{record.weekWednesday,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekThursday != null">
+        WEEK_THURSDAY = #{record.weekThursday,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekFriday != null">
+        WEEK_FRIDAY = #{record.weekFriday,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekSaturday != null">
+        WEEK_SATURDAY = #{record.weekSaturday,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekSunday != null">
+        WEEK_SUNDAY = #{record.weekSunday,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_organ_week_volume
+    set ID = #{record.id,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      CYCLE_YM = #{record.cycleYm,jdbcType=INTEGER},
+      WEEK_DAY = #{record.weekDay,jdbcType=INTEGER},
+      WEEK_MONTHDAY = #{record.weekMonthday,jdbcType=INTEGER},
+      WEEK_TUESDAY = #{record.weekTuesday,jdbcType=INTEGER},
+      WEEK_WEDNESDAY = #{record.weekWednesday,jdbcType=INTEGER},
+      WEEK_THURSDAY = #{record.weekThursday,jdbcType=INTEGER},
+      WEEK_FRIDAY = #{record.weekFriday,jdbcType=INTEGER},
+      WEEK_SATURDAY = #{record.weekSaturday,jdbcType=INTEGER},
+      WEEK_SUNDAY = #{record.weekSunday,jdbcType=INTEGER},
+      CREATE_DATE = #{record.createDate,jdbcType=BIGINT},
+      UPDATE_DATE = #{record.updateDate,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolume">
+    update evt_mt_organ_week_volume
+    <set>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="cycleYm != null">
+        CYCLE_YM = #{cycleYm,jdbcType=INTEGER},
+      </if>
+      <if test="weekDay != null">
+        WEEK_DAY = #{weekDay,jdbcType=INTEGER},
+      </if>
+      <if test="weekMonthday != null">
+        WEEK_MONTHDAY = #{weekMonthday,jdbcType=INTEGER},
+      </if>
+      <if test="weekTuesday != null">
+        WEEK_TUESDAY = #{weekTuesday,jdbcType=INTEGER},
+      </if>
+      <if test="weekWednesday != null">
+        WEEK_WEDNESDAY = #{weekWednesday,jdbcType=INTEGER},
+      </if>
+      <if test="weekThursday != null">
+        WEEK_THURSDAY = #{weekThursday,jdbcType=INTEGER},
+      </if>
+      <if test="weekFriday != null">
+        WEEK_FRIDAY = #{weekFriday,jdbcType=INTEGER},
+      </if>
+      <if test="weekSaturday != null">
+        WEEK_SATURDAY = #{weekSaturday,jdbcType=INTEGER},
+      </if>
+      <if test="weekSunday != null">
+        WEEK_SUNDAY = #{weekSunday,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolume">
+    update evt_mt_organ_week_volume
+    set GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{organId,jdbcType=INTEGER},
+      CYCLE_YM = #{cycleYm,jdbcType=INTEGER},
+      WEEK_DAY = #{weekDay,jdbcType=INTEGER},
+      WEEK_MONTHDAY = #{weekMonthday,jdbcType=INTEGER},
+      WEEK_TUESDAY = #{weekTuesday,jdbcType=INTEGER},
+      WEEK_WEDNESDAY = #{weekWednesday,jdbcType=INTEGER},
+      WEEK_THURSDAY = #{weekThursday,jdbcType=INTEGER},
+      WEEK_FRIDAY = #{weekFriday,jdbcType=INTEGER},
+      WEEK_SATURDAY = #{weekSaturday,jdbcType=INTEGER},
+      WEEK_SUNDAY = #{weekSunday,jdbcType=INTEGER},
+      CREATE_DATE = #{createDate,jdbcType=BIGINT},
+      UPDATE_DATE = #{updateDate,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.report.monthamount.organ.model.OrganWeekVolumeCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_organ_week_volume
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

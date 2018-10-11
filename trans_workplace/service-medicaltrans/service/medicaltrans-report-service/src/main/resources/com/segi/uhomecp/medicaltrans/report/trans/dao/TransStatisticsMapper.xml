@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.trans.dao.TransStatisticsMapper">
+  <resultMap type="com.segi.uhomecp.medicaltrans.dto.TransStatisticsCommonDto" id="resultMap">
+  	<result column="ATTRIBUTE35" jdbcType="VARCHAR" property="instantTaskAvgTime"/>
+  	<result column="ATTRIBUTE36" jdbcType="VARCHAR" property="drugTransTypeAvgTime"/>
+  	<result column="ATTRIBUTE37" jdbcType="VARCHAR" property="sampleTransTypeAvgTime"/>
+  	<result column="ATTRIBUTE38" jdbcType="VARCHAR" property="bloodTransTypeAvgTime"/>
+  	<result column="ATTRIBUTE39" jdbcType="VARCHAR" property="patientTransTypeAvgTime"/>
+  	<result column="ATTRIBUTE40" jdbcType="VARCHAR" property="goodTransTypeAvgTime"/>
+  	<result column="ATTRIBUTE41" jdbcType="VARCHAR" property="bookTransTypeAvgTime"/>
+  	<result column="ATTRIBUTE42" jdbcType="VARCHAR" property="drugTransTypeAmount"/>
+  	<result column="ATTRIBUTE43" jdbcType="VARCHAR" property="sampleTransTypeAmount"/>
+  	<result column="ATTRIBUTE44" jdbcType="VARCHAR" property="bloodTransTypeAmount"/>
+  	<result column="ATTRIBUTE45" jdbcType="VARCHAR" property="patientTransTypeAmount"/>
+  	<result column="ATTRIBUTE46" jdbcType="VARCHAR" property="goodTransTypeAmount"/>
+  	<result column="ATTRIBUTE47" jdbcType="VARCHAR" property="bookTransTypeAmount"/>
+  	<result column="ATTRIBUTE48" jdbcType="VARCHAR" property="walkTypeAmount"/>
+  	<result column="ATTRIBUTE49" jdbcType="VARCHAR" property="pushingBedTypeAmount"/>
+  	<result column="ATTRIBUTE50" jdbcType="VARCHAR" property="flatCartypeAmount"/>
+  	<result column="ATTRIBUTE51" jdbcType="VARCHAR" property="wheelchairTypeAmount"/>
+  </resultMap>
+  
+  <select id="queryTransportTime" parameterType="com.segi.uhomecp.medicaltrans.report.common.dto.CommonDto" resultMap="resultMap">
+  	select ATTRIBUTE36,ATTRIBUTE37,ATTRIBUTE38,ATTRIBUTE39,ATTRIBUTE40,ATTRIBUTE41 from evt_mt_trans_statistics
+  	where GROUP_ORGAN_ID=#{groupOrganId,jdbcType=INTEGER}
+  	 and ORGAN_ID=#{organId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryTaskStructureRatio" parameterType="com.segi.uhomecp.medicaltrans.report.common.dto.CommonDto" resultMap="resultMap">
+  	select ATTRIBUTE42,ATTRIBUTE43,ATTRIBUTE44,ATTRIBUTE45,ATTRIBUTE46,ATTRIBUTE47 from evt_mt_trans_statistics
+  	where GROUP_ORGAN_ID=#{groupOrganId,jdbcType=INTEGER}
+  	 and ORGAN_ID=#{organId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryTransModeRatio" parameterType="com.segi.uhomecp.medicaltrans.report.common.dto.CommonDto" resultMap="resultMap">
+  	select ATTRIBUTE48,ATTRIBUTE49,ATTRIBUTE50,ATTRIBUTE51 from evt_mt_trans_statistics
+  	where GROUP_ORGAN_ID=#{groupOrganId,jdbcType=INTEGER}
+  	 and ORGAN_ID=#{organId,jdbcType=INTEGER}
+  </select>  
+</mapper>

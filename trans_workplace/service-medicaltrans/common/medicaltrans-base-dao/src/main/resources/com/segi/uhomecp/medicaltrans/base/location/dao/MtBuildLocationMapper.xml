@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.base.location.dao.MtBuildLocationMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocation">
+    <id column="LOCATION_ID" jdbcType="INTEGER" property="locationId" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="BUILD_ID" jdbcType="INTEGER" property="buildId" />
+    <result column="SID" jdbcType="INTEGER" property="sid" />
+    <result column="FLOOR_ID" jdbcType="INTEGER" property="floorId" />
+    <result column="FLOOR_NUM" jdbcType="SMALLINT" property="floorNum" />
+    <result column="LOCATION_NAME" jdbcType="VARCHAR" property="locationName" />
+    <result column="LOCATE_TYPE" jdbcType="VARCHAR" property="locateType" />
+    <result column="QRCODE" jdbcType="VARCHAR" property="qrcode" />
+    <result column="MAC" jdbcType="VARCHAR" property="mac" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATEUSER_ID" jdbcType="INTEGER" property="createuserId" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATEUSER_ID" jdbcType="INTEGER" property="updateuserId" />
+    <result column="FLOOR_POSIT_X" jdbcType="REAL" property="floorPositX" />
+    <result column="FLOOR_POSIT_Y" jdbcType="REAL" property="floorPositY" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    LOCATION_ID, GROUP_ORGAN_ID, ORGAN_ID, BUILD_ID, SID, FLOOR_ID, FLOOR_NUM, LOCATION_NAME, 
+    LOCATE_TYPE, QRCODE, MAC, STATUS, REMARK, CREATE_DATE, CREATEUSER_ID, UPDATE_DATE, 
+    UPDATEUSER_ID, FLOOR_POSIT_X, FLOOR_POSIT_Y
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_build_location
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_build_location
+    where LOCATION_ID = #{locationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_build_location
+    where LOCATION_ID = #{locationId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationCriteria">
+    delete from evt_mt_build_location
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocation">
+    insert into evt_mt_build_location (LOCATION_ID, GROUP_ORGAN_ID, ORGAN_ID, 
+      BUILD_ID, SID, FLOOR_ID, 
+      FLOOR_NUM, LOCATION_NAME, LOCATE_TYPE, 
+      QRCODE, MAC, STATUS, REMARK, 
+      CREATE_DATE, CREATEUSER_ID, UPDATE_DATE, 
+      UPDATEUSER_ID, FLOOR_POSIT_X, FLOOR_POSIT_Y
+      )
+    values (#{locationId,jdbcType=INTEGER}, #{groupOrganId,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, 
+      #{buildId,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, #{floorId,jdbcType=INTEGER}, 
+      #{floorNum,jdbcType=SMALLINT}, #{locationName,jdbcType=VARCHAR}, #{locateType,jdbcType=VARCHAR}, 
+      #{qrcode,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{createuserId,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateuserId,jdbcType=INTEGER}, #{floorPositX,jdbcType=REAL}, #{floorPositY,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocation">
+    insert into evt_mt_build_location
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="locationId != null">
+        LOCATION_ID,
+      </if>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="buildId != null">
+        BUILD_ID,
+      </if>
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="floorId != null">
+        FLOOR_ID,
+      </if>
+      <if test="floorNum != null">
+        FLOOR_NUM,
+      </if>
+      <if test="locationName != null">
+        LOCATION_NAME,
+      </if>
+      <if test="locateType != null">
+        LOCATE_TYPE,
+      </if>
+      <if test="qrcode != null">
+        QRCODE,
+      </if>
+      <if test="mac != null">
+        MAC,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="createuserId != null">
+        CREATEUSER_ID,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="updateuserId != null">
+        UPDATEUSER_ID,
+      </if>
+      <if test="floorPositX != null">
+        FLOOR_POSIT_X,
+      </if>
+      <if test="floorPositY != null">
+        FLOOR_POSIT_Y,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="locationId != null">
+        #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="groupOrganId != null">
+        #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="buildId != null">
+        #{buildId,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="floorId != null">
+        #{floorId,jdbcType=INTEGER},
+      </if>
+      <if test="floorNum != null">
+        #{floorNum,jdbcType=SMALLINT},
+      </if>
+      <if test="locationName != null">
+        #{locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="locateType != null">
+        #{locateType,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null">
+        #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserId != null">
+        #{createuserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuserId != null">
+        #{updateuserId,jdbcType=INTEGER},
+      </if>
+      <if test="floorPositX != null">
+        #{floorPositX,jdbcType=REAL},
+      </if>
+      <if test="floorPositY != null">
+        #{floorPositY,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationCriteria" resultType="java.lang.Integer">
+    select count(*) from evt_mt_build_location
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_build_location
+    <set>
+      <if test="record.locationId != null">
+        LOCATION_ID = #{record.locationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupOrganId != null">
+        GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.buildId != null">
+        BUILD_ID = #{record.buildId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=INTEGER},
+      </if>
+      <if test="record.floorId != null">
+        FLOOR_ID = #{record.floorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.floorNum != null">
+        FLOOR_NUM = #{record.floorNum,jdbcType=SMALLINT},
+      </if>
+      <if test="record.locationName != null">
+        LOCATION_NAME = #{record.locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locateType != null">
+        LOCATE_TYPE = #{record.locateType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qrcode != null">
+        QRCODE = #{record.qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mac != null">
+        MAC = #{record.mac,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuserId != null">
+        CREATEUSER_ID = #{record.createuserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null">
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateuserId != null">
+        UPDATEUSER_ID = #{record.updateuserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.floorPositX != null">
+        FLOOR_POSIT_X = #{record.floorPositX,jdbcType=REAL},
+      </if>
+      <if test="record.floorPositY != null">
+        FLOOR_POSIT_Y = #{record.floorPositY,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_build_location
+    set LOCATION_ID = #{record.locationId,jdbcType=INTEGER},
+      GROUP_ORGAN_ID = #{record.groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      BUILD_ID = #{record.buildId,jdbcType=INTEGER},
+      SID = #{record.sid,jdbcType=INTEGER},
+      FLOOR_ID = #{record.floorId,jdbcType=INTEGER},
+      FLOOR_NUM = #{record.floorNum,jdbcType=SMALLINT},
+      LOCATION_NAME = #{record.locationName,jdbcType=VARCHAR},
+      LOCATE_TYPE = #{record.locateType,jdbcType=VARCHAR},
+      QRCODE = #{record.qrcode,jdbcType=VARCHAR},
+      MAC = #{record.mac,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=CHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      CREATEUSER_ID = #{record.createuserId,jdbcType=INTEGER},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      UPDATEUSER_ID = #{record.updateuserId,jdbcType=INTEGER},
+      FLOOR_POSIT_X = #{record.floorPositX,jdbcType=REAL},
+      FLOOR_POSIT_Y = #{record.floorPositY,jdbcType=REAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocation">
+    update evt_mt_build_location
+    <set>
+      <if test="groupOrganId != null">
+        GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="buildId != null">
+        BUILD_ID = #{buildId,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        SID = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="floorId != null">
+        FLOOR_ID = #{floorId,jdbcType=INTEGER},
+      </if>
+      <if test="floorNum != null">
+        FLOOR_NUM = #{floorNum,jdbcType=SMALLINT},
+      </if>
+      <if test="locationName != null">
+        LOCATION_NAME = #{locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="locateType != null">
+        LOCATE_TYPE = #{locateType,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null">
+        QRCODE = #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null">
+        MAC = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserId != null">
+        CREATEUSER_ID = #{createuserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuserId != null">
+        UPDATEUSER_ID = #{updateuserId,jdbcType=INTEGER},
+      </if>
+      <if test="floorPositX != null">
+        FLOOR_POSIT_X = #{floorPositX,jdbcType=REAL},
+      </if>
+      <if test="floorPositY != null">
+        FLOOR_POSIT_Y = #{floorPositY,jdbcType=REAL},
+      </if>
+    </set>
+    where LOCATION_ID = #{locationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocation">
+    update evt_mt_build_location
+    set GROUP_ORGAN_ID = #{groupOrganId,jdbcType=INTEGER},
+      ORGAN_ID = #{organId,jdbcType=INTEGER},
+      BUILD_ID = #{buildId,jdbcType=INTEGER},
+      SID = #{sid,jdbcType=INTEGER},
+      FLOOR_ID = #{floorId,jdbcType=INTEGER},
+      FLOOR_NUM = #{floorNum,jdbcType=SMALLINT},
+      LOCATION_NAME = #{locationName,jdbcType=VARCHAR},
+      LOCATE_TYPE = #{locateType,jdbcType=VARCHAR},
+      QRCODE = #{qrcode,jdbcType=VARCHAR},
+      MAC = #{mac,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATEUSER_ID = #{createuserId,jdbcType=INTEGER},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATEUSER_ID = #{updateuserId,jdbcType=INTEGER},
+      FLOOR_POSIT_X = #{floorPositX,jdbcType=REAL},
+      FLOOR_POSIT_Y = #{floorPositY,jdbcType=REAL}
+    where LOCATION_ID = #{locationId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.base.location.model.MtBuildLocationCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_build_location
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.reportjob.query.trans.dao.MtTaskOrganMonthMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.reportjob.query.trans.model.MtTaskExtract">
+    <id column="TASK_ID" jdbcType="INTEGER" property="taskId" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="TRANS_TYPE_PARENT_CODE" jdbcType="VARCHAR" property="transTypeParentCode" />
+    <result column="TRANS_TYPE_ID" jdbcType="INTEGER" property="transTypeId" />
+    <result column="URGENCY" jdbcType="CHAR" property="urgency" />
+    <result column="TASK_TYPE" jdbcType="CHAR" property="taskType" />
+    <result column="SOURCE_HOUSE_ID" jdbcType="INTEGER" property="sourceHouseId" />
+    <result column="FROM_HOUSE_ID" jdbcType="INTEGER" property="fromHouseId" />
+    <result column="TO_HOUSE_ID" jdbcType="INTEGER" property="toHouseId" />
+    <result column="TRANS_TOOLS" jdbcType="VARCHAR" property="transTools" />
+    <result column="TRANS_PERSON_COUNT" jdbcType="SMALLINT" property="transPersonCount" />
+    <result column="BEGIN_TIME" jdbcType="BIGINT" property="beginTime" />
+    <result column="LIMIT_MINUTE" jdbcType="INTEGER" property="limitMinute" />
+    <result column="RES_TYPE" jdbcType="CHAR" property="resType" />
+    <result column="DATA_SOURCE" jdbcType="CHAR" property="dataSource" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="EXE_BEGIN_TIME" jdbcType="TIMESTAMP" property="exeBeginTime" />
+    <result column="EXE_END_TIME" jdbcType="TIMESTAMP" property="exeEndTime" />
+    <result column="EXE_END_USER_ID" jdbcType="INTEGER" property="exeEndUserId" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CREATE_DATE" jdbcType="BIGINT" property="createDate" />
+    <result column="CREATE_BY" jdbcType="INTEGER" property="createBy" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="UPDATE_BY" jdbcType="INTEGER" property="updateBy" />
+    <result column="EVALUATE" jdbcType="SMALLINT" property="evaluate" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+    <result column="DISPATCH_USER_ID" jdbcType="INTEGER" property="dispatchUserId" />
+    <result column="TASK_LOOP_ID" jdbcType="INTEGER" property="taskLoopId" />
+    <result column="GROUP_ORGAN_ID" jdbcType="INTEGER" property="groupOrganId" />
+    <result column="TASK_HOUR" jdbcType="TINYINT" property="taskHour" />
+    <result column="TIME_CONSUMING" jdbcType="INTEGER" property="timeConsuming" />
+    <result column="IS_TIME_OUT" jdbcType="CHAR" property="isTimeOut" />
+    <result column="RESP_TIME" jdbcType="INTEGER" property="respTime" />
+    <result column="TASK_TIME" jdbcType="INTEGER" property="taskTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+     TASK_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, TRANS_TYPE_ID, URGENCY, TASK_TYPE, SOURCE_HOUSE_ID, 
+    FROM_HOUSE_ID, TO_HOUSE_ID, TRANS_TOOLS, TRANS_PERSON_COUNT, BEGIN_TIME, LIMIT_MINUTE, 
+    RES_TYPE, DATA_SOURCE, SEND_TIME, EXE_BEGIN_TIME, EXE_END_TIME, EXE_END_USER_ID, 
+    STATUS, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, EVALUATE, VERSION, DISPATCH_USER_ID, 
+    TASK_LOOP_ID, GROUP_ORGAN_ID, TASK_HOUR, TIME_CONSUMING, IS_TIME_OUT, RESP_TIME,TASK_TIME
+  </sql>
+ 
+ 
+  
+  <!-- 根据项目和开始结束时间查询项目运输表数据 -->
+  <select id='getOrganMonthList' resultType='com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.OrganMonthStatisticsDto'
+  parameterType='com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.OrganMonthEntryParamDto' >
+  	 SELECT 
+  	e.`GROUP_ORGAN_ID` AS groupOrganId,
+    e.`ORGAN_ID` AS organId,
+    COUNT(1) AS transAmount,
+    SUM(CASE e.`TASK_TYPE` WHEN ${disTask} THEN 1 ELSE 0 END)  AS dispatchAmount,
+    SUM(CASE e.`TASK_TYPE` WHEN ${selfTask} THEN 1 ELSE 0 END)  AS autonomousAmount, 
+    SUM(CASE e.`TASK_TYPE` WHEN ${loopTask} THEN 1 ELSE 0 END)  AS fixedAmount, 
+    SUM(CASE e.`TASK_TYPE` WHEN ${disTask} THEN e.`RESP_TIME` ELSE 0 END) AS transInstantTime, 
+    SUM(e.`TIME_CONSUMING`) AS transTime,
+    SUM(CASE e.`IS_TIME_OUT` WHEN 0 THEN 1 ELSE 0 END) AS timelyAmount,
+    SUM(CASE e.`EVALUATE` WHEN 0 THEN 1  WHEN 3 THEN 1 WHEN 4 THEN 1 WHEN 5 THEN 1 ELSE 0 END) AS satisfactionAmount,
+    SUM(CASE e.`DATA_SOURCE` WHEN ${web} THEN 1 ELSE 0 END) AS webDatasource,
+    SUM(CASE e.`DATA_SOURCE` WHEN ${wechat} THEN 1 ELSE 0 END) AS wechatDatasource,
+    SUM(CASE e.`DATA_SOURCE` WHEN ${padIos} THEN 1 WHEN ${padandroid} THEN 1 ELSE 0 END) AS padDatasource,
+    SUM(CASE e.`DATA_SOURCE` WHEN ${ios} THEN 1 WHEN ${android} THEN 1 ELSE 0 END) AS appDatasource
+    FROM  evt_mt_task_${tableIndex} e 
+ 	WHERE e.`ORGAN_ID` IN 
+    <foreach collection="organIdList" item="organId" open="(" close=")" separator="," >
+            #{organId}
+    </foreach>
+    AND e.`BEGIN_TIME` BETWEEN  #{startTime,jdbcType=BIGINT} and   #{endTime,jdbcType=BIGINT}
+    AND e.status =  #{status,jdbcType=VARCHAR}  
+    AND e.UPDATE_DATE &lt;#{excDate,jdbcType=TIMESTAMP}
+    GROUP BY e.`GROUP_ORGAN_ID`,e.`ORGAN_ID` 
+  </select>
+  
+  <!-- 计算每天是否有运单 -->
+  <select id='getIsTaskDay' resultMap="BaseResultMap" 
+    parameterType='com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.MonthDayDto'>
+	    <foreach collection="yearMonthDayList" item="yearMonthDay"  index="index" separator="union all" >
+	    (SELECT e.`TASK_TIME`,e.`TASK_ID` FROM evt_mt_task_${tableIndex} e WHERE e.`ORGAN_ID` =  #{organId,jdbcType=INTEGER} 
+	   	AND e.`STATUS` =  #{status,jdbcType=VARCHAR}  AND e.`TASK_TIME`=#{yearMonthDay,jdbcType=INTEGER}  LIMIT 1)
+	    </foreach>
+   </select>
+   
+   <!-- 查出各个时段运送量总数据 -->
+   <select id='getOrganTimeList' resultType='com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.OrganTimeStatisticsDto'
+  parameterType='com.segi.uhomecp.medicaltrans.reportjob.query.trans.dto.OrganMonthEntryParamDto' >
+ 	SELECT e.GROUP_ORGAN_ID AS groupOrganId,
+ 	e.ORGAN_ID organId,
+	SUM(CASE e.task_hour WHEN 0 THEN 1 ELSE 0 END) AS timeAmount0,
+	SUM(CASE e.task_hour WHEN 1 THEN 1 ELSE 0 END) AS timeAmount1,
+	SUM(CASE e.task_hour WHEN 2 THEN 1 ELSE 0 END) AS timeAmount2,
+	SUM(CASE e.task_hour WHEN 3 THEN 1 ELSE 0 END) AS timeAmount3,
+	SUM(CASE e.task_hour WHEN 4 THEN 1 ELSE 0 END) AS timeAmount4,
+	SUM(CASE e.task_hour WHEN 5 THEN 1 ELSE 0 END) AS timeAmount5,
+	SUM(CASE e.task_hour WHEN 6 THEN 1 ELSE 0 END) AS timeAmount6,
+	SUM(CASE e.task_hour WHEN 7 THEN 1 ELSE 0 END) AS timeAmount7,
+	SUM(CASE e.task_hour WHEN 8 THEN 1 ELSE 0 END) AS timeAmount8,
+	SUM(CASE e.task_hour WHEN 9 THEN 1 ELSE 0 END) AS timeAmount9,
+	SUM(CASE e.task_hour WHEN 10 THEN 1 ELSE 0 END) AS timeAmount10,
+	SUM(CASE e.task_hour WHEN 11 THEN 1 ELSE 0 END) AS timeAmount11,
+	SUM(CASE e.task_hour WHEN 12 THEN 1 ELSE 0 END) AS timeAmount12,
+	SUM(CASE e.task_hour WHEN 13 THEN 1 ELSE 0 END) AS timeAmount13,
+	SUM(CASE e.task_hour WHEN 14 THEN 1 ELSE 0 END) AS timeAmount14,
+	SUM(CASE e.task_hour WHEN 15 THEN 1 ELSE 0 END) AS timeAmount15,
+	SUM(CASE e.task_hour WHEN 16 THEN 1 ELSE 0 END) AS timeAmount16,
+	SUM(CASE e.task_hour WHEN 17 THEN 1 ELSE 0 END) AS timeAmount17,
+	SUM(CASE e.task_hour WHEN 18 THEN 1 ELSE 0 END) AS timeAmount18,
+	SUM(CASE e.task_hour WHEN 19 THEN 1 ELSE 0 END) AS timeAmount19,
+	SUM(CASE e.task_hour WHEN 20 THEN 1 ELSE 0 END) AS timeAmount20,
+	SUM(CASE e.task_hour WHEN 21 THEN 1 ELSE 0 END) AS timeAmount21,
+	SUM(CASE e.task_hour WHEN 22 THEN 1 ELSE 0 END) AS timeAmount22,
+	SUM(CASE e.task_hour WHEN 23 THEN 1 ELSE 0 END) AS timeAmount23
+	FROM  evt_mt_task_${tableIndex} e 
+ 	WHERE e.`ORGAN_ID` IN 
+    <foreach collection="organIdList" item="organId" open="(" close=")" separator="," >
+            #{organId}
+    </foreach>
+    AND e.`BEGIN_TIME` BETWEEN  #{startTime,jdbcType=BIGINT} and   #{endTime,jdbcType=BIGINT}
+    AND e.status =  #{status,jdbcType=VARCHAR}  
+    AND e.UPDATE_DATE &lt;#{excDate,jdbcType=TIMESTAMP}
+    GROUP BY e.`GROUP_ORGAN_ID`,e.`ORGAN_ID`
+  </select>
+  
+ 
+</mapper>

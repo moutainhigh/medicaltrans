@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<project default="main" basedir=".">
+
+<echo message="pulling in property files"/>
+<echo message="calling the web services generation ant task: axis_bujava"/>
+	
+	<taskdef name="slice2java" classpath="lib/ant-ice.jar" 
+	    classname="Slice2JavaTask"/>
+	
+	<target name="generate" depends="clean">
+	    <mkdir dir="generated"/>
+	    <slice2java outputdir="generated" includepath="slice">
+	        <fileset dir="slice" includes="*.ice"/>
+	    </slice2java>
+	</target>
+
+	<!-- <target name="compile" depends="generate">
+	    <mkdir dir="classes"/>
+		<javac deprecation="true" classpathref="maven.plugin.classpath" 
+			destdir="classes" encoding="utf-8" source="1.5" target="1.5" debug="on">
+		            <src path="generated" />
+		        </javac>
+	</target> -->
+
+	<target name="main" depends="generate"/>
+
+	<target name="clean">
+	    <delete dir="generated"/>
+	    <delete dir="classes"/>
+	</target>
+	
+</project>

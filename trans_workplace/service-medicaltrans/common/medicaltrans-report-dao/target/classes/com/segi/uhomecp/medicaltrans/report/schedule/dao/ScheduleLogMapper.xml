@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.segi.uhomecp.medicaltrans.report.schedule.dao.ScheduleLogMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLog">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="ORGAN_ID" jdbcType="INTEGER" property="organId" />
+    <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="RUNNING_STATUS" jdbcType="CHAR" property="runningStatus" />
+    <result column="TASK_COUNT" jdbcType="INTEGER" property="taskCount" />
+    <result column="EXE_TIME" jdbcType="INTEGER" property="exeTime" />
+    <result column="ERROR_MESSAGE" jdbcType="VARCHAR" property="errorMessage" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="EXC_TIME" jdbcType="TIMESTAMP" property="excTime" />
+    <result column="LAST_EXC_DATE" jdbcType="TIMESTAMP" property="lastExcDate" />
+    <result column="EXC_END_DATE" jdbcType="TIMESTAMP" property="excEndDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, ORGAN_ID, START_DATE, END_DATE, RUNNING_STATUS, TASK_COUNT, EXE_TIME, ERROR_MESSAGE, 
+    CREATE_DATE, EXC_TIME, LAST_EXC_DATE, EXC_END_DATE
+  </sql>
+  <select id="selectByExample" parameterType="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLogCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_schedule_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_schedule_log
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evt_mt_trans_schedule_log
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLogCriteria">
+    delete from evt_mt_trans_schedule_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLog">
+    insert into evt_mt_trans_schedule_log (ID, ORGAN_ID, START_DATE, 
+      END_DATE, RUNNING_STATUS, TASK_COUNT, 
+      EXE_TIME, ERROR_MESSAGE, CREATE_DATE, 
+      EXC_TIME, LAST_EXC_DATE, EXC_END_DATE
+      )
+    values (#{id,jdbcType=INTEGER}, #{organId,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{runningStatus,jdbcType=CHAR}, #{taskCount,jdbcType=INTEGER}, 
+      #{exeTime,jdbcType=INTEGER}, #{errorMessage,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{excTime,jdbcType=TIMESTAMP}, #{lastExcDate,jdbcType=TIMESTAMP}, #{excEndDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLog">
+    insert into evt_mt_trans_schedule_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="organId != null">
+        ORGAN_ID,
+      </if>
+      <if test="startDate != null">
+        START_DATE,
+      </if>
+      <if test="endDate != null">
+        END_DATE,
+      </if>
+      <if test="runningStatus != null">
+        RUNNING_STATUS,
+      </if>
+      <if test="taskCount != null">
+        TASK_COUNT,
+      </if>
+      <if test="exeTime != null">
+        EXE_TIME,
+      </if>
+      <if test="errorMessage != null">
+        ERROR_MESSAGE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="excTime != null">
+        EXC_TIME,
+      </if>
+      <if test="lastExcDate != null">
+        LAST_EXC_DATE,
+      </if>
+      <if test="excEndDate != null">
+        EXC_END_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runningStatus != null">
+        #{runningStatus,jdbcType=CHAR},
+      </if>
+      <if test="taskCount != null">
+        #{taskCount,jdbcType=INTEGER},
+      </if>
+      <if test="exeTime != null">
+        #{exeTime,jdbcType=INTEGER},
+      </if>
+      <if test="errorMessage != null">
+        #{errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excTime != null">
+        #{excTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastExcDate != null">
+        #{lastExcDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excEndDate != null">
+        #{excEndDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLogCriteria" resultType="java.lang.Long">
+    select count(*) from evt_mt_trans_schedule_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update evt_mt_trans_schedule_log
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.organId != null">
+        ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      </if>
+      <if test="record.startDate != null">
+        START_DATE = #{record.startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endDate != null">
+        END_DATE = #{record.endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.runningStatus != null">
+        RUNNING_STATUS = #{record.runningStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.taskCount != null">
+        TASK_COUNT = #{record.taskCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.exeTime != null">
+        EXE_TIME = #{record.exeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.errorMessage != null">
+        ERROR_MESSAGE = #{record.errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.excTime != null">
+        EXC_TIME = #{record.excTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastExcDate != null">
+        LAST_EXC_DATE = #{record.lastExcDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.excEndDate != null">
+        EXC_END_DATE = #{record.excEndDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update evt_mt_trans_schedule_log
+    set ID = #{record.id,jdbcType=INTEGER},
+      ORGAN_ID = #{record.organId,jdbcType=INTEGER},
+      START_DATE = #{record.startDate,jdbcType=TIMESTAMP},
+      END_DATE = #{record.endDate,jdbcType=TIMESTAMP},
+      RUNNING_STATUS = #{record.runningStatus,jdbcType=CHAR},
+      TASK_COUNT = #{record.taskCount,jdbcType=INTEGER},
+      EXE_TIME = #{record.exeTime,jdbcType=INTEGER},
+      ERROR_MESSAGE = #{record.errorMessage,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      EXC_TIME = #{record.excTime,jdbcType=TIMESTAMP},
+      LAST_EXC_DATE = #{record.lastExcDate,jdbcType=TIMESTAMP},
+      EXC_END_DATE = #{record.excEndDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLog">
+    update evt_mt_trans_schedule_log
+    <set>
+      <if test="organId != null">
+        ORGAN_ID = #{organId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runningStatus != null">
+        RUNNING_STATUS = #{runningStatus,jdbcType=CHAR},
+      </if>
+      <if test="taskCount != null">
+        TASK_COUNT = #{taskCount,jdbcType=INTEGER},
+      </if>
+      <if test="exeTime != null">
+        EXE_TIME = #{exeTime,jdbcType=INTEGER},
+      </if>
+      <if test="errorMessage != null">
+        ERROR_MESSAGE = #{errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excTime != null">
+        EXC_TIME = #{excTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastExcDate != null">
+        LAST_EXC_DATE = #{lastExcDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excEndDate != null">
+        EXC_END_DATE = #{excEndDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLog">
+    update evt_mt_trans_schedule_log
+    set ORGAN_ID = #{organId,jdbcType=INTEGER},
+      START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      RUNNING_STATUS = #{runningStatus,jdbcType=CHAR},
+      TASK_COUNT = #{taskCount,jdbcType=INTEGER},
+      EXE_TIME = #{exeTime,jdbcType=INTEGER},
+      ERROR_MESSAGE = #{errorMessage,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      EXC_TIME = #{excTime,jdbcType=TIMESTAMP},
+      LAST_EXC_DATE = #{lastExcDate,jdbcType=TIMESTAMP},
+      EXC_END_DATE = #{excEndDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.segi.uhomecp.medicaltrans.report.schedule.model.ScheduleLogCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evt_mt_trans_schedule_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

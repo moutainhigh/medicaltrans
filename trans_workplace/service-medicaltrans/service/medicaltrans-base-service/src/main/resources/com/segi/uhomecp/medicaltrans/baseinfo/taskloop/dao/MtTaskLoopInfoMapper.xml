@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.baseinfo.taskloop.dao.MtTaskLoopInfoMapper">
+
+	<!--批量插入路径信息 -->
+	<insert id="saveBatchMtTaskLoopRoute" parameterType="java.util.List">
+		<foreach collection="list" index="index" item="item" separator=";">
+			insert into evt_mt_task_loop_route (ROUTE_ID, TASK_LOOP_ID, HOUSE_ID, SORT_NO )
+			values (#{item.routeId,jdbcType=INTEGER}, #{item.taskLoopId,jdbcType=INTEGER},
+			#{item.houseId,jdbcType=INTEGER}, #{item.sortNo,jdbcType=SMALLINT} )
+		</foreach>
+	</insert>
+
+	<!--批量插入执行人信息 -->
+	<insert id="saveBatchMtTaskLoopExecutors" parameterType="java.util.List">
+		<foreach collection="list" index="index" item="item" separator=";">
+			insert into evt_mt_task_loop_executors (EXECUTOR_ID, TASK_LOOP_ID, USER_ID )
+			values (#{item.executorId,jdbcType=INTEGER},
+			#{item.taskLoopId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER} )
+		</foreach>
+	</insert>
+	
+	<select id="queryTaskLoopInstList" resultMap="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopMapper.BaseResultMap">
+    select
+    	<include refid="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopMapper.Base_Column_List" />
+    	from evt_mt_task_loop
+	    <where>
+	    	ORGAN_ID = #{organId, jdbcType=INTEGER}
+	    	and STATUS = #{status,jdbcType=CHAR}
+	    	and LOOP_TYPE = #{loopType,jdbcType=CHAR}
+	    </where>
+  	</select>
+  	
+  	<select id="selectLocationIdListByList" resultMap="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopRouteMapper.BaseResultMap" 
+  	parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopRouteCriteria" >
+	    SELECT TASK_LOOP_ID,HOUSE_ID FROM evt_mt_task_loop_route
+	    <if test="_parameter != null" >
+	      <include refid="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopRouteMapper.Example_Where_Clause" />
+	    </if>
+	    ORDER BY SORT_NO ASC
+    </select>
+    
+  	<select id="selectUserIdListByList" resultMap="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopExecutorsMapper.BaseResultMap" 
+  	parameterType="com.segi.uhomecp.medicaltrans.base.taskloop.model.MtTaskLoopExecutorsCriteria" >
+	    SELECT TASK_LOOP_ID,USER_ID FROM evt_mt_task_loop_executors
+	    <if test="_parameter != null" >
+	      <include refid="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopExecutorsMapper.Example_Where_Clause" />
+	    </if>
+    </select>
+    
+    <select id="selectLocationIdList" resultType="INTEGER" parameterType="INTEGER" >
+	    SELECT HOUSE_ID FROM evt_mt_task_loop_route where TASK_LOOP_ID = #{taskLoopId, jdbcType=INTEGER} ORDER BY SORT_NO ASC
+    </select>
+    
+    <select id="selectUserIdList" resultType="INTEGER" parameterType="INTEGER" >
+	    SELECT USER_ID FROM evt_mt_task_loop_executors where TASK_LOOP_ID = #{taskLoopId, jdbcType=INTEGER}
+    </select>
+    
+      
+  <!-- 根据位置id查询循环任务 -->
+ <select resultMap="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopMapper.BaseResultMap" 
+  	      parameterType="INTEGER" id="findOnWayTaskLoopList" >
+  	    SELECT 
+  	     <include refid="com.segi.uhomecp.medicaltrans.base.taskloop.dao.MtTaskLoopMapper.Base_Column_List" /> 
+  	     FROM EVT_MT_TASK_LOOP t
+		  WHERE   t.`STATUS` =1 AND EXISTS(
+		  SELECT 
+		    1
+		  FROM
+		    EVT_MT_TASK_LOOP_ROUTE e 
+		  WHERE e.`TASK_LOOP_ID` = t.`TASK_LOOP_ID`
+		   AND e.`HOUSE_ID`=#{locationId,jdbcType=INTEGER}
+		  )    
+ </select>
+</mapper>

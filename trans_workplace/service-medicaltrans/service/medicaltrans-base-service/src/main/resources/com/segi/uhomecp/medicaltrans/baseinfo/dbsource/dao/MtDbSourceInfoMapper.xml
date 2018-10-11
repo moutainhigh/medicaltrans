@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.baseinfo.dbsource.dao.MtDbSourceInfoMapper" >
+   
+   <resultMap id="MtDbSourceInfoResultMap" type="com.segi.uhomecp.medicaltrans.baseinfo.dbsource.dto.MtDbSourceInfoDto">
+    <result column="DB_IDX" jdbcType="VARCHAR" property="dbIdx" />
+    <result column="TABLE_IDX" jdbcType="VARCHAR" property="tableIdx" />
+    <result column="CNT" jdbcType="INTEGER" property="cnt" />
+  </resultMap>
+   
+	<select id="queryDbKeyCnt"  resultMap="MtDbSourceInfoResultMap">
+		SELECT DB_IDX , COUNT(1) AS 'CNT' FROM EVT_MT_DB_SOURCE_RULE
+		GROUP BY DB_IDX
+	</select>
+	
+	<select id="queryTableIdxCnt"  resultMap="MtDbSourceInfoResultMap">
+		SELECT TABLE_IDX , COUNT(1) AS 'CNT' FROM EVT_MT_DB_SOURCE_RULE
+		WHERE DB_IDX =  #{dbIdx,jdbcType=VARCHAR}
+		GROUP BY TABLE_IDX
+	</select>
+</mapper>

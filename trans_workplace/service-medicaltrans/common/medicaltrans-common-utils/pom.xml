@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.segi.uhomecp</groupId>
+		<artifactId>medicaltrans-common</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>medicaltrans-common-utils</artifactId>
+	<packaging>jar</packaging>
+	<description>医疗运输公共包</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<commons.logging.version>1.1.1</commons.logging.version>
+		<log4j.version>1.2.17</log4j.version>
+		<perf4j.version>0.9.16</perf4j.version>
+		<slf4j.version>1.7.2</slf4j.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.segi.uhomecp</groupId>
+			<artifactId>medicaltrans-common-rpc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.segi.uhomecp</groupId>
+			<artifactId>segi-wh-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>3.2.1</version>
+		</dependency>
+		<dependency>
+        	<groupId>com.segi.uhomecp.portal</groupId>
+            <artifactId>segi-redis-cluster</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+		    <groupId>com.esotericsoftware</groupId>
+		    <artifactId>kryo-shaded</artifactId>
+		    <version>3.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.shardbatis</groupId>
+			<artifactId>shardbatis</artifactId>
+			<version>2.0.0B</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
+			<version>0.7.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

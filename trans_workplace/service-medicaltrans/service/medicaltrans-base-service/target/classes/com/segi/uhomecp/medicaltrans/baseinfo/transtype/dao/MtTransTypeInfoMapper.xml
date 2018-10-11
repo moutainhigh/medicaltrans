@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.segi.uhomecp.medicaltrans.baseinfo.transtype.dao.MtTransTypeInfoMapper">
+  <resultMap id="BaseResultMap" type="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType" >
+    <id column="TRANS_TYPE_ID" property="transTypeId" jdbcType="INTEGER" />
+    <result column="GROUP_ORGAN_ID" property="groupOrganId" jdbcType="INTEGER" />
+    <result column="ORGAN_ID" property="organId" jdbcType="INTEGER" />
+    <result column="TRANS_TYPE_PARENT_CODE" property="transTypeParentCode" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE_CODE" property="transTypeCode" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE_NAME" property="transTypeName" jdbcType="VARCHAR" />
+    <result column="STANDARD_MINITE" property="standardMinite" jdbcType="INTEGER" />
+    <result column="WARN_MINITE" property="warnMinite" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="INTEGER" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="INTEGER" />
+    <result column="TIME_OUT" property="timeOut" jdbcType="INTEGER" />
+    <result column="OPR_GUIDE" property="oprGuide" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TRANS_TYPE_ID, GROUP_ORGAN_ID, ORGAN_ID, TRANS_TYPE_PARENT_CODE, TRANS_TYPE_CODE, 
+    TRANS_TYPE_NAME, STANDARD_MINITE, WARN_MINITE, STATUS, REMARK, CREATE_DATE, CREATE_BY, 
+    UPDATE_DATE, UPDATE_BY, TIME_OUT, OPR_GUIDE
+  </sql>
+	
+	<select id="judgeTransType" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType"
+		resultType="java.lang.Integer">
+		select
+		count(*)
+		from evt_mt_trans_type where (
+		
+	     TRANS_TYPE_CODE = #{transTypeCode,jdbcType=VARCHAR}
+		
+	     OR TRANS_TYPE_NAME = #{transTypeName,jdbcType=VARCHAR}
+		
+		)
+		<if test="organId != null and organId != '' " >
+	     AND ORGAN_ID = #{organId,jdbcType=INTEGER}
+		</if>
+		AND STATUS != "0"
+	</select> 
+	
+	<select id="judgeUpdateTransType" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType"
+		resultType="java.lang.Integer">
+		select
+		count(*)
+		from evt_mt_trans_type where (
+		
+	     TRANS_TYPE_CODE = #{transTypeCode,jdbcType=VARCHAR}
+		
+	     OR TRANS_TYPE_NAME = #{transTypeName,jdbcType=VARCHAR}
+		
+		)
+		<if test="organId != null and organId != '' " >
+	     AND ORGAN_ID = #{organId,jdbcType=VARCHAR}
+		</if>
+		<if test="transTypeId != null and organId != '' " >
+	     AND TRANS_TYPE_ID != #{transTypeId,jdbcType=VARCHAR}
+		</if>
+		AND STATUS != "0"
+	</select>
+	
+	<!-- 获得全部organId -->
+	<select id="getTransTypeOrganIdAllList" resultType="java.lang.Integer">
+		SELECT 
+			ORGAN_ID 
+		FROM 
+			evt_mt_trans_type 
+		WHERE 
+			STATUS != 0 
+		GROUP BY 
+			ORGAN_ID
+	</select> 
+	
+	<!-- 查询科室信息 -->
+	<select id="queryMtTransType" parameterType="com.segi.uhomecp.medicaltrans.base.transtype.model.MtTransType" 
+		resultMap="BaseResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+		FROM 
+			evt_mt_trans_type 
+		WHERE 
+			 1 = 1
+			 <if test="transTypeId != null">
+        		and TRANS_TYPE_ID = #{transTypeId,jdbcType=INTEGER}
+     		 </if>
+     		 <if test="status != null">
+       			and STATUS != #{status,jdbcType=INTEGER}
+      		</if>
+      		
+	</select> 
+</mapper>
